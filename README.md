@@ -1,4 +1,4 @@
-# Good Buy
+# [Good Buy](https://main.d1ch79678kx2mg.amplifyapp.com/)
 
 GoodBuy is a web application that will help retail shoppers find the best prices for the products they need.
 The application is not a purchasing platform itself, but rather a tool for keeping shopping trips organized—whether

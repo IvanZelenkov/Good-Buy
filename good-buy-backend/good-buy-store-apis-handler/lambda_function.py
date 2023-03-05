@@ -1,8 +1,12 @@
 import json
+import requests
+
 
 def lambda_handler(event, context):
-    # TODO implement
+    products_endpoint = event["products-endpoint"]
+    response = requests.get(products_endpoint)
+
     return {
         'statusCode': 200,
-        'body': json.dumps('good-buy-store-apis-handler is working')
+        'body': response.json()
     }

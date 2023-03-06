@@ -1,9 +1,18 @@
 import json
 import sys
+import os
 
-sys.path.append('..')
+# Getting the name of the directory where current file is present.
+current = os.path.dirname(os.path.realpath(__file__))
 
-from lambda_function import lambda_handler
+# Getting the parent directory name where the current directory is present.
+parent = os.path.dirname(current)
+
+# Adding the parent directory to the sys.path.
+sys.path.append(parent)
+
+# import the module in the parent directory.
+import lambda_function
 
 
 def test_lambda_function():
@@ -11,9 +20,10 @@ def test_lambda_function():
         "products-endpoint": "https://good-buy-products.herokuapp.com/productjsons",
     }
 
-    response = lambda_handler(event, context=object())
+    response = lambda_function.lambda_handler(event, context=object())
 
-    # should get a 200 response
+    # Check if a status code in response is 200
     assert response.get('statusCode') == 200
-    # should get a response body that isn't empty
+
+    # Check if the first product ID is 84989861
     assert json.loads(json.dumps(response["body"][0]["ID"])) == "84989861"

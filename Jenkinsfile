@@ -23,12 +23,7 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("List workspace content") {
-            steps {
-                sh "ls"
-            }
-        }
-        stage("Lint"){
+        stage("Lint") {
             steps {
                 sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
@@ -38,92 +33,90 @@ pipeline {
                 sh "pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
+        stage("Delete existing images in ECR") {
+            steps {
+                sh '''
+                    aws ecr batch-delete-image \
+                    --region ${AWS_REGION} \
+                    --repository-name ${ECR_NAME} \
+                    --image-ids \
+                    "$(aws ecr list-images --region ${AWS_REGION} \
+                    --repository-name ${ECR_NAME} \
+                    --query 'imageIds[*]' \
+                    --output json)" || true
+                '''
+            }
+        }
+        stage("Docker client authentication with ECR") {
+            steps {
+                sh '''
+                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                '''
+            }
+        }
+        stage("Building Docker Images") {
+            steps {
+                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
+                }
+                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
+                }
+                dir ("${STORE_APIS_HANDLER_PATH}") {
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
+                }
+            }
+        }
+        stage("Tagging Docker Images") {
+            steps {
+                dir ("${DYNAMO_DB_HANDLER_PATH}") {
+                    sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                }
+                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                    sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                }
+                dir ("${STORE_APIS_HANDLER_PATH}") {
+                    sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                }
+            }
+        }
+        stage("Pushing Docker Images to ECR") {
+            steps {
+                dir ("${DYNAMO_DB_HANDLER_PATH}") {
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                }
+                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                }
+                dir ("${STORE_APIS_HANDLER_PATH}") {
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                }
+            }
+        }
+        stage("Prune images, containers, networks, and volumes") {
+            steps {
+                sh "docker system prune -af --volumes"
+            }
+        }
+        stage ("Deploying ECR images in Lambdas") {
+            steps {
+                sh '''
+                    aws lambda update-function-code \
+                    --region ${AWS_REGION} \
+                    --function-name ${LAMBDA_FUNCTION_NAME_1} \
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
+
+                    aws lambda update-function-code \
+                    --region ${AWS_REGION} \
+                    --function-name ${LAMBDA_FUNCTION_NAME_2} \
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
+
+                    aws lambda update-function-code \
+                    --region ${AWS_REGION} \
+                    --function-name ${LAMBDA_FUNCTION_NAME_3} \
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
+                '''
+            }
+        }
     }
 }
-    //     stage("Delete existing images in ECR") {
-    //         steps {
-    //             sh '''
-    //                 aws ecr batch-delete-image \
-    //                 --region ${AWS_REGION} \
-    //                 --repository-name ${ECR_NAME} \
-    //                 --image-ids \
-    //                 "$(aws ecr list-images --region ${AWS_REGION} \
-    //                 --repository-name ${ECR_NAME} \
-    //                 --query 'imageIds[*]' \
-    //                 --output json)" || true
-    //             '''
-    //         }
-    //     }
-    //     stage("Docker client authentication with ECR") {
-    //         steps {
-    //             sh '''
-    //                 aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-    //             '''
-    //         }
-    //     }
-    //     stage("Building Docker Images") {
-    //         steps {
-    //             dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-    //                 sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
-    //             }
-    //             dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-    //                 sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
-    //             }
-    //             dir ("${STORE_APIS_HANDLER_PATH}") {
-    //                 sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
-    //             }
-    //         }
-    //     }
-    //     stage("Tagging Docker Images") {
-    //         steps {
-    //             dir ("${DYNAMO_DB_HANDLER_PATH}") {
-    //                 sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-    //             }
-    //             dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-    //                 sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-    //             }
-    //             dir ("${STORE_APIS_HANDLER_PATH}") {
-    //                 sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-    //             }
-    //         }
-    //     }
-    //     stage("Pushing Docker Images to ECR") {
-    //         steps {
-    //             dir ("${DYNAMO_DB_HANDLER_PATH}") {
-    //                 sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-    //             }
-    //             dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-    //                 sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-    //             }
-    //             dir ("${STORE_APIS_HANDLER_PATH}") {
-    //                 sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-    //             }
-    //         }
-    //     }
-    //     stage("Prune images, containers, networks, and volumes") {
-    //         steps {
-    //             sh "docker system prune -af --volumes"
-    //         }
-    //     }
-    //     stage ("Deploying ECR images in Lambdas") {
-    //         steps {
-    //             sh '''
-    //                 aws lambda update-function-code \
-    //                 --region ${AWS_REGION} \
-    //                 --function-name ${LAMBDA_FUNCTION_NAME_1} \
-    //                 --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
-
-    //                 aws lambda update-function-code \
-    //                 --region ${AWS_REGION} \
-    //                 --function-name ${LAMBDA_FUNCTION_NAME_2} \
-    //                 --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
-
-    //                 aws lambda update-function-code \
-    //                 --region ${AWS_REGION} \
-    //                 --function-name ${LAMBDA_FUNCTION_NAME_3} \
-    //                 --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
-    //             '''
-    //         }
-    //     }
-    // }
-// }

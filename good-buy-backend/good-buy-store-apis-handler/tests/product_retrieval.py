@@ -13,15 +13,15 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 # import the module in the parent directory.
-import lambda_function
+from lambda_function import lambda_handler
 
 
 def test_lambda_function():
     event = {
-        "products-endpoint": "https://good-buy-products.herokuapp.com/productjsons",
+        "products-endpoint": "https://store-server-api.onrender.com/productjsons",
     }
 
-    response = lambda_function.lambda_handler(event, context=object())
+    response = lambda_handler(event, context=object())
 
     # Check if a status code in response is 200
     assert response.get('statusCode') == 200

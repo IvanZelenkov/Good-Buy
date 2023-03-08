@@ -1,4 +1,5 @@
 import json
+"""Module providingFunction printing python version."""
 import sys
 import os
 

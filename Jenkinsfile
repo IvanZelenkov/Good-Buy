@@ -75,7 +75,7 @@ pipeline {
                 }
             }
         }
-        stage ("Prune images, containers, networks, and volumes") {
+        stage("Prune images, containers, networks, and volumes") {
             steps {
                 sh "docker system prune -af --volumes"
             }

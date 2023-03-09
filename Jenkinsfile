@@ -19,24 +19,28 @@ pipeline {
         timestamps()
     }
     stages {
-        stage ("Lint") {
+        stage ("Install packages, test, and lint code") {
             agent {
                 docker {
                     image "public.ecr.aws/lambda/python:3.9"
                 }
             }
-            steps {
-                sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
-            }
-        }
-        stage ("Test") {
-            agent {
-                docker {
-                    image "public.ecr.aws/lambda/python:3.9"
+            stages {
+                stage ("Install packages") {
+                    steps {
+                        sh "pip3 install -r requirements.txt"
+                    }
                 }
-            }
-            steps {
-                sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                stage ("Test") {
+                    steps {
+                        sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                    }
+                }
+                stage ("Lint") {
+                    steps {
+                        sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                    }
+                }
             }
         }
         stage ("Docker client authentication with ECR") {

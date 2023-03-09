@@ -8,9 +8,10 @@ pipeline {
         DYNAMO_DB_HANDLER_PATH = "good-buy-backend/good-buy-dynamodb-handler"
         GOOGLE_MAPS_HANDLER_PATH = "good-buy-backend/good-buy-google-maps-handler"
         STORE_APIS_HANDLER_PATH = "good-buy-backend/good-buy-store-apis-handler"
-        DOCKER_IMAGE_TAG_1 = "good-buy-dynamodb-handler-image:${env.GIT_BRANCH}_${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_2 = "good-buy-google-maps-handler-image:${env.GIT_BRANCH}_${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_3 = "good-buy-store-apis-handler-image:${env.GIT_BRANCH}_${env.GIT_COMMIT}"
+        DOCKER_IMAGE_TAG = "${env.GIT_BRANCH}_${env.GIT_COMMIT}"
+        DOCKER_IMAGE_NAME_1 = "good-buy-dynamodb-handler-image"
+        DOCKER_IMAGE_NAME_2 = "good-buy-google-maps-handler-image"
+        DOCKER_IMAGE_NAME_3 = "good-buy-store-apis-handler-image"
         LAMBDA_FUNCTION_NAME_1 = "good-buy-dynamodb-handler"
         LAMBDA_FUNCTION_NAME_2 = "good-buy-google-maps-handler"
         LAMBDA_FUNCTION_NAME_3 = "good-buy-store-apis-handler"
@@ -29,20 +30,6 @@ pipeline {
                 sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
-        stage("Delete existing images in ECR") {
-            steps {
-                sh '''
-                    aws ecr batch-delete-image \
-                    --region ${AWS_REGION} \
-                    --repository-name ${ECR_NAME} \
-                    --image-ids \
-                    "$(aws ecr list-images --region ${AWS_REGION} \
-                    --repository-name ${ECR_NAME} \
-                    --query 'imageIds[*]' \
-                    --output json)" || true
-                '''
-            }
-        }
         stage("Docker client authentication with ECR") {
             steps {
                 sh '''
@@ -53,39 +40,39 @@ pipeline {
         stage("Building Docker Images") {
             steps {
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_1} ."
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_2} ."
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_3} ."
                 }
             }
         }
         stage("Tagging Docker Images") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                    sh "docker tag ${DOCKER_IMAGE_NAME_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                    sh "docker tag ${DOCKER_IMAGE_NAME_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_2}:${DOCKER_IMAGE_TAG}"
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                    sh "docker tag ${DOCKER_IMAGE_NAME_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_3}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
         stage("Pushing Docker Images to ECR") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_2}:${DOCKER_IMAGE_TAG}"
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_3}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
@@ -100,17 +87,17 @@ pipeline {
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_1} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}
 
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_2} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_2}:${DOCKER_IMAGE_TAG}
 
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_3} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_3}:${DOCKER_IMAGE_TAG}
                 '''
             }
         }

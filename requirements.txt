@@ -1,5 +1,6 @@
+awscli
+bandit
 pip
 pytest
 pylint
-awscli
 requests

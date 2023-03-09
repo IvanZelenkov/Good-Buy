@@ -20,11 +20,21 @@ pipeline {
     }
     stages {
         stage ("Lint") {
+            agent {
+                docker {
+                    image "public.ecr.aws/lambda/python:3.9"
+                }
+            }
             steps {
                 sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
         stage ("Test") {
+            agent {
+                docker {
+                    image "public.ecr.aws/lambda/python:3.9"
+                }
+            }
             steps {
                 sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }

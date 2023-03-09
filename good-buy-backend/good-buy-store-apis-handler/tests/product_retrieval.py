@@ -3,12 +3,10 @@ product_retrieval.py validates the various attribute values of
 a specific product retrieved from the Store API.
 """
 import json
-import sys
-
-sys.path.append("..")
 
 # import the module in the parent directory.
 from lambda_function import lambda_handler
+
 
 # Tests if the ID of the first product from Store API equals 84989861.
 def test_lambda_function():

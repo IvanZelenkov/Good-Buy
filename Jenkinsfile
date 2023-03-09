@@ -36,7 +36,7 @@ pipeline {
                 '''
             }
         }
-        stage ("Build Docker Images") {
+        stage ("Build docker images") {
             steps {
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
                     sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
@@ -49,7 +49,7 @@ pipeline {
                 }
             }
         }
-        stage ("Tag Docker Images") {
+        stage ("Tag docker images") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
                     sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
@@ -62,7 +62,7 @@ pipeline {
                 }
             }
         }
-        stage ("Push Docker Images to ECR") {
+        stage ("Push docker images to ECR") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
                     sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"

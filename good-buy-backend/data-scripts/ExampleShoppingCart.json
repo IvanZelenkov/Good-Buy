@@ -1,0 +1,125 @@
+{
+  "USERID": "99d05aa9-8034-41e8-a527-c01ebc002484", // This will be random unless linked to a user
+  "ShoppingCart": [
+    {
+      "ID": "12048260",
+		  "Name": "Tootsie-Roll",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "1.8",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "0.6"
+    },
+    {
+      "ID": "82416927",
+		  "Name": "Skittles",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "5.4",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "0.9"
+    },
+    {
+      "ID": "7728130",
+		  "Name": "Skittles",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Walmart",
+  		"price": "1.6",
+  		"brand": "N/A",
+  		"store_link": "https://www.walmart.com/",
+  		"store_location": "",
+  		"rating": "1.6"
+    },
+    {
+      "ID": "98070590",
+		  "Name": "Ring Pop",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "3.6",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "3.1"
+    },
+    {
+      "ID": "64502867",
+		  "Name": "MnMs",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "1.8",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "2.5"
+    },
+    {
+      "ID": "32159058",
+		  "Name": "Snickers",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "5.4",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "1.3"
+    },
+    {
+      "ID": "85274879",
+		  "Name": "Twix",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Walmart",
+  		"price": "3.2",
+  		"brand": "N/A",
+  		"store_link": "https://www.walmart.com/",
+  		"store_location": "",
+  		"rating": "1.5"
+    },
+    {
+      "ID": "67596458",
+		  "Name": "MnMs",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "7.2",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "2.1"
+    },
+    {
+      "ID": "94187288",
+		  "Name": "Skittles",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Rouses",
+  		"price": "7.2",
+  		"brand": "N/A",
+  		"store_link": "https://www.rouses.com/shop",
+  		"store_location": "",
+  		"rating": "1.1"
+    },
+    {
+      "ID": "56906642",
+		  "Name": "Skittles",
+  		"image_url": "unique_url",
+  		"color": "N/A" ,
+  		"store_name": "Winn-Dixie",
+  		"price": "5.2",
+  		"brand": "N/A",
+  		"store_link": "https://shop.winndixie.com/shop/",
+  		"store_location": "",
+  		"rating": "2.8"
+    }
+  ]
+}

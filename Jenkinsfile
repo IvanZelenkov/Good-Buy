@@ -20,24 +20,24 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Lint") {
+        stage ("Lint") {
             steps {
                 sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
-        stage("Test") {
+        stage ("Test") {
             steps {
                 sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
-        stage("Docker client authentication with ECR") {
+        stage ("Docker client authentication with ECR") {
             steps {
                 sh '''
                     aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                 '''
             }
         }
-        stage("Building Docker Images") {
+        stage ("Building Docker Images") {
             steps {
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
                     sh "docker build -t ${DOCKER_IMAGE_NAME_1} ."
@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        stage("Tagging Docker Images") {
+        stage ("Tagging Docker Images") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
                     sh "docker tag ${DOCKER_IMAGE_NAME_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
@@ -63,7 +63,7 @@ pipeline {
                 }
             }
         }
-        stage("Pushing Docker Images to ECR") {
+        stage ("Pushing Docker Images to ECR") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
                     sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
@@ -76,7 +76,7 @@ pipeline {
                 }
             }
         }
-        stage("Prune images, containers, networks, and volumes") {
+        stage ("Prune images, containers, networks, and volumes") {
             steps {
                 sh "docker system prune -af --volumes"
             }

@@ -8,10 +8,9 @@ pipeline {
         DYNAMO_DB_HANDLER_PATH = "good-buy-backend/good-buy-dynamodb-handler"
         GOOGLE_MAPS_HANDLER_PATH = "good-buy-backend/good-buy-google-maps-handler"
         STORE_APIS_HANDLER_PATH = "good-buy-backend/good-buy-store-apis-handler"
-        DOCKER_IMAGE_TAG = "${env.GIT_BRANCH}_${env.GIT_COMMIT}"
-        DOCKER_IMAGE_NAME_1 = "good-buy-dynamodb-handler-image"
-        DOCKER_IMAGE_NAME_2 = "good-buy-google-maps-handler-image"
-        DOCKER_IMAGE_NAME_3 = "good-buy-store-apis-handler-image"
+        DOCKER_IMAGE_TAG_1 = "good-buy-dynamodb-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
+        DOCKER_IMAGE_TAG_2 = "good-buy-google-maps-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
+        DOCKER_IMAGE_TAG_3 = "good-buy-store-apis-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
         LAMBDA_FUNCTION_NAME_1 = "good-buy-dynamodb-handler"
         LAMBDA_FUNCTION_NAME_2 = "good-buy-google-maps-handler"
         LAMBDA_FUNCTION_NAME_3 = "good-buy-store-apis-handler"
@@ -40,39 +39,39 @@ pipeline {
         stage ("Building Docker Images") {
             steps {
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_NAME_1} ."
+                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_1} ."
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_NAME_2} ."
+                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_2} ."
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker build -t ${DOCKER_IMAGE_NAME_3} ."
+                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_3} ."
                 }
             }
         }
         stage ("Tagging Docker Images") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_NAME_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
+                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_NAME_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_2}:${DOCKER_IMAGE_TAG}"
+                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker tag ${DOCKER_IMAGE_NAME_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_3}:${DOCKER_IMAGE_TAG}"
+                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
                 }
             }
         }
         stage ("Pushing Docker Images to ECR") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_1}:${DOCKER_IMAGE_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_2}:${DOCKER_IMAGE_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${DOCKER_IMAGE_NAME_3}:${DOCKER_IMAGE_TAG}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
                 }
             }
         }

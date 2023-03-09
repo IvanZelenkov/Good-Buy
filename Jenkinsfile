@@ -36,33 +36,33 @@ pipeline {
                 '''
             }
         }
-        stage ("Building Docker Images") {
+        stage ("Build Docker Images") {
             steps {
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_1} ."
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_2} ."
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker build -t ${ECR_NAME}:${DOCKER_IMAGE_TAG_3} ."
+                    sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
                 }
             }
         }
-        stage ("Tagging Docker Images") {
+        stage ("Tag Docker Images") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                    sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
                 }
                 dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                    sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
                 }
                 dir ("${STORE_APIS_HANDLER_PATH}") {
-                    sh "docker tag ${ECR_NAME}:${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                    sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
                 }
             }
         }
-        stage ("Pushing Docker Images to ECR") {
+        stage ("Push Docker Images to ECR") {
             steps {
                 dir ("${DYNAMO_DB_HANDLER_PATH}") {
                     sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
@@ -80,7 +80,7 @@ pipeline {
                 sh "docker system prune -af --volumes"
             }
         }
-        stage ("Deploying ECR images in Lambdas") {
+        stage ("Deploy ECR images in Lambdas") {
             steps {
                 sh '''
                     aws lambda update-function-code \

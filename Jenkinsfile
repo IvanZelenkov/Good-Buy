@@ -23,14 +23,14 @@ pipeline {
         timestamps()
     }
     stages {
-//         stage("Lint") {
-//             steps {
-//                 sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
-//             }
-//         }
+        stage("Lint") {
+            steps {
+                sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+            }
+        }
         stage("Test") {
             steps {
-                sh "pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
             }
         }
         stage("Delete existing images in ECR") {

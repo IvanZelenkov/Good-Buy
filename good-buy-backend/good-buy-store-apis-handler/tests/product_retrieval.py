@@ -4,12 +4,14 @@ a specific product retrieved from the Store API.
 """
 import json
 
-# import the module in the parent directory.
+# pylint: disable=import-error
 from lambda_function import lambda_handler
 
 
-# Tests if the ID of the first product from Store API equals 84989861.
 def test_lambda_function():
+    """
+    Tests if the ID of the first product from Store API equals 84989861.
+    """
     event = {
         "products-endpoint": "https://store-server-api.onrender.com/productjsons",
     }

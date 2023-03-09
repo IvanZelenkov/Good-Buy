@@ -86,17 +86,17 @@ pipeline {
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_1} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
 
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_2} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
 
                     aws lambda update-function-code \
                     --region ${AWS_REGION} \
                     --function-name ${LAMBDA_FUNCTION_NAME_3} \
-                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
                 '''
             }
         }

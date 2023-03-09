@@ -28,6 +28,7 @@ pipeline {
             stages {
                 stage ("Install packages") {
                     steps {
+                        sh "python3 -m pip3 install --upgrade pip"
                         sh "pip3 install -r requirements.txt"
                     }
                 }

@@ -8,12 +8,12 @@ pipeline {
         DYNAMO_DB_HANDLER_PATH = "good-buy-backend/good-buy-dynamodb-handler"
         GOOGLE_MAPS_HANDLER_PATH = "good-buy-backend/good-buy-google-maps-handler"
         STORE_APIS_HANDLER_PATH = "good-buy-backend/good-buy-store-apis-handler"
-        DOCKER_IMAGE_TAG_1 = "good-buy-dynamodb-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_2 = "good-buy-google-maps-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_3 = "good-buy-store-apis-handler-image_${env.GIT_BRANCH}_${env.GIT_COMMIT}"
         LAMBDA_FUNCTION_NAME_1 = "good-buy-dynamodb-handler"
         LAMBDA_FUNCTION_NAME_2 = "good-buy-google-maps-handler"
         LAMBDA_FUNCTION_NAME_3 = "good-buy-store-apis-handler"
+        DOCKER_IMAGE_TAG_1 = "${LAMBDA_FUNCTION_NAME_1}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+        DOCKER_IMAGE_TAG_2 = "${LAMBDA_FUNCTION_NAME_2}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+        DOCKER_IMAGE_TAG_3 = "${LAMBDA_FUNCTION_NAME_3}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
     }
     options {
         timestamps()

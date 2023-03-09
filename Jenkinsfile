@@ -22,7 +22,8 @@ pipeline {
         stage ("Install packages, test, and lint code") {
             agent {
                 docker {
-                    image "public.ecr.aws/lambda/python:3.9"
+                    image "python:3.9"
+                    args '-u 0:0'
                 }
             }
             stages {

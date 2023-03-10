@@ -55,124 +55,126 @@ pipeline {
         stage ("Build docker images") {
             steps {
                 script {
-                    def lambda_function_names = [
-                        "good-buy-dynamodb-handler",
-                        "good-buy-google-maps-handler",
-                        "good-buy-store-apis-handler"
-                    ]
-
-                    def dockerfile_paths = [
-                        "good-buy-backend/good-buy-dynamodb-handler",
-                        "good-buy-backend/good-buy-google-maps-handler",
-                        "good-buy-backend/good-buy-store-apis-handler"
-                    ]
-
-                    def docker_image_tags = [
-                        "${LAMBDA_FUNCTION_NAME_1}-${env.GIT_BRANCH}-${env.GIT_COMMIT}",
-                        "${LAMBDA_FUNCTION_NAME_2}-${env.GIT_BRANCH}-${env.GIT_COMMIT}",
-                        "${LAMBDA_FUNCTION_NAME_3}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-                    ]
-
-                    for (int i = 0; i < lambda_function_names.size(); i++) {
-                        stage ("Build ${lambda_function_names[i]} image") {
-                            steps {
-                                dir (dockerfile_paths[i]) {
-                                    sh "docker build -t ${docker_image_tags[i]} ."
-                                }
+                    parallel (
+                        stage ("Build ${LAMBDA_FUNCTION_NAME_1} image") {
+                            dir ("${DYNAMO_DB_HANDLER_PATH}") {
+                                sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
                             }
                         }
-                    }
+                        stage ("Build ${LAMBDA_FUNCTION_NAME_2} image") {
+                            dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                                sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
+                            }
+                        }
+                        stage ("Build ${LAMBDA_FUNCTION_NAME_3} image") {
+                            dir ("${STORE_APIS_HANDLER_PATH}") {
+                                sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
+                            }
+                        }
+                    )
                 }
             }
         }
-//         stage ("Tag docker images") {
-//             parallel {
-//                 stage ("Tag ${LAMBDA_FUNCTION_NAME_1} image") {
-//                     steps {
-//                         dir ("${DYNAMO_DB_HANDLER_PATH}") {
-//                             sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-//                         }
-//                     }
-//                 }
-//                 stage ("Tag ${LAMBDA_FUNCTION_NAME_2} image") {
-//                     steps {
-//                         dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-//                             sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-//                         }
-//                     }
-//                 }
-//                 stage ("Tag ${LAMBDA_FUNCTION_NAME_3} image") {
-//                     steps {
-//                         dir ("${STORE_APIS_HANDLER_PATH}") {
-//                             sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//         stage ("Push docker images to ECR") {
-//             parallel {
-//                 stage ("Push ${LAMBDA_FUNCTION_NAME_1} image") {
-//                     steps {
-//                         dir ("${DYNAMO_DB_HANDLER_PATH}") {
-//                             sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-//                         }
-//                     }
-//                 }
-//                 stage ("Push ${LAMBDA_FUNCTION_NAME_2} image") {
-//                     steps {
-//                         dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
-//                             sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-//                         }
-//                     }
-//                 }
-//                 stage ("Push ${LAMBDA_FUNCTION_NAME_3} image") {
-//                     steps {
-//                         dir ("${STORE_APIS_HANDLER_PATH}") {
-//                             sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-//                         }
-//                     }
-//                 }
-//             }
-//         }
+        stage ("Tag docker images") {
+            steps {
+                script {
+                    parallel (
+                        stage ("Tag ${LAMBDA_FUNCTION_NAME_1} image") {
+                            steps {
+                                dir ("${DYNAMO_DB_HANDLER_PATH}") {
+                                    sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                                }
+                            }
+                        }
+                        stage ("Tag ${LAMBDA_FUNCTION_NAME_2} image") {
+                            steps {
+                                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                                    sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                                }
+                            }
+                        }
+                        stage ("Tag ${LAMBDA_FUNCTION_NAME_3} image") {
+                            steps {
+                                dir ("${STORE_APIS_HANDLER_PATH}") {
+                                    sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
+        stage ("Push docker images to ECR") {
+            steps {
+                script {
+                    parallel (
+                        stage ("Push ${LAMBDA_FUNCTION_NAME_1} image") {
+                            steps {
+                                dir ("${DYNAMO_DB_HANDLER_PATH}") {
+                                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
+                                }
+                            }
+                        }
+                        stage ("Push ${LAMBDA_FUNCTION_NAME_2} image") {
+                            steps {
+                                dir ("${GOOGLE_MAPS_HANDLER_PATH}") {
+                                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
+                                }
+                            }
+                        }
+                        stage ("Push ${LAMBDA_FUNCTION_NAME_3} image") {
+                            steps {
+                                dir ("${STORE_APIS_HANDLER_PATH}") {
+                                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
         stage ("Prune images, containers, networks, and volumes") {
             steps {
                 sh "docker system prune -af --volumes"
             }
         }
-//         stage ("Deploy ECR images in Lambdas") {
-//             parallel {
-//                 stage ("Deploy ${LAMBDA_FUNCTION_NAME_1} image") {
-//                     steps {
-//                         sh '''
-//                             aws lambda update-function-code \
-//                             --region ${AWS_REGION} \
-//                             --function-name ${LAMBDA_FUNCTION_NAME_1} \
-//                             --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
-//                         '''
-//                     }
-//                 }
-//                 stage ("Deploy ${LAMBDA_FUNCTION_NAME_2} image") {
-//                     steps {
-//                         sh '''
-//                             aws lambda update-function-code \
-//                             --region ${AWS_REGION} \
-//                             --function-name ${LAMBDA_FUNCTION_NAME_2} \
-//                             --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
-//                         '''
-//                     }
-//                 }
-//                 stage ("Deploy ${LAMBDA_FUNCTION_NAME_3} image") {
-//                     steps {
-//                         sh '''
-//                             aws lambda update-function-code \
-//                             --region ${AWS_REGION} \
-//                             --function-name ${LAMBDA_FUNCTION_NAME_3} \
-//                             --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
-//                         '''
-//                     }
-//                 }
-//             }
-//         }
+        stage ("Deploy ECR images in Lambdas") {
+            steps {
+                script {
+                    parallel (
+                        stage ("Deploy ${LAMBDA_FUNCTION_NAME_1} image") {
+                            steps {
+                                sh '''
+                                    aws lambda update-function-code \
+                                    --region ${AWS_REGION} \
+                                    --function-name ${LAMBDA_FUNCTION_NAME_1} \
+                                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
+                                '''
+                            }
+                        }
+                        stage ("Deploy ${LAMBDA_FUNCTION_NAME_2} image") {
+                            steps {
+                                sh '''
+                                    aws lambda update-function-code \
+                                    --region ${AWS_REGION} \
+                                    --function-name ${LAMBDA_FUNCTION_NAME_2} \
+                                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
+                                '''
+                            }
+                        }
+                        stage ("Deploy ${LAMBDA_FUNCTION_NAME_3} image") {
+                            steps {
+                                sh '''
+                                    aws lambda update-function-code \
+                                    --region ${AWS_REGION} \
+                                    --function-name ${LAMBDA_FUNCTION_NAME_3} \
+                                    --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
+                                '''
+                            }
+                        }
+                    )
+                }
+            }
+        }
     }
 }

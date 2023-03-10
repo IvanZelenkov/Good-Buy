@@ -74,7 +74,7 @@ pipeline {
 
                 parallel {
                     for (int i = 0; i < lambda_functions_name.size(); i++) {
-                        stage ("Build " + lambda_functions_name[i] " image") {
+                        stage ("Build " + lambda_functions_name[i] + " image") {
                             steps {
                                 dir (dockerfile_paths[i]) {
                                     sh "docker build -t " + docker_image_tags[i] + " ."

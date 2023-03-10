@@ -55,31 +55,29 @@ pipeline {
         stage ("Build docker images") {
             steps {
                 script {
-                    lambda_function_names = [
+                    def lambda_function_names = [
                         "good-buy-dynamodb-handler",
                         "good-buy-google-maps-handler",
                         "good-buy-store-apis-handler"
                     ]
 
-                    dockerfile_paths = [
+                    def dockerfile_paths = [
                         "good-buy-backend/good-buy-dynamodb-handler",
                         "good-buy-backend/good-buy-google-maps-handler",
                         "good-buy-backend/good-buy-store-apis-handler"
                     ]
 
-                    docker_image_tags = [
+                    def docker_image_tags = [
                         "${LAMBDA_FUNCTION_NAME_1}-${env.GIT_BRANCH}-${env.GIT_COMMIT}",
                         "${LAMBDA_FUNCTION_NAME_2}-${env.GIT_BRANCH}-${env.GIT_COMMIT}",
                         "${LAMBDA_FUNCTION_NAME_3}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
                     ]
 
-                    parallel {
-                        for (int i = 0; i < lambda_functions_name.size(); i++) {
-                            stage ("Build " + lambda_functions_name[i] + " image") {
-                                steps {
-                                    dir (dockerfile_paths[i]) {
-                                        sh "docker build -t " + docker_image_tags[i] + " ."
-                                    }
+                    for (int i = 0; i < lambda_function_names.size(); i++) {
+                        stage ("Build ${lambda_function_names[i]} image") {
+                            steps {
+                                dir (dockerfile_paths[i]) {
+                                    sh "docker build -t ${docker_image_tags[i]} ."
                                 }
                             }
                         }

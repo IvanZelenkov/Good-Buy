@@ -19,7 +19,7 @@ pipeline {
         timestamps()
     }
     stages {
-        stage ("Install packages, test, and lint code") {
+        stage ("Pre-deployment stage") {
             agent {
                 docker {
                     image "python:3.9"
@@ -27,15 +27,20 @@ pipeline {
                 }
             }
             stages {
-                stage ("Install packages") {
+                stage ("Install python packages") {
                     steps {
                         sh "python3 -m pip install --upgrade pip"
                         sh "pip3 install -r requirements.txt"
                     }
                 }
-                stage ("Test") {
+                stage ("Unit tests") {
                     steps {
                         sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                    }
+                }
+                stage ("Security test") {
+                    steps {
+                        sh "python3 -m bandit ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
                     }
                 }
                 stage ("Lint") {
@@ -45,7 +50,7 @@ pipeline {
                 }
             }
         }
-        stage ("Docker client authentication with ECR") {
+        stage ("Authenticate docker client to ECR") {
             steps {
                 sh '''
                     aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com

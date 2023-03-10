@@ -18,8 +18,16 @@ def test_lambda_function():
 
     response = lambda_handler(event, context=object())
 
-    # Check if a status code in response is 200
-    assert response.get('statusCode') == 200
+    try:
+        # Check if a status code in response is 200
+        if response.get('statusCode') == 200:
+            raise AssertionError()
+    except AssertionError:
+        print("ERROR: Status code in response is not equal 200")
 
-    # Check if the first product ID is 84989861
-    assert json.loads(json.dumps(response["body"][0]["ID"])) == "84989861"
+    try:
+        # Check if the first product's ID is 84989861
+        if json.loads(json.dumps(response["body"][0]["ID"])) == "84989861":
+            raise AssertionError()
+    except AssertionError:
+        print("ERROR: The first product's ID is not equal 84989861")

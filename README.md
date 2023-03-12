@@ -7,4 +7,5 @@ while in-store shoppers can use the website to organize their list by promotions
 GoodBuy will not only help shoppers compare prices across brands, but also help them save on gas and time
 whenever they need to shop!
 
-![SolutionArchitecture](https://user-images.githubusercontent.com/64171964/221318149-14f1962c-0850-46db-885a-bfe04541b08e.png)
+
+![SolutionArchitecture]![SolutionArchitectureTeam2](https://user-images.githubusercontent.com/64171964/224531286-0eebb1fc-8eab-41c5-ba59-12ae961d56dc.png)

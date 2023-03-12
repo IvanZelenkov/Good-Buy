@@ -126,12 +126,7 @@ pipeline {
                 }
             }
         }
-        stage ("Prune images, containers, networks, and volumes") {
-            steps {
-                sh "docker system prune -af --volumes"
-            }
-        }
-        stage ("Deploy ECR images in Lambdas") {
+        stage ("Deploy images to Lambdas from ECR") {
             steps {
                 script {
                     parallel (
@@ -161,6 +156,11 @@ pipeline {
                         }
                     )
                 }
+            }
+        }
+        stage ("Prune images, containers, networks, and volumes") {
+            steps {
+                sh "docker system prune -af --volumes"
             }
         }
     }

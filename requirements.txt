@@ -3,6 +3,5 @@ bandit
 pip
 pytest
 pylint
-python-taint
 requests
-safety
+boto3

@@ -8,4 +8,4 @@ GoodBuy will not only help shoppers compare prices across brands, but also help 
 whenever they need to shop!
 
 
-![SolutionArchitecture](https://user-images.githubusercontent.com/64171964/224614438-f5389c98-5031-4809-92ab-e89a4b74540a.png)
+![SolutionArchitecture](https://user-images.githubusercontent.com/64171964/226513660-026c46c3-f4a9-4871-9112-cff0cc10394c.png)

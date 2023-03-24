@@ -23,7 +23,7 @@ table = db.Table("Shopping_Cart")
 
 response = table.put_item(
     Item={
-        "ID": int("1"),
+        "ID": int("3"),
         "cart": [
             {
                 "ID": "84989861",

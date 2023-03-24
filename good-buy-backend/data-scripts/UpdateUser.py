@@ -16,11 +16,11 @@ table = db.Table("Users")
 
 response = table.update_item(
     Key = {
-        'ID' : 2
+        'ID' : 3
     },UpdateExpression = "SET phone =:phone",
     ExpressionAttributeValues = {
         # ':cart' : int("1")
-        ':phone' : '2222222222'
+        ':phone' : '5040000000'
         # ':password': '1234'
     }
 )

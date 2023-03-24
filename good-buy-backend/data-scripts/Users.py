@@ -16,11 +16,11 @@ table = db.Table("Users")
 
 response = table.put_item(
     Item={
-        "ID": int("1"),
-        "username": "DustinBell",
+        "ID": int("4"),
+        "username": "MathewO",
         "password": "1234",
-        "email": "dustin@gmail.com",
-        "phone": "1111111111",
+        "email": "mathewo@gmail.com",
+        "phone": "5041234567",
     },
 )
 

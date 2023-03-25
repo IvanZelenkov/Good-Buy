@@ -1,0 +1,65 @@
+.sign-in-icon {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+  width: fit-content;
+}
+
+.icon {
+  height: 37.38px;
+  min-width: 40px;
+  position: relative;
+}
+
+.overlap-group {
+  border-radius: 23px/21.24px;
+  height: 42px;
+  left: -3px;
+  position: relative;
+  top: -3px;
+  width: 46px;
+}
+
+.ellipse-1 {
+  background-color: var(--blue-dianne);
+  border-radius: 7.65px/6.47px;
+  height: 13px;
+  left: 15px;
+  position: absolute;
+  top: 8px;
+  width: 15px;
+}
+
+.ellipse-2 {
+  border: 3px solid;
+  border-color: var(--blue-dianne);
+  border-radius: 23px/21.24px;
+  height: 42px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 46px;
+}
+
+.polygon-1 {
+  height: 20px;
+  left: 9px;
+  position: absolute;
+  top: 20px;
+  width: 28px;
+}
+
+.sign-in {
+  color: var(--blue-dianne);
+  font-family: var(--font-family-aladin);
+  font-size: var(--font-size-s);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: fit-content;
+}
+

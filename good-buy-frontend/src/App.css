@@ -1,0 +1,157 @@
+.home-page {
+  align-items: flex-start;
+  background-color: #eff9ff;
+  border: 1px none;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  min-height: available;
+  min-width: available;
+  padding: 30px 25px 0px;
+  position: relative;
+}
+
+.content {
+  align-items: center;
+  align-self: flex-start;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 30px;
+  padding: 150px 0px 200px;
+  position: relative;
+}
+
+.title {
+  max-width: fit-content;
+  align-items: center;
+  align-self: center;
+  background-color: var(--ziggurat);
+  border-radius: 50px;
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  justify-content: center;
+  padding: 50px 125px;
+  position: relative;
+}
+
+.goodbuy {
+  -webkit-text-stroke: 1px var(--blue-dianne);
+  color: var(--blue-dianne);
+  font-family: var(--font-family-aladin);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  display: flex;
+  flex: 1;
+  position: relative;
+  text-align: center;
+  width: fit-content;
+}
+
+.search-bar {
+  align-items: center;
+  background-color: var(--blue-dianne);
+  border-radius: 8px;
+  box-shadow: 10px 10px 4px #00000066;
+  display: flex;
+  gap: 10px;
+  padding: 6px 15px;
+  position: relative;
+  width: 500px;
+}
+
+.icon-search {
+  height: 20.5px;
+  min-width: 20.5px;
+  position: relative;
+}
+
+.default-text {
+  background-color: transparent;
+  border: 0;
+  color: #9e9e9e;
+  font-family: var(--font-family-inter-semibold);
+  font-size: var(--font-size-s);
+  font-weight: 600;
+  height: 19px;
+  letter-spacing: 0;
+  line-height: 19.2px;
+  margin-top: -0.25px;
+  min-width: 55px;
+  padding: 0;
+  position: relative;
+  white-space: nowrap;
+}
+
+.default-text::placeholder {
+  color: #9e9e9e99;
+}
+
+.sign-in-icon {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+  width: fit-content;
+}
+
+.icon {
+  height: 41px;
+  min-width: 43.87px;
+  position: relative;
+}
+
+.overlap-group {
+  border-radius: 24.94px/23px;
+  height: 46px;
+  left: -3px;
+  position: relative;
+  top: -3px;
+  width: 50px;
+}
+
+.ellipse-1 {
+  background-color: var(--blue-dianne);
+  border-radius: 8.39px/7.1px;
+  height: 14px;
+  left: 17px;
+  position: absolute;
+  top: 8px;
+  width: 17px;
+}
+
+.ellipse-2 {
+  border: 3px solid;
+  border-color: var(--blue-dianne);
+  border-radius: 24.94px/23px;
+  height: 46px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 50px;
+}
+
+.polygon-1 {
+  height: 22px;
+  left: 9px;
+  position: absolute;
+  top: 22px;
+  width: 31px;
+}
+
+.sign-in {
+  color: var(--blue-dianne);
+  font-family: var(--font-family-aladin);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  width: fit-content;
+}
+

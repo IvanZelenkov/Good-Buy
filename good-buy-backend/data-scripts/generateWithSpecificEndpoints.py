@@ -25,7 +25,7 @@ for j in range(3):
 					"Ring Pop"]	
 
         # Images are in the front end images/productimages folder
-	    imagelist = ["hersheys.jfif",
+	    	imagelist = ["hersheys.jfif",
 				 "skittles.jfif", 
 				 "mnms.jfif", 
 				 "tootsie.jfif", 
@@ -37,14 +37,14 @@ for j in range(3):
 				 "ringpop.jfif"]
 	
 
-	    randomnumberindex = random.randint(len(namelist))
+	    	randomnumberindex = random.randint(len(namelist))
 
 
 		#storelist = ["Walmart", "Rouses","Winn-Dixie"]
 		#store = random.choice(storelist)
 		#Pick a specific store now
-        randomname = namelist[randomnumberindex]
-        productimage = imagelist[ranrandomnumberindex]
+        	randomname = namelist[randomnumberindex]
+        	productimage = imagelist[ranrandomnumberindex]
 		randomprice = random.randint(1,4)
 
 

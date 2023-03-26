@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Box, InputBase, IconButton, useTheme, Typography } from "@mui/material";
+import { Box, InputBase, IconButton, useTheme, Typography, Container } from "@mui/material";
 import { motion } from "framer-motion";
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate } from "react-router-dom";
 import { Adb as AdbIcon } from "@mui/icons-material";
 
 const Home = ({ productFound }) => {
@@ -11,7 +10,6 @@ const Home = ({ productFound }) => {
 	const colors = tokens(theme.palette.mode);
 	const [inputProductName, setInputProductName] = useState("");
 	const [isValid, setIsValid] = useState(false);
-	const navigate = useNavigate();
 
 	const searchProductByName = (input) => {
 		const regex = new RegExp("[L|l]aptop");
@@ -41,12 +39,12 @@ const Home = ({ productFound }) => {
 							component="a"
 							sx={{
 								mr: 2,
-								display: { xs: 'none', md: 'flex' },
-								fontFamily: 'monospace',
+								display: { xs: "none", md: "flex" },
+								fontFamily: "monospace",
 								fontWeight: 700,
-								letterSpacing: '.3rem',
-								color: 'black',
-								textDecoration: 'none',
+								letterSpacing: ".3rem",
+								color: "black",
+								textDecoration: "none",
 								fontSize: "4vh"
 							}}
 						>
@@ -59,9 +57,8 @@ const Home = ({ productFound }) => {
 						<Box
 							display="flex"
 							backgroundColor="custom.customColorA"
-							borderRadius="3px"
-							width="40vh"
-							marginBottom="4vh"
+							borderRadius="5px"
+							width="40vw"
 						>
 							<InputBase
 								sx={{ marginLeft: 2, flex: 1 }}

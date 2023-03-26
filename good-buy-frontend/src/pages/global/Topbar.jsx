@@ -25,13 +25,17 @@ import { Link } from "react-router-dom";
 const pages = [
 	{ "pageName": "Home", "route": "/" },
 	{ "pageName": "Products", "route": "/products" },
-	{ "pageName": "Deals", "route": "/deals" }
+	{ "pageName": "Deals", "route": "/deals" },
+	{ "pageName": "Google Maps", "route": "/google-maps" }
 ];
 const authPages = [
 	{ "pageName": "Register", "route": "/signUp" },
 	{ "pageName": "Log In", "route": "/signIn" }
 ];
-const settings = ["Profile", "Logout"];
+const settings = [
+	{ "pageName": "Profile", "route": "/profile" },
+	{ "pageName": "Logout", "route": "/" }
+];
 
 function Topbar() {
 	const theme = useTheme();
@@ -109,7 +113,12 @@ function Topbar() {
 							}}
 						>
 							{pages.map((page, id) => (
-								<MenuItem key={id} onClick={handleCloseNavMenu}>
+								<MenuItem
+									key={id}
+									onClick={handleCloseNavMenu}
+									component={Link}
+									to={page.route}
+								>
 									<Typography textAlign="center">{page.pageName}</Typography>
 								</MenuItem>
 							))}
@@ -184,28 +193,33 @@ function Topbar() {
 							</IconButton>
 						</motion.div>
 						<Menu
-							sx={{ mt: '45px' }}
+							sx={{ mt: "45px" }}
 							id="menu-appbar"
 							anchorEl={anchorElUser}
 							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
+								vertical: "top",
+								horizontal: "right"
 							}}
 							keepMounted
 							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
+								vertical: "top",
+								horizontal: "right"
 							}}
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
+							{settings.map((setting, id) => (
+								<MenuItem
+									key={id}
+									onClick={handleCloseUserMenu}
+									component={Link}
+									to={setting.route}
+								>
+									<Typography textAlign="center">{setting.pageName}</Typography>
 								</MenuItem>
 							))}
 						</Menu>
-						<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+						<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 							{authPages.map((authPage, id) => (
 								<Button
 									component={Link}

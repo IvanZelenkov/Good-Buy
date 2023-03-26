@@ -8,6 +8,7 @@ import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 import Home from "./pages/home";
 import OfferedProducts from "./pages/offeredProducts";
+import GoogleMaps from "./pages/google-maps";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -47,6 +48,7 @@ function App() {
                                 }
                                 <Route exact path="/signIn" element={<SignIn/>}/>
                                 <Route exact path="/signUp" element={<SignUp/>}/>
+                                <Route exact path="/google-maps" element={<GoogleMaps/>}/>
                             </Routes>
                         </AnimatePresence>
                     </main>

@@ -24,7 +24,7 @@ for j in range(3):
 					"Candy Cane", "Twix", "Snickers", "Kit Kat", "Three Musketeers",
 					"Ring Pop"]	
 
-        
+        # Images are in the front end images/productimages folder
 	    imagelist = ["hersheys.jfif",
 				 "skittles.jfif", 
 				 "mnms.jfif", 

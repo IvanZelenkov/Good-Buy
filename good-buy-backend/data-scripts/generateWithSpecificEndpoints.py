@@ -23,12 +23,28 @@ for j in range(3):
 		namelist = ["Hersheys kiss", "Skittles", "MnMs", "Tootsie-Roll",
 					"Candy Cane", "Twix", "Snickers", "Kit Kat", "Three Musketeers",
 					"Ring Pop"]	
-		randomname = random.choice(namelist)
+
+        
+	    imagelist = ["hersheys.jfif",
+				 "skittles.jfif", 
+				 "mnms.jfif", 
+				 "tootsie.jfif", 
+				 "candycane.jfif", 
+				 "twix.jfif", 
+				 "snickers.jfif", 
+				 "kitkat.jfif", 
+				 "threemusket.jfif",
+				 "ringpop.jfif"]
+	
+
+	    randomnumberindex = random.randint(len(namelist))
+
 
 		#storelist = ["Walmart", "Rouses","Winn-Dixie"]
 		#store = random.choice(storelist)
 		#Pick a specific store now
-
+        randomname = namelist[randomnumberindex]
+        productimage = imagelist[ranrandomnumberindex]
 		randomprice = random.randint(1,4)
 
 
@@ -56,7 +72,7 @@ for j in range(3):
 		#write name
 		f.write("		\"Name\": \"" + randomname + "\",\n")
 		#write image url
-		f.write("  		\"image_url\": \"" + "unique_url" + "\",\n")
+		f.write("  		\"image_url\": \"" + productimage + "\",\n")
 		#write color
 		f.write("  		\"color\": \"" + "N/A" + "\" ,\n")
 		#write store name

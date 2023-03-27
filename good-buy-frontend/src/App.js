@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { ColorModeContext, useMode } from './theme';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { useState, useEffect } from "react";
+import { ColorModeContext, useMode } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Topbar from "./pages/global/Topbar";
-import SignIn from "./pages/signIn";
-import SignUp from "./pages/signUp";
 import Home from "./pages/home";
 import OfferedProducts from "./pages/offeredProducts";
 import GoogleMaps from "./pages/google-maps";
+import Authentication from "./pages/authentication";
 
 function App() {
     const [theme, colorMode] = useMode();
     const [productExists, setProductExists] = useState(false);
+    const [user, updateUser] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -46,8 +46,7 @@ function App() {
                                     ? <Route exact path="/offered-products/:productName" element={<OfferedProducts/>}/>
                                     : <></>
                                 }
-                                <Route exact path="/signIn" element={<SignIn/>}/>
-                                <Route exact path="/signUp" element={<SignUp/>}/>
+                                <Route exact path="/authentication" element={<Authentication user={user} updateUser={updateUser}/>}/>
                                 <Route exact path="/google-maps" element={<GoogleMaps/>}/>
                             </Routes>
                         </AnimatePresence>

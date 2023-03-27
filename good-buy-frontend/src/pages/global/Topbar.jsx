@@ -14,7 +14,8 @@ import {
 import {
 	Menu as MenuIcon,
 	Adb as AdbIcon,
-	SettingsOutlined as SettingsOutlinedIcon
+	SettingsOutlined as SettingsOutlinedIcon,
+	AccountCircle as AccountCircleIcon
 } from "@mui/icons-material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -219,24 +220,15 @@ function Topbar() {
 								</MenuItem>
 							))}
 						</Menu>
-						<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-							{authPages.map((authPage, id) => (
-								<Button
-									component={Link}
-									to={authPage.route}
-									key={id}
-									onClick={handleCloseNavMenu}
-									sx={{
-										color: 'white',
-										display: 'flex',
-										justifyContent: "center",
-										alignItems: "center"
-									}}
-								>
-									{authPage.pageName}
-								</Button>
-							))}
-						</Box>
+						<motion.div whileHover={{ scale: 1.2 }}>
+							<IconButton
+								component={Link}
+								to="/authentication"
+								sx={{ marginRight: "1vw" }}
+							>
+								<AccountCircleIcon sx={{ color: "white" }}/>
+							</IconButton>
+						</motion.div>
 					</Box>
 				</Toolbar>
 			</Container>

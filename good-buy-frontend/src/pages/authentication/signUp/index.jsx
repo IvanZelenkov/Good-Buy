@@ -2,21 +2,18 @@ import {
 	Avatar,
 	Button,
 	TextField,
-	FormControlLabel,
-	Checkbox,
 	Link,
-	Grid,
 	Box,
 	Typography,
 	Container,
 	useTheme
 } from "@mui/material";
-import { CheckBox as CheckBoxIcon, LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import Copyright from "../../components/Copyright";
-import { muiTextFieldCSS, tokens } from "../../theme";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
+import Copyright from "../../../components/Copyright";
+import { muiTextFieldCSS, tokens } from "../../../theme";
 import { motion } from "framer-motion";
 
-const SignIn = () => {
+const SignUp = ({ onInputChange, signUp, signInInstead }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -34,10 +31,10 @@ const SignIn = () => {
 			<Container
 				maxWidth="xs"
 				sx={{
-					position: "absolute",
-					left: "50%",
-					top: "50%",
-					transform: "translate(-50%, -50%)"
+					position: 'absolute',
+					left: '50%',
+					top: '50%',
+					transform: 'translate(-50%, -50%)'
 				}}
 			>
 				<Box
@@ -52,23 +49,28 @@ const SignIn = () => {
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography component="h1" variant="h5" color="black">
-						Sign In
+						Sign Up
 					</Typography>
-					<Box
-						component="form"
-						onSubmit={handleSubmit}
-						noValidate
-						sx={{ marginTop: 1 }}
-					>
+					<Box sx={{ marginTop: 1 }}>
 						<TextField
 							margin="normal"
 							required
 							fullWidth
-							id="email"
 							label="Email Address"
-							name="email"
+							name="username"
 							autoComplete="email"
 							autoFocus
+							onChange={onInputChange}
+							sx={muiTextFieldCSS}
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							label="Username"
+							name="name"
+							autoComplete="name"
+							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
 						<TextField
@@ -78,23 +80,13 @@ const SignIn = () => {
 							name="password"
 							label="Password"
 							type="password"
-							id="password"
-							autoComplete="current-password"
+							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
-						<FormControlLabel
-							control={<Checkbox
-								value="remember"
-								sx={{ color: "black" }}
-								checkedIcon={<CheckBoxIcon sx={{ color: "black" }}/>}
-							/>}
-							label="Remember me"
-							sx={{ color: "black" }}
-						/>
 						<Button
-							type="submit"
 							fullWidth
 							variant="contained"
+							onClick={signUp}
 							sx={{
 								marginTop: 3,
 								marginBottom: 2,
@@ -102,26 +94,27 @@ const SignIn = () => {
 								backgroundColor: "black"
 							}}
 						>
-							Sign In
+							Sign Up
 						</Button>
-						<Grid container>
-							<Grid item xs>
-								<Link href="#" variant="body2" sx={{ color: "black", textDecorationColor: "black" }}>
-									Forgot password?
-								</Link>
-							</Grid>
-							<Grid item>
-								<Link href="/signUp" variant="body2" sx={{ color: "black", textDecorationColor: "black" }}>
-									Don't have an account? Sign Up
-								</Link>
-							</Grid>
-						</Grid>
+						<Box sx={{ display: "flex", justifyContent: "center" }}>
+							<Link
+								onClick={signInInstead}
+								variant="body2"
+								sx={{
+									color: "black",
+									textDecorationColor: "black",
+									cursor: "pointer"
+								}}
+							>
+								Already have an account? Sign In
+							</Link>
+						</Box>
 					</Box>
 				</Box>
-				<Copyright/>
+				<Copyright sx={{ marginTop: 8, marginBottom: 4 }}/>
 			</Container>
 		</motion.div>
 	);
 }
 
-export default SignIn;
+export default SignUp;

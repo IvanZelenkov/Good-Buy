@@ -27,7 +27,9 @@ const pages = [
 	{ "pageName": "Home", "route": "/" },
 	{ "pageName": "Products", "route": "/products" },
 	{ "pageName": "Deals", "route": "/deals" },
-	{ "pageName": "Google Maps", "route": "/google-maps" }
+	{ "pageName": "Google Maps", "route": "/google-maps" },
+	{ "pageName": "Shopping List", "route": "/shopping-list" },
+	{ "pageName": "Shopping Cart", "route": "/shopping-cart" }
 ];
 
 function Topbar() {

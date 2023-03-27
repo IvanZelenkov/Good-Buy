@@ -9,6 +9,8 @@ import OfferedProducts from "./pages/offeredProducts";
 import GoogleMaps from "./pages/google-maps";
 import Authentication from "./pages/authentication";
 import Settings from "./pages/settings";
+import ShoppingList from "./pages/shoppingList";
+import ShoppingCart from "./pages/shoppingCart";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -48,6 +50,8 @@ function App() {
                                     : <></>
                                 }
                                 <Route exact path="/google-maps" element={<GoogleMaps/>}/>
+                                <Route exact path="/shopping-list" element={<ShoppingList/>}/>
+                                <Route exact path="/shopping-cart" element={<ShoppingCart/>}/>
                                 <Route exact path="/authentication" element={<Authentication user={user} updateUser={updateUser}/>}/>
                                 <Route exact path="/settings" element={<Settings/>}/>
                             </Routes>

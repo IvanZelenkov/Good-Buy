@@ -16,7 +16,7 @@ import Copyright from "../../../components/Copyright";
 import { muiTextFieldCSS, tokens } from "../../../theme";
 import { motion } from "framer-motion";
 
-const Index = ({ onInputChange, signIn, signUpInstead }) => {
+const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -54,6 +54,8 @@ const Index = ({ onInputChange, signIn, signUpInstead }) => {
 							name="username"
 							autoComplete="email"
 							autoFocus
+							error={invalidEmailMessage !== ""}
+							helperText={invalidEmailMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
@@ -64,6 +66,8 @@ const Index = ({ onInputChange, signIn, signUpInstead }) => {
 							name="password"
 							label="Password"
 							type="password"
+							error={invalidPasswordMessage !== ""}
+							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
@@ -118,4 +122,4 @@ const Index = ({ onInputChange, signIn, signUpInstead }) => {
 	);
 }
 
-export default Index;
+export default SignIn;

@@ -29,36 +29,19 @@ const pages = [
 	{ "pageName": "Deals", "route": "/deals" },
 	{ "pageName": "Google Maps", "route": "/google-maps" }
 ];
-const authPages = [
-	{ "pageName": "Register", "route": "/signUp" },
-	{ "pageName": "Log In", "route": "/signIn" }
-];
-const settings = [
-	{ "pageName": "Profile", "route": "/profile" },
-	{ "pageName": "Logout", "route": "/" }
-];
 
 function Topbar() {
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
-	const [anchorElUser, setAnchorElUser] = useState(null);
-	const [selected, setSelected] = useState("Home");
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 	};
-	const handleOpenUserMenu = (event) => {
-		setAnchorElUser(event.currentTarget);
-	};
 
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
-	};
-
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
 	};
 
 	return (
@@ -154,10 +137,14 @@ function Topbar() {
 								onClick={handleCloseNavMenu}
 								sx={{
 									my: 2,
-									color: 'white',
+									color: "custom.customColorD",
+									":hover": {
+										color: "custom.customColorE",
+									},
 									display: 'flex',
 									justifyContent: "center",
-									alignItems: "center"
+									alignItems: "center",
+									fontWeight: "900"
 								}}
 							>
 								{page.pageName}
@@ -189,44 +176,31 @@ function Topbar() {
 							</IconButton>
 						</motion.div>
 						<motion.div whileHover={{ scale: 1.2 }}>
-							<IconButton onClick={handleOpenUserMenu} sx={{ marginRight: "1vw" }}>
-								<SettingsOutlinedIcon sx={{ color: "white" }}/>
+							<IconButton component={Link} to="/settings" sx={{ marginRight: "1vw" }}>
+								<SettingsOutlinedIcon
+									sx={{
+										color: "custom.customColorD",
+										":hover": {
+											color: "custom.customColorE",
+										}
+									}}
+								/>
 							</IconButton>
 						</motion.div>
-						<Menu
-							sx={{ mt: "45px" }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: "top",
-								horizontal: "right"
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "right"
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map((setting, id) => (
-								<MenuItem
-									key={id}
-									onClick={handleCloseUserMenu}
-									component={Link}
-									to={setting.route}
-								>
-									<Typography textAlign="center">{setting.pageName}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
 						<motion.div whileHover={{ scale: 1.2 }}>
 							<IconButton
 								component={Link}
 								to="/authentication"
 								sx={{ marginRight: "1vw" }}
 							>
-								<AccountCircleIcon sx={{ color: "white" }}/>
+								<AccountCircleIcon
+									sx={{
+										color: "custom.customColorD",
+										":hover": {
+											color: "custom.customColorE",
+										}
+									}}
+								/>
 							</IconButton>
 						</motion.div>
 					</Box>

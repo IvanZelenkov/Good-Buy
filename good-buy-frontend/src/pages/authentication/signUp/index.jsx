@@ -13,7 +13,7 @@ import Copyright from "../../../components/Copyright";
 import { muiTextFieldCSS, tokens } from "../../../theme";
 import { motion } from "framer-motion";
 
-const SignUp = ({ onInputChange, signUp, signInInstead }) => {
+const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, invalidUsernameMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -60,6 +60,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead }) => {
 							name="username"
 							autoComplete="email"
 							autoFocus
+							error={invalidEmailMessage !== ""}
+							helperText={invalidEmailMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
@@ -70,6 +72,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead }) => {
 							label="Username"
 							name="name"
 							autoComplete="name"
+							error={invalidUsernameMessage !== ""}
+							helperText={invalidUsernameMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>
@@ -80,6 +84,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead }) => {
 							name="password"
 							label="Password"
 							type="password"
+							error={invalidPasswordMessage !== ""}
+							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>

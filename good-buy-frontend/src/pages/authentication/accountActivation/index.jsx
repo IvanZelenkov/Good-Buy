@@ -2,21 +2,18 @@ import {
 	Avatar,
 	Button,
 	TextField,
-	FormControlLabel,
-	Checkbox,
 	Link,
-	Grid,
 	Box,
 	Typography,
 	Container,
 	useTheme
 } from "@mui/material";
-import { CheckBox as CheckBoxIcon, LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import Copyright from "../../../components/Copyright";
 import { muiTextFieldCSS, tokens } from "../../../theme";
 import { motion } from "framer-motion";
 
-const AccountActivation = ({ onInputChange, confirmSignUp }) => {
+const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, invalidAuthCodeMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
@@ -50,9 +47,23 @@ const AccountActivation = ({ onInputChange, confirmSignUp }) => {
 							margin="normal"
 							required
 							fullWidth
+							label="Email Address"
+							name="username"
+							autoComplete="email"
+							autoFocus
+							error={invalidEmailMessage !== ""}
+							helperText={invalidEmailMessage}
+							onChange={onInputChange}
+							sx={muiTextFieldCSS}
+						/>
+						<TextField
+							margin="normal"
+							required
+							fullWidth
 							label="Confirmation Code"
 							name="authCode"
-							autoFocus
+							error={invalidAuthCodeMessage !== ""}
+							helperText={invalidAuthCodeMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
 						/>

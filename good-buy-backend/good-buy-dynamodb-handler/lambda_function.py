@@ -27,7 +27,7 @@ db = session.resource("dynamodb")
 
 def lambda_handler(event, context):
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':
-        table = db.Table("Shopping_Car")
+        table = db.Table("Shopping_Cart")
         print(event['queryStringParameters']['ID'])
         IDvalue = event['queryStringParameters']['ID']
         response = table.get_item(
@@ -59,6 +59,14 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
         print(event)
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            }
+        }
     # items = json.dumps(response)
     # print(items)
     

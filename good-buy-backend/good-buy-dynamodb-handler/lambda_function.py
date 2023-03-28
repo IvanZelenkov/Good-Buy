@@ -42,7 +42,7 @@ def lambda_handler(event, context):
         }
 
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'GET':
-        table = db.Table("Users")
+        table = db.Table("User")
         print(event['queryStringParameters']['ID'])
         IDvalue = event['queryStringParameters']['ID']
         response = table.get_item(

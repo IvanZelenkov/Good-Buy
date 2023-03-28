@@ -55,6 +55,10 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps(response, indent=2,default=str)
         }
+
+    elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
+        table = db.Table("Shopping_Cart")
+        print(event)
     # items = json.dumps(response)
     # print(items)
     

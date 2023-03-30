@@ -25,16 +25,16 @@ for j in range(3):
 					"Ring Pop"]	
 
         # Images are in the front end images/productimages folder
-	    	imagelist = ["hersheys.jfif",
-				 "skittles.jfif", 
-				 "mnms.jfif", 
-				 "tootsie.jfif", 
-				 "candycane.jfif", 
-				 "twix.jfif", 
-				 "snickers.jfif", 
-				 "kitkat.jfif", 
-				 "threemusket.jfif",
-				 "ringpop.jfif"]
+                imagelist = ["hersheys.jfif",
+                            "skittles.jfif",
+                            "mnms.jfif",
+                            "tootsie.jfif",
+                            "candycane.jfif",
+                            "twix.jfif",
+                            "snickers.jfif",
+                            "kitkat.jfif",
+                            "threemusket.jfif",
+                            "ringpop.jfif"]
 	
 
 	    	randomnumberindex = random.randint(len(namelist))

@@ -2,7 +2,24 @@ import json
 
 
 def lambda_handler(event, context):
+    print(event)
+
+    stores = ["walmart", "rouses", "winn_dixie"]
+    jsons = []
+
+    s3 = boto3.resource('s3')
+    bucket_name = os.getenv('S3_BUCKET_NAME')
+    folder_name = "products"
+
+    for i in range(0,3):
+        key = folder_name + "/" + "_products.json"
+        s3_object = s3.Object(bucket_name, key)
+        body = s3_object.get()['Body'].read().decode('utf-8')
+        jsons.append(body)
+
+
+
     return {
         'statusCode': 200,
-        'body': json.dumps('good-buy-google-maps-handler is working')
+        'body': json.dumps(jsons)
     }

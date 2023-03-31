@@ -59,8 +59,9 @@ def lambda_handler(event, context):
 
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
-        cartID = json.loads(event['body']['ID'])
-        cartProducts = json.loads(event['body']['cart'])
+        decodedEvent = json.loads(event['body'])
+        cartID = decodedEvent['ID']
+        cartProducts = decodedEvent['cart']
         response = table.push_item(
             Item ={
                 'ID': int(cartID),

@@ -75,7 +75,6 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             }
         }
-
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'POST':
         table = db.Table("Users")
         decodedEvent = json.loads(event['body'])

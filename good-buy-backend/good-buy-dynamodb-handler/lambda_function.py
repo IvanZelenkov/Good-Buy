@@ -60,10 +60,6 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
         decodedEvent = json.loads(event['body'])
-        # print(decodedEvent['cart'])
-        # cartID = json.dumps(decodedEvent['ID'], indent=2,default=str)
-        # # need to conver cart data to json. having an issue.
-        # cartProducts = json.dumps(decodedEvent['cart'], indent=2,default=str)
         response = table.put_item(
             Item ={
                 'ID': int(decodedEvent['ID']),
@@ -71,6 +67,27 @@ def lambda_handler(event, context):
             }
         )
         # print(event['body'])
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            }
+        }
+
+    elif event['path'] == '/database/user-account' and event['httpMethod'] == 'POST':
+        table = db.Table("Users")
+        decodedEvent = json.loads(event['body'])
+        response = table.put_item(
+            Item ={
+                'ID': int(decodedEvent['ID']),
+                'email': decodedEvent['email'],
+                'password': decodedEvent['password'],
+                'phone': decodedEvent['phone'],
+                'username': decodedEvent['username']
+            }
+        )
         return {
             'statusCode': 200,
             'headers': {

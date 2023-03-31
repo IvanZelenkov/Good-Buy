@@ -62,7 +62,7 @@ def lambda_handler(event, context):
         decodedEvent = json.loads(event['body'])
         cartID = json.dumps(decodedEvent['ID'])
         cartProducts = json.dumps(decodedEvent['cart'])
-        response = table.push_item(
+        response = table.put_item(
             Item ={
                 'ID': int(cartID),
                 'cart': cartProducts

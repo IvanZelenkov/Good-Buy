@@ -60,7 +60,7 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
         decodedEvent = json.loads(event['body'])
-        print(decodedEvent)
+        print(decodedEvent['cart'])
         # cartID = json.dumps(decodedEvent['ID'], indent=2,default=str)
         # # need to conver cart data to json. having an issue.
         # cartProducts = json.dumps(decodedEvent['cart'], indent=2,default=str)

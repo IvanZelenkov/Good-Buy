@@ -67,7 +67,7 @@ def lambda_handler(event, context):
         response = table.put_item(
             Item ={
                 'ID': int(decodedEvent['ID']),
-                'cart': [decodedEvent['cart']]
+                'cart': decodedEvent['cart']
             }
         )
         # print(event['body'])

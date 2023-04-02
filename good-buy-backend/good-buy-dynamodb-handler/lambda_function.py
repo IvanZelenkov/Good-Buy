@@ -107,7 +107,7 @@ def lambda_handler(event, context):
         
         response = table.update_item(
             Key = {
-                'ID' : IDvalue
+                'ID' : int(IDvalue)
             },
             UpdateExpression = "SET cart =:cart",
             ExpressionAttributeValues = {

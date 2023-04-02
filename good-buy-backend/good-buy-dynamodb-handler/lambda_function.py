@@ -73,7 +73,8 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
-            }
+            },
+            'body': 'Created new shopping cart'
         }
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'POST':
         table = db.Table("Users")
@@ -93,7 +94,8 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
-            }
+            },
+            'body': 'Created new user account'
         }
 
     # Idea for updating cart
@@ -120,7 +122,73 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
+            'body': 'Updated a shopping cart'
+        }
+
+    elif event['path'] == '/database/user-account' and event['httpMethod'] == 'PUT':
+        
+        table = db.Table("Users")
+        IDvalue = event['queryStringParameters']['ID']
+        decodedEvent = json.loads(event['body'])
+        
+        response = table.update_item(
+            Key = {
+                'ID' : int(IDvalue)
+            },
+            UpdateExpression = "SET password = :password, phone = :phone, username = :username",
+            ExpressionAttributeValues = {
+                ':password' : decodedEvent['password'],
+                ':phone' : decodedEvent['phone'],
+                ':username': decodedEvent['username']
             }
+        )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
+            'body': 'Updated a user account'
+        }
+
+    elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'DELETE':
+        table = db.Table("Shopping_Cart")
+        IDvalue = event['queryStringParameters']['ID']
+        
+        response = table.delete_item(
+            Key = {
+                'ID' : int(IDvalue)
+            }
+        )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
+            'body': 'Deleted a shopping cart'
+        }
+
+    elif event['path'] == '/database/user-account' and event['httpMethod'] == 'DELETE':
+        table = db.Table("Users")
+        IDvalue = event['queryStringParameters']['ID']
+        
+        response = table.delete_item(
+            Key = {
+                'ID' : int(IDvalue)
+            }
+        )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
+            'body': 'Deleted a user account'
         }
 
 

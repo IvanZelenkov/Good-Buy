@@ -95,6 +95,35 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             }
         }
+
+    # Idea for updating cart
+    # When an item is added or removed from the cart, it should send body data of the updated cart.
+    # Then retrieve that body data to update it with. 
+    elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'PUT':
+        
+        table = db.Table("Shopping_Cart")
+        IDvalue = event['queryStringParameters']['ID']
+        decodedEvent = json.loads(event['body'])
+        
+        response = table.update_item(
+            Key = {
+                'ID' : IDvalue
+            },
+            UpdateExpression = "SET cart =:cart",
+            ExpressionAttributeValues = {
+                ':cart' : decodedEvent['cart']
+            }
+        )
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            }
+        }
+
+
     # items = json.dumps(response)
     # print(items)
     

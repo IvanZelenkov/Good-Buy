@@ -27,6 +27,7 @@ db = session.resource("dynamodb")
 
 def lambda_handler(event, context):
     print(event)
+    # When using this path and method, must provide ID of the shopping cart you want to retrieve as a query parameter.
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':
         table = db.Table("Shopping_Cart")
         # print(event['queryStringParameters']['ID'])
@@ -41,7 +42,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps(response['Item']['cart'], indent=2,default=str)
         }
-
+    # When using this path and method, must provide ID of the user account you want to retrieve as a query parameter.
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'GET':
         table = db.Table("Users")
         # print(event['queryStringParameters']['ID'])
@@ -56,7 +57,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps(response, indent=2,default=str)
         }
-
+    # When using this path and method, must provide the ID and the cart values the newly created cart as json body data.
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
         decodedEvent = json.loads(event['body'])
@@ -76,6 +77,7 @@ def lambda_handler(event, context):
             },
             'body': 'Created new shopping cart'
         }
+    # When using this path and method, must provide the ID email, password, phone, and username values the newly created cart as json body data.
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'POST':
         table = db.Table("Users")
         decodedEvent = json.loads(event['body'])
@@ -101,6 +103,8 @@ def lambda_handler(event, context):
     # Idea for updating cart
     # When an item is added or removed from the cart, it should send body data of the updated cart.
     # Then retrieve that body data to update it with. 
+    # When using this path and method, send the ID of the shopping cart you want to update as a query parameter and then 
+    # pass the new cart data as body data. 
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'PUT':
         
         table = db.Table("Shopping_Cart")
@@ -125,7 +129,8 @@ def lambda_handler(event, context):
             },
             'body': 'Updated a shopping cart'
         }
-
+    # When using this path and method, must pass the ID of the user accound you want to update as a query parameter,
+    # and then pass the new user acount data as body data.
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'PUT':
         
         table = db.Table("Users")
@@ -152,7 +157,7 @@ def lambda_handler(event, context):
             },
             'body': 'Updated a user account'
         }
-
+    # When using this path and method, must pass the ID of the shopping cart that you want to delete as a query parameter.
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'DELETE':
         table = db.Table("Shopping_Cart")
         IDvalue = event['queryStringParameters']['ID']
@@ -171,7 +176,7 @@ def lambda_handler(event, context):
             },
             'body': 'Deleted a shopping cart'
         }
-
+    # When using this path and method, must pass the ID of the user acount you want to delete at query parameter. 
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'DELETE':
         table = db.Table("Users")
         IDvalue = event['queryStringParameters']['ID']

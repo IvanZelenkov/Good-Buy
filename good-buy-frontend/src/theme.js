@@ -28,18 +28,18 @@ export const tokens = (mode) => ({
 				900: "#040509"
 			},
 			customColors: {
-				1: "#171a21",
+				1: "#1C2A33",
 				2: "#1b2838",
 				3: "#2a475e",
-				4: "#FFFFFF",
-				5: "#e92a2a",
-				6: "#7da10e",
+				4: "#DBE2E7",
+				5: "#FFFFFF",
+				6: "#ACBAC3",
 				7: "#ccba7c"
 			}
 		}
 		: {
 			grey: {
-				100: "#141414",
+				100: "#1E1E1E",
 				200: "#292929",
 				300: "#3d3d3d",
 				400: "#525252",
@@ -61,12 +61,12 @@ export const tokens = (mode) => ({
 				900: "#d0d1d5"
 			},
 			customColors: {
-				1: "#171a21",
+				1: "#1C2A33",
 				2: "#1b2838",
 				3: "#2a475e",
 				4: "#FFFFFF",
 				5: "#2a475e",
-				6: "#7da10e",
+				6: "#ACBAC3",
 				7: "#ccba7c"
 			}
 		})
@@ -97,7 +97,7 @@ export const themeSettings = (mode) => {
 						customColorG: colors.customColors[7]
 					},
 					background: {
-						default: "white"
+						default: "#DBE2E7"
 					}
 				}
 				: {
@@ -185,30 +185,30 @@ export const useMode = () => {
 
 export const muiTextFieldCSS = {
 	"& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-		borderColor: "black"
+		borderColor: "#1C2A33"
 	},
 	"&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-		borderColor: "black"
+		borderColor: "#1C2A33"
 	},
 	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-		borderColor: "black"
+		borderColor: "#1C2A33"
 	},
 	"& .MuiOutlinedInput-input": {
-		color: "black"
+		color: "#1C2A33"
 	},
 	"&:hover .MuiOutlinedInput-input": {
-		color: "black"
+		color: "#1C2A33"
 	},
 	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
-		color: "black"
+		color: "#1C2A33"
 	},
 	"& .MuiInputLabel-outlined": {
-		color: "black"
+		color: "#1C2A33"
 	},
 	"&:hover .MuiInputLabel-outlined": {
-		color: "black"
+		color: "#1C2A33"
 	},
 	"& .MuiInputLabel-outlined.Mui-focused": {
-		color: "black"
+		color: "#1C2A33"
 	}
 }

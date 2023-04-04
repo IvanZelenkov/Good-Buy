@@ -36,10 +36,16 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "black" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
 						<LockOutlinedIcon/>
 					</Avatar>
-					<Typography component="h1" variant="h5" color="black">
+					<Typography
+						sx={{
+							fontSize: "20px",
+							fontFamily: "Montserrat",
+							color: "custom.customColorA"
+						}}
+					>
 						Account Activation
 					</Typography>
 					<Box sx={{ marginTop: 1 }}>
@@ -55,6 +61,8 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -66,6 +74,8 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							helperText={invalidAuthCodeMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
 							type="submit"
@@ -76,13 +86,20 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 								marginTop: 3,
 								marginBottom: 2,
 								color: "white",
-								backgroundColor: "black"
+								backgroundColor: "custom.customColorA"
 							}}
 						>
 							Activate
 						</Button>
 						<Box sx={{ display: "flex", justifyContent: "center" }}>
-							<Link variant="body2" sx={{ color: "black", textDecorationColor: "black" }}>
+							<Link
+								variant="body2"
+								sx={{
+									color: "custom.customColorA",
+									textDecorationColor: "black",
+									cursor: "pointer"
+								}}
+							>
 								Didn't receive a code? Resend
 							</Link>
 						</Box>

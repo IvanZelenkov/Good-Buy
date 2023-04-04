@@ -22,6 +22,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion } from "framer-motion";
 import { ColorModeContext } from "../../theme";
 import { Link } from "react-router-dom";
+import { tokens } from "../../theme";
 
 const pages = [
 	{ "pageName": "Home", "route": "/" },
@@ -35,6 +36,7 @@ const pages = [
 function Topbar() {
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
+	const colors = tokens(theme.palette.mode);
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -47,23 +49,22 @@ function Topbar() {
 	};
 
 	return (
-		<AppBar position="static" sx={{ backgroundColor: "black" }}>
+		<AppBar position="static" sx={{ backgroundColor: "custom.customColorA" }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}/>
 					<Typography
-						variant="h6"
 						noWrap
 						component="a"
 						href="/"
 						sx={{
 							mr: 2,
-							display: { xs: 'none', md: 'flex' },
-							fontFamily: 'monospace',
+							display: { xs: "none", md: "flex" },
+							fontSize: "1.5vh",
 							fontWeight: 700,
-							letterSpacing: '.3rem',
-							color: 'inherit',
-							textDecoration: 'none'
+							letterSpacing: ".3rem",
+							color: "custom.customColorD",
+							textDecoration: "none",
+							fontFamily: "Montserrat"
 						}}
 					>
 						GOOD BUY
@@ -105,7 +106,12 @@ function Topbar() {
 									component={Link}
 									to={page.route}
 								>
-									<Typography textAlign="center">{page.pageName}</Typography>
+									<Typography sx={{
+										textAlign: "center",
+										fontFamily: "Montserrat"
+									}}>
+										{page.pageName}
+									</Typography>
 								</MenuItem>
 							))}
 						</Menu>
@@ -119,13 +125,13 @@ function Topbar() {
 						href=""
 						sx={{
 							mr: 2,
-							display: { xs: 'flex', md: 'none' },
+							display: { xs: "flex", md: "none" },
 							flexGrow: 1,
-							fontFamily: 'monospace',
+							fontFamily: "Montserrat",
 							fontWeight: 700,
-							letterSpacing: '.3rem',
-							color: 'inherit',
-							textDecoration: 'none',
+							letterSpacing: ".3rem",
+							color: "inherit",
+							textDecoration: "none",
 						}}
 					>
 						LOGO
@@ -146,7 +152,8 @@ function Topbar() {
 									display: 'flex',
 									justifyContent: "center",
 									alignItems: "center",
-									fontWeight: "900"
+									fontWeight: "900",
+									fontFamily: "Montserrat"
 								}}
 							>
 								{page.pageName}
@@ -169,7 +176,7 @@ function Topbar() {
 									}}/>
 								) : (
 									<LightModeOutlinedIcon sx={{
-										color: "custom.customColorA",
+										color: "custom.customColorD",
 										":hover": {
 											color: "custom.customColorE"
 										}

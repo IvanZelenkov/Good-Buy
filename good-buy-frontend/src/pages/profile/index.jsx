@@ -52,7 +52,7 @@ const Profile = ({ user }) => {
 							marginTop: 3,
 							marginBottom: 2,
 							color: "white",
-							backgroundColor: "black"
+							backgroundColor: "custom.customColorA"
 						}}
 					>
 						Sign Out

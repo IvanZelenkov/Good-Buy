@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Montserrat&display=swap');
 
 html, body, #root, .app, .content {
   height: 100%;
   width: 100%;
-  font-family: 'Source Sans pro', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .app {

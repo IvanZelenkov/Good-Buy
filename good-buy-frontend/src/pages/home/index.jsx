@@ -3,7 +3,7 @@ import { Box, InputBase, IconButton, useTheme, Typography, Container } from "@mu
 import { motion } from "framer-motion";
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
-import { Adb as AdbIcon } from "@mui/icons-material";
+
 
 const Home = ({ productFound }) => {
 	const theme = useTheme();
@@ -31,8 +31,29 @@ const Home = ({ productFound }) => {
 		<motion.div exit={{ opacity: 0 }}>
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: "70vh" }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-					<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", marginBottom: "2vh" }}>
-						<AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: "black", fontSize: "6vh" }, mr: 1 }}/>
+					<Box sx={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "center",
+						alignItems: "center",
+						marginBottom: "2vh",
+						backgroundColor: "custom.customColorF",
+						padding: "1.5vh",
+						borderRadius: "10px"
+					}}>
+						<Box
+							component="img"
+							sx={{
+								display: {
+									xs: "none",
+									md: "flex",
+									color: "black",
+									width: "10vh"
+								},
+								mr: 1
+							}}
+							src={require('../../images/appLogo.png')}
+						/>
 						<Typography
 							variant="h6"
 							noWrap
@@ -40,12 +61,12 @@ const Home = ({ productFound }) => {
 							sx={{
 								mr: 2,
 								display: { xs: "none", md: "flex" },
-								fontFamily: "monospace",
 								fontWeight: 700,
 								letterSpacing: ".3rem",
 								color: "black",
 								textDecoration: "none",
-								fontSize: "4vh"
+								fontSize: "4vh",
+								fontFamily: "Montserrat"
 							}}
 						>
 							GOOD BUY
@@ -57,7 +78,7 @@ const Home = ({ productFound }) => {
 						<Box
 							display="flex"
 							backgroundColor="custom.customColorA"
-							borderRadius="5px"
+							borderRadius="10px"
 							width="40vw"
 						>
 							<InputBase

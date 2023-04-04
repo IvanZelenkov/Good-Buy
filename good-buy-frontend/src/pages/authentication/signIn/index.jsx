@@ -39,10 +39,16 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "black" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
 						<LockOutlinedIcon/>
 					</Avatar>
-					<Typography component="h1" variant="h5" color="black">
+					<Typography
+						sx={{
+							fontSize: "20px",
+							fontFamily: "Montserrat",
+							color: "custom.customColorA"
+						}}
+					>
 						Sign In
 					</Typography>
 					<Box sx={{ marginTop: 1 }}>
@@ -58,6 +64,8 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -70,15 +78,25 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<FormControlLabel
 							control={<Checkbox
 								value="remember"
 								sx={{ color: "black" }}
-								checkedIcon={<CheckBoxIcon sx={{ color: "black" }}/>}
+								checkedIcon={<CheckBoxIcon sx={{ color: "custom.customColorA" }}/>}
 							/>}
-							label="Remember me"
-							sx={{ color: "black" }}
+							label={
+								<Typography style={{
+									color: "custom.customColorA",
+									fontFamily: "Montserrat",
+									fontWeight: "600"
+								}}>
+									Remember me
+								</Typography>
+							}
+							sx={{ color: "custom.customColorA" }}
 						/>
 						<Button
 							type="submit"
@@ -89,14 +107,22 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 								marginTop: 3,
 								marginBottom: 2,
 								color: "white",
-								backgroundColor: "black"
+								backgroundColor: "custom.customColorA"
 							}}
 						>
 							Sign In
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2" sx={{ color: "black", textDecorationColor: "black" }}>
+								<Link
+									variant="body2"
+									sx={{
+										color: "custom.customColorA",
+										textDecorationColor: "black",
+										cursor: "pointer",
+										fontFamily: "Montserrat"
+									}}
+								>
 									Forgot password?
 								</Link>
 							</Grid>
@@ -105,9 +131,10 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									onClick={signUpInstead}
 									variant="body2"
 									sx={{
-										color: "black",
+										color: "custom.customColorA",
 										textDecorationColor: "black",
-										cursor: "pointer"
+										cursor: "pointer",
+										fontFamily: "Montserrat"
 									}}
 								>
 									Don't have an account? Sign Up

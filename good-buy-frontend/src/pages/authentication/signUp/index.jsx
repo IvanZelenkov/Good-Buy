@@ -45,10 +45,16 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "black" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
 						<LockOutlinedIcon/>
 					</Avatar>
-					<Typography component="h1" variant="h5" color="black">
+					<Typography
+						sx={{
+							fontSize: "20px",
+							fontFamily: "Montserrat",
+							color: "custom.customColorA"
+						}}
+					>
 						Sign Up
 					</Typography>
 					<Box sx={{ marginTop: 1 }}>
@@ -64,6 +70,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -76,6 +84,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							helperText={invalidUsernameMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -88,6 +98,8 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
 							sx={muiTextFieldCSS}
+							inputProps={{ style: { fontFamily: "Montserrat" }}}
+							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
 							fullWidth
@@ -97,7 +109,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 								marginTop: 3,
 								marginBottom: 2,
 								color: "white",
-								backgroundColor: "black"
+								backgroundColor: "custom.customColorA"
 							}}
 						>
 							Sign Up
@@ -107,7 +119,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 								onClick={signInInstead}
 								variant="body2"
 								sx={{
-									color: "black",
+									color: "custom.customColorA",
 									textDecorationColor: "black",
 									cursor: "pointer"
 								}}

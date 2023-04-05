@@ -8,5 +8,5 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.loads(body)
+        'body': json.dumps(body)
     }

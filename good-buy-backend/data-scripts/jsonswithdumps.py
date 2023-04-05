@@ -73,7 +73,8 @@ for i in range(3):
 		jsonlist.append(my_dict)
 	#Now that one array of jsons are done, do one file:
 	jsonString = json.dumps(jsonlist, indent = 4)
-
+	jsonlist = []#Make sure to do this, so the list is empty for the next cycle
+	
 	filename = "myNewJson" + str(i) + ".json"
 
 	with open(filename, "w") as outfile:

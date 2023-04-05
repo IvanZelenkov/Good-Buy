@@ -6,7 +6,9 @@ from ProductService import ProductService
 
 
 def lambda_handler(event, context):
-    s3 = boto3.resource('s3', aws_access_key_id=os.getenv('ACCESS_KEY'),
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=os.getenv('ACCESS_KEY'),
         aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY')
     )
     s3_service = S3Service(s3)

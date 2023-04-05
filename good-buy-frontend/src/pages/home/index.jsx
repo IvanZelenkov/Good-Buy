@@ -32,7 +32,10 @@ const Home = ({ productFound }) => {
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: "70vh" }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
 					<Box sx={{
-						display: "flex",
+						display: {
+							md: "flex",
+							xs: "none",
+						},
 						flexDirection: "row",
 						justifyContent: "center",
 						alignItems: "center",

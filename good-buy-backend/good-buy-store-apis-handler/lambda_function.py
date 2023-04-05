@@ -1,11 +1,12 @@
-import requests
+import json
+from ProductService import ProductService
 
 
 def lambda_handler(event, context):
-    products_endpoint = event["products-endpoint"]
-    response = requests.get(products_endpoint)
+    product_service = ProductService(event)
+    body = product_service.get_all_products()
 
     return {
         'statusCode': 200,
-        'body': response.json()
+        'body': json.loads(body)
     }

@@ -22,7 +22,7 @@ pipeline {
         stage("Check merge to main branch") {
             steps {
                 script {
-                    def isMergeCommit = sh(script: 'git log --merges -n 1 --pretty=format:%an', returnStdout: true).trim()
+                    def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
                     if (isMergeCommit.startsWith("Merge pull request #")) {
                         echo "Triggering pipeline for merge to main branch."
                     } else {

@@ -19,14 +19,15 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Check merge to 'main' branch") {
+        stage("Check merge to main branch") {
             steps {
                 script {
-                    def branchName = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    if (branchName == 'main') {
-                        echo 'Merge to main branch was made.'
+                    def isMergeCommit = sh(script: 'git log --merges -n 1 --pretty=format:%an', returnStdout: true).trim()
+                    if (isMergeCommit.startsWith("Merge pull request #")) {
+                        echo "Triggering pipeline for merge to main branch."
                     } else {
                         error 'This pipeline stage should only be executed on the main branch.'
+                        return
                     }
                 }
             }

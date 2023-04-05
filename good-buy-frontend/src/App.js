@@ -6,6 +6,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Topbar from "./pages/global/Topbar";
 import Home from "./pages/home";
 import OfferedProducts from "./pages/offeredProducts";
+import Products from "./pages/products";
 import GoogleMaps from "./pages/google-maps";
 import Authentication from "./pages/authentication";
 import Settings from "./pages/settings";
@@ -49,6 +50,7 @@ function App() {
                                     ? <Route exact path="/offered-products/:productName" element={<OfferedProducts/>}/>
                                     : <></>
                                 }
+                                <Route exact path="/products" element={<Products/>}/>
                                 <Route exact path="/google-maps" element={<GoogleMaps/>}/>
                                 <Route exact path="/shopping-list" element={<ShoppingList/>}/>
                                 <Route exact path="/shopping-cart" element={<ShoppingCart/>}/>

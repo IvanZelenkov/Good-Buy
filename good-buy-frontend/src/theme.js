@@ -61,7 +61,7 @@ export const tokens = (mode) => ({
 				900: "#d0d1d5"
 			},
 			customColors: {
-				1: "#1C2A33",
+				1: "#FFFFFF",
 				2: "#1b2838",
 				3: "#2a475e",
 				4: "#FFFFFF",

@@ -26,8 +26,7 @@ pipeline {
                     if (isMergeCommit.startsWith("Merge pull request #")) {
                         echo "Triggering pipeline for merge to main branch."
                     } else {
-                        echo "Skipping pipeline for non-merge commit."
-                        currentBuild.result = 'SUCCESS'
+                        error 'This pipeline stage should only be executed on the main branch.'
                         return
                     }
                 }

@@ -35,17 +35,17 @@ pipeline {
                 }
                 stage ("Unit tests") {
                     steps {
-                        sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                        sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
                     }
                 }
                 stage ("Security test") {
                     steps {
-                        sh "python3 -m bandit ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                        sh "python3 -m bandit ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
                     }
                 }
                 stage ("Lint") {
                     steps {
-                        sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/tests/product_retrieval.py"
+                        sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
                     }
                 }
             }

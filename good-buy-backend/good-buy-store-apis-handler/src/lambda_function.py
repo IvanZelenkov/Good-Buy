@@ -1,13 +1,13 @@
 import os
 import sys
+import boto3
+import json
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 service_dir = os.path.join(current_dir, 'service')
 strategy_dir = os.path.join(current_dir, 'strategy')
 sys.path.append(service_dir)
 sys.path.append(strategy_dir)
-
-import boto3
 
 from S3Service import S3Service
 from ProductService import ProductService
@@ -48,7 +48,7 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, GET'
             },
-            "body": body
+            "body": json.dumps(body)
         }
     except Exception as error:
         return {

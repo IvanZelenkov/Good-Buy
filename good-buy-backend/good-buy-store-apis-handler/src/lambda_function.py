@@ -23,19 +23,20 @@ def lambda_handler(event, context):
             aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY')
         )
         s3_service = S3Service(s3)
-        product_service = ProductService(s3_service, event)
+        params = event['queryStringParameters']
+        product_service = ProductService(s3_service, params)
 
-        if not event:
+        if not params:
             body = product_service.get_all_products()
-        elif "filter" in event and event.get("filter") == "by store name":
+        elif params.get("filter") == "byStoreName":
             store_name_strategy = StoreNameStrategy()
             body = product_service.filter(store_name_strategy)
-        elif "filter" in event and event.get("filter") == "by rating":
+        elif params.get("filter") == "byRating":
             rating_strategy = RatingStrategy()
             body = product_service.filter(rating_strategy)
-        elif "product_id" in event and "store_name" in event:
+        elif params.get("product_id") and params.get("store_name"):
             body = product_service.get_product_by_id_and_store_name()
-        elif "product_name" in event:
+        elif params.get("product_name"):
             body = product_service.get_identical_products_from_stores()
         else:
             body = {}

@@ -6,4 +6,4 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD ["lambda_function.lambda_handler"]
+CMD ["src/lambda_function.lambda_handler"]

@@ -41,13 +41,14 @@ def lambda_handler(event, context):
             body = {}
 
         return {
-            'statusCode': 200,
-            'headers': {
+            "isBase64Encoded": True,
+            "statusCode": 200,
+            "headers": {
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS, GET'
             },
-            'body': body
+            "body": body
         }
     except Exception as error:
         return {

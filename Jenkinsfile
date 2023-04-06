@@ -57,9 +57,6 @@ pipeline {
                     return isMergeCommit.startsWith("Merge pull request #")
                 }
             }
-            steps {
-                echo "Triggering pipeline for merge to main branch."
-            }
             stages {
                 stage ("Authenticate docker client to ECR") {
                     steps {

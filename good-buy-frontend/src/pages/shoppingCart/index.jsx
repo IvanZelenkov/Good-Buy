@@ -1,10 +1,16 @@
 import { motion } from "framer-motion";
 import * as React from 'react';
 import defImg  from '../../images/product_sample.png'
+import Grid from '@mui/material/Grid';
+
+const name = "ShoppingCart";
+
 
 
 const ShoppingCart = () => {
+	
 	return (
+		
 		<div className="cart-wrapper">
 
 		<div className="top">

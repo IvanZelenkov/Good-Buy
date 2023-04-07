@@ -21,6 +21,8 @@ const Products = () => {
 	const [filter, setFilter] = useState("");
 	const [sort, setSort] = useState("");
 	const topBarHeight = 65;
+	const productsPerPage = 25;
+	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
 	const handleFilter = (filter) => {
 		setFilter(filter);
@@ -158,47 +160,49 @@ const Products = () => {
 								marginLeft: "5vh"
 							}}
 						>
-							{productsData[page - 1]?.map((product) => (
-								<ImageListItem
-									key={product.ID}
-									style={{
-										marginRight: "0.5vw",
-										textAlign: "center"
-									}}
-								>
-									<img
-										className={"product-image"}
-										// src={`${product.img_url}?w=164&h=164&fit=crop&auto=format`}
-										// srcSet={`${product.imgSource}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-										src={require("../../images/product_sample.png")}
-										alt=""
-										loading="lazy"
-										onClick={() => window.open(product.store_link, "_blank")}
+							{productsData?.flat()
+								.slice((page - 1) * productsPerPage, page * productsPerPage)
+								.map((product) => (
+									<ImageListItem
+										key={product.ID}
 										style={{
-											backgroundColor: `${colors.customColors[3]}`,
-											borderTopLeftRadius: "20px",
-											borderTopRightRadius: "20px"
+											marginRight: "0.5vw",
+											textAlign: "center"
 										}}
-									/>
-									<Box sx={{
-										backgroundColor: `${colors.customColors[5]}`,
-										borderBottomLeftRadius: "20px",
-										borderBottomRightRadius: "20px",
-										borderTop: `2px solid ${colors.customColors[1]}`
-									}}>
-										<Typography sx={{
-											padding: "1vh",
-											fontSize: "1vh",
-											color: `${colors.customColors[1]}`
+									>
+										<img
+											className={"product-image"}
+											// src={`${product.img_url}?w=164&h=164&fit=crop&auto=format`}
+											// srcSet={`${product.imgSource}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+											src={require("../../images/product_sample.png")}
+											alt=""
+											loading="lazy"
+											onClick={() => window.open(product.store_link, "_blank")}
+											style={{
+												backgroundColor: `${colors.customColors[3]}`,
+												borderTopLeftRadius: "20px",
+												borderTopRightRadius: "20px"
+											}}
+										/>
+										<Box sx={{
+											backgroundColor: `${colors.customColors[5]}`,
+											borderBottomLeftRadius: "20px",
+											borderBottomRightRadius: "20px",
+											borderTop: `2px solid ${colors.customColors[1]}`
 										}}>
-											{product.Name}
-										</Typography>
-									</Box>
-								</ImageListItem>
-							))}
+											<Typography sx={{
+												padding: "1vh",
+												fontSize: "1vh",
+												color: `${colors.customColors[1]}`
+											}}>
+												{product.Name}
+											</Typography>
+										</Box>
+									</ImageListItem>
+								))}
 						</ImageList>
 						<Pagination
-							count={3}
+							count={totalPages}
 							page={page}
 							onChange={handleChange}
 							sx={muiPaginationCSS}

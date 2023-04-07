@@ -56,7 +56,7 @@ const OfferedProducts = () => {
 					<Box sx={{ display: "flex", flexDirection: "column", marginBottom: "5vh"}}>
 						<Box>
 							<img
-								src={require(`../../images/stores/walmart.png`)}
+								src={require(`../../images/stores/walmartLogo.png`)}
 								alt=""
 								loading="lazy"
 								className="store-logo"

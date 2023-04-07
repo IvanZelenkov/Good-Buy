@@ -30,7 +30,7 @@ export const tokens = (mode) => ({
 			customColors: {
 				1: "#1C2A33",
 				2: "#1b2838",
-				3: "#2a475e",
+				3: "#96ABB7",
 				4: "#DBE2E7",
 				5: "#FFFFFF",
 				6: "#ACBAC3",
@@ -63,7 +63,7 @@ export const tokens = (mode) => ({
 			customColors: {
 				1: "#FFFFFF",
 				2: "#1b2838",
-				3: "#2a475e",
+				3: "#96ABB7",
 				4: "#FFFFFF",
 				5: "#2a475e",
 				6: "#ACBAC3",
@@ -149,8 +149,8 @@ export const themeSettings = (mode) => {
 				fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
 				fontSize: 14
 			}
-		}
-	};
+		},
+	}
 };
 
 // Context for color mode
@@ -210,5 +210,35 @@ export const muiTextFieldCSS = {
 	},
 	"& .MuiInputLabel-outlined.Mui-focused": {
 		color: "#1C2A33"
+	}
+}
+
+export const muiPaginationCSS = {
+	"& .MuiPaginationItem-root": {
+		color: "#1C2A33",
+		marginRight: "2vw",
+		'&:hover, &:focus': {
+			backgroundColor: '#1C2A33',
+			color: '#DBE2E7'
+		}
+	},
+	"& .Mui-selected": {
+		color: "#DBE2E7",
+		backgroundColor: "#1C2A33",
+		"&:hover &:focus": {
+			backgroundColor: "#1C2A33",
+			filter: "brightness(0.75)"
+		}
+	},
+	"& .MuiPaginationItem-page:not(.Mui-selected)": {
+		backgroundColor: "#FFFFFF",
+		"&:hover": {
+			color: "#DBE2E7",
+			backgroundColor: "#1C2A33"
+		}
+	},
+	'& .Mui-selected:not(:focus)': {
+		backgroundColor: '#1C2A33',
+		color: '#FFFFFF'
 	}
 }

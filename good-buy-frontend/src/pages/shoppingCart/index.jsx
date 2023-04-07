@@ -40,7 +40,7 @@ const ShoppingCart = () => {
                         </div>
 
                         <div className='price-box'>
-                            ￥<span className='price'>0.00</span>
+                            $<span className='price'>0.00</span>
                         </div>
 
                         <div className='count-box'>
@@ -68,7 +68,7 @@ const ShoppingCart = () => {
                         </div>
 
                         <div className='price-box'>
-                            ￥<span className='price'>0.00</span>
+							$<span className='price'>0.00</span>
                         </div>
 
                         <div className='count-box'>
@@ -96,7 +96,7 @@ const ShoppingCart = () => {
                         </div>
 
                         <div className='price-box'>
-                            ￥<span className='price'>0.00</span>
+							$<span className='price'>0.00</span>
                         </div>
 
                         <div className='count-box'>
@@ -124,7 +124,7 @@ const ShoppingCart = () => {
                         </div>
 
                         <div className='price-box'>
-                            ￥<span className='price'>0.00</span>
+                            $<span className='price'>0.00</span>
                         </div>
 
                         <div className='count-box'>

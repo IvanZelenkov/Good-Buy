@@ -141,8 +141,6 @@ const Products = () => {
 									<Button onClick={() => handleSort('ratingDesc')}>Rating: High to Low</Button>
 								</ButtonGroup>
 							</ListItem>
-
-							{/* Render your product list here */}
 						</List>
 					</Box>
 					<Box sx={{

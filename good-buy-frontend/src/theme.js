@@ -239,6 +239,10 @@ export const muiPaginationCSS = {
 	},
 	'& .Mui-selected:not(:focus)': {
 		backgroundColor: '#1C2A33',
-		color: '#FFFFFF'
+		color: '#FFFFFF',
+		"&:hover": {
+			backgroundColor: "#1C2A33",
+			filter: "brightness(0.75)"
+		}
 	}
 }

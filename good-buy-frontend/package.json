@@ -22,7 +22,8 @@
         "react-router-dom": "^6.8.1",
         "react-scripts": "5.0.1",
         "react-useanimations": "^2.10.0",
-        "uglify-js": "^3.17.4"
+        "uglify-js": "^3.17.4",
+        "web-vitals": "^3.3.1"
     },
     "scripts": {
         "start": "react-scripts start",

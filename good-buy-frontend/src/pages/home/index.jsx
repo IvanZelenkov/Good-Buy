@@ -94,7 +94,7 @@ const Home = ({ productFound }) => {
 							/>
 							<IconButton
 								type="button"
-								sx={{ padding: 1, color: "custom.steamColorD" }}
+								sx={{ padding: 1, color: "custom.customColorD" }}
 								disabled={!isValid}
 								onClick={() => productFound("found", inputProductName)}
 							>

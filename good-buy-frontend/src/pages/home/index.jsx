@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, InputBase, IconButton, useTheme, Typography, Container } from "@mui/material";
 import { motion } from "framer-motion";
-import { tokens } from "../../theme";
+import {muiTextFieldCSS, tokens} from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 
 
@@ -91,6 +91,8 @@ const Home = ({ productFound }) => {
 								error={!isValid}
 								required={true}
 								onKeyDown={handleKeyDown}
+								inputProps={{ style: { fontFamily: "Montserrat" }}}
+								InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
 							/>
 							<IconButton
 								type="button"

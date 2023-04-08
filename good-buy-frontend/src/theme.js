@@ -246,7 +246,7 @@ export const muiPaginationCSS = {
 		}
 	}
 }
-export const itemData0 = [
+export const itemData = [
 	{
 		img: "https://image.api.playstation.com/vulcan/ap/rnd/202302/1623/430628d4872bbaef36b5458880a609af5094ff976778252b.png?w=440&thumb=false"
 	},

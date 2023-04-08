@@ -69,146 +69,172 @@ const Products = () => {
 	}
 	return (
 		<motion.div exit={{ opacity: 0 }}>
-				<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
-					<Box
-						sx={{
-							width: "20%",
-							height: `calc(100vh - ${topBarHeight}px - 3vh)`,
-							backgroundColor: `${colors.customColors[1]}`,
+			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
+				<Box
+					sx={{
+						width: "20%",
+						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
+						backgroundColor: `${colors.customColors[1]}`,
+						borderRadius: "10px",
+						padding: "15px"
+					}}
+				>
+					<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+						<Box sx={{
+							display: "flex",
+							backgroundColor: "custom.customColorD",
 							borderRadius: "10px",
-							padding: "15px"
+							width: "100%",
+							marginTop: "2vh"
 						}}
-					>
-						<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-							<Box sx={{
-								display: "flex",
-								backgroundColor: "custom.customColorD",
-								borderRadius: "10px",
-								width: "100%",
-								marginTop: "2vh"
-							}}
+						>
+							<InputBase
+								sx={{ marginLeft: 2, flex: 1, color: "custom.customColorA" }}
+								placeholder="Search"
+								required={true}
+								inputProps={{ style: { fontFamily: "Montserrat" }}}
+								InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							/>
+							<IconButton
+								type="button"
+								sx={{ padding: 1, color: "custom.customColorA" }}
 							>
-								<InputBase
-									sx={{ marginLeft: 2, flex: 1, color: "custom.customColorA" }}
-									placeholder="Search"
-									required={true}
-								/>
-								<IconButton
-									type="button"
-									sx={{ padding: 1, color: "custom.customColorA" }}
-								>
-									<SearchIcon/>
-								</IconButton>
-							</Box>
+								<SearchIcon/>
+							</IconButton>
 						</Box>
-						<List>
-							<ListItem
-								sx={{
-									display: "flex",
-									flexDirection: "column",
-									backgroundColor: "custom.steamColorF",
-									margin: "10px 0",
-									borderRadius: "2px"
-								}}
-							>
-								<ListItemText>
-									<Typography>
-										FILTER
-									</Typography>
-								</ListItemText>
-								<ButtonGroup color="primary">
-									<Button onClick={() => handleFilter("Rouses")}>Rouses</Button>
-									<Button onClick={() => handleFilter('Walmart')}>Walmart</Button>
-									<Button onClick={() => handleFilter("Winn-Dixie")}>Winn-Dixie</Button>
-								</ButtonGroup>
-							</ListItem>
-
-							<ListItem
-								sx={{
-									display: "flex",
-									flexDirection: "column",
-									backgroundColor: "custom.steamColorF",
-									margin: "10px 0",
-									borderRadius: "2px"
-								}}
-							>
-								<ListItemText>
-									<Typography>
-										SORT
-									</Typography>
-								</ListItemText>
-								<ButtonGroup color="primary">
-									<Button onClick={() => handleSort('priceAsc')}>Price: Low to High</Button>
-									<Button onClick={() => handleSort('priceDesc')}>Price: High to Low</Button>
-									<Button onClick={() => handleSort('ratingDesc')}>Rating: High to Low</Button>
-								</ButtonGroup>
-							</ListItem>
-						</List>
 					</Box>
-					<Box sx={{
-						display: "flex",
-						flexDirection: "column",
-						justifyContent: "center",
-						alignItems: "center",
-						height: `calc(100vh - ${topBarHeight}px - 3vh)`
-					}}>
-						<ImageList
-							cols={5}
-							gap={50}
+					<List>
+						<ListItem
 							sx={{
-								width: "95%",
-								marginLeft: "5vh"
+								display: "flex",
+								flexDirection: "column",
+								backgroundColor: "custom.steamColorF",
+								margin: "10px 0",
+								borderRadius: "2px"
 							}}
 						>
-							{productsData?.flat()
-								.slice((page - 1) * productsPerPage, page * productsPerPage)
-								.map((product) => (
-									<ImageListItem
-										key={product.ID}
-										style={{
-											marginRight: "0.5vw",
-											textAlign: "center"
-										}}
-									>
-										<img
-											className={"product-image"}
-											// src={`${product.img_url}?w=164&h=164&fit=crop&auto=format`}
-											// srcSet={`${product.imgSource}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-											src={require("../../images/product_sample.png")}
-											alt=""
-											loading="lazy"
-											onClick={() => window.open(product.store_link, "_blank")}
-											style={{
-												backgroundColor: `${colors.customColors[3]}`,
-												borderTopLeftRadius: "20px",
-												borderTopRightRadius: "20px"
-											}}
-										/>
-										<Box sx={{
-											backgroundColor: `${colors.customColors[5]}`,
-											borderBottomLeftRadius: "20px",
-											borderBottomRightRadius: "20px",
-											borderTop: `2px solid ${colors.customColors[1]}`
-										}}>
-											<Typography sx={{
-												padding: "1vh",
-												fontSize: "1vh",
-												color: `${colors.customColors[1]}`
-											}}>
-												{product.Name}
-											</Typography>
-										</Box>
-									</ImageListItem>
-								))}
-						</ImageList>
-						<Pagination
-							count={totalPages}
-							page={page}
-							onChange={handleChange}
-							sx={muiPaginationCSS}
-						/>
-					</Box>
+							<ListItemText>
+								<Typography sx={{ fontFamily: "Montserrat" }}>
+									FILTER
+								</Typography>
+							</ListItemText>
+							<ButtonGroup color="primary" sx={{ height: "4vh" }}>
+								<Button onClick={() => handleFilter("Rouses")}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Rouses
+									</Typography>
+								</Button>
+								<Button onClick={() => handleFilter('Walmart')}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Walmart
+									</Typography>
+								</Button>
+								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleFilter("Winn-Dixie")}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Winn-Dixie
+									</Typography>
+								</Button>
+							</ButtonGroup>
+						</ListItem>
+
+						<ListItem
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								backgroundColor: "custom.steamColorF",
+								margin: "10px 0",
+								borderRadius: "2px"
+							}}
+						>
+							<ListItemText>
+								<Typography sx={{ fontFamily: "Montserrat" }}>
+									SORT
+								</Typography>
+							</ListItemText>
+							<ButtonGroup color="primary" sx={{ height: "6vh" }}>
+								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('priceAsc')}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Price: Low to High
+									</Typography>
+								</Button>
+								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('priceDesc')}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Price: High to Low
+									</Typography>
+								</Button>
+								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('ratingDesc')}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
+										Rating: High to Low
+									</Typography>
+								</Button>
+							</ButtonGroup>
+						</ListItem>
+					</List>
 				</Box>
+				<Box sx={{
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					height: `calc(100vh - ${topBarHeight}px - 3vh)`
+				}}>
+					<ImageList
+						cols={5}
+						gap={50}
+						sx={{
+							width: "95%",
+							marginLeft: "5vh"
+						}}
+					>
+						{productsData?.flat()
+							.slice((page - 1) * productsPerPage, page * productsPerPage)
+							.map((product) => (
+								<ImageListItem
+									key={product.ID}
+									style={{
+										marginRight: "0.5vw",
+										textAlign: "center"
+									}}
+								>
+									<img
+										className={"product-image"}
+										// src={`${product.img_url}?w=164&h=164&fit=crop&auto=format`}
+										// srcSet={`${product.imgSource}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+										src={require("../../images/product_sample.png")}
+										alt=""
+										loading="lazy"
+										onClick={() => window.open(product.store_link, "_blank")}
+										style={{
+											backgroundColor: `${colors.customColors[3]}`,
+											borderTopLeftRadius: "20px",
+											borderTopRightRadius: "20px"
+										}}
+									/>
+									<Box sx={{
+										backgroundColor: `${colors.customColors[5]}`,
+										borderBottomLeftRadius: "20px",
+										borderBottomRightRadius: "20px",
+										borderTop: `2px solid ${colors.customColors[1]}`
+									}}>
+										<Typography sx={{
+											padding: "1vh",
+											fontSize: "1vh",
+											color: `${colors.customColors[1]}`
+										}}>
+											{product.Name}
+										</Typography>
+									</Box>
+								</ImageListItem>
+							))}
+					</ImageList>
+					<Pagination
+						count={totalPages}
+						page={page}
+						onChange={handleChange}
+						sx={muiPaginationCSS}
+					/>
+				</Box>
+			</Box>
 		</motion.div>
 	);
 }

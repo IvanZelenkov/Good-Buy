@@ -49,7 +49,7 @@ function Topbar() {
 	};
 
 	return (
-		<AppBar position="static" sx={{ backgroundColor: "custom.customColorA" }}>
+		<AppBar position="sticky" sx={{ backgroundColor: "custom.customColorA" }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Typography

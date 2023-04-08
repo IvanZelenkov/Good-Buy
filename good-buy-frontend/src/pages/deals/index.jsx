@@ -2,9 +2,7 @@ import {Box, Button, Typography, useTheme, Grid, Container, Paper, Card} from "@
 import { motion } from "framer-motion";
 import mainImage from "../../images/deals/dealsMainImage.avif";
 import saleImage from "../../images/deals/saleImage.avif";
-import { tokens, itemData0, itemData1, itemData2, itemData3 } from "../../theme";
-import { Carousel } from "react-responsive-carousel";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { tokens, itemData } from "../../theme";
 
 const Deals = () => {
 	const theme = useTheme();
@@ -83,7 +81,7 @@ const Deals = () => {
 							{/* Large Screen */}
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{itemData0.slice(0, 4).map((item, id) => (
+									{itemData.slice(0, 4).map((item, id) => (
 										<Grid item key={id} xs={3} align="center" sx={{
 											cursor: "pointer",
 											filter: "brightness(100%)",
@@ -108,7 +106,7 @@ const Deals = () => {
 							</Grid>
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{itemData0.slice(4, 7).map((item, id) => (
+									{itemData.slice(4, 7).map((item, id) => (
 										<Grid item key={id} xs={4} align="center" sx={{
 											cursor: "pointer",
 											filter: "brightness(100%)",

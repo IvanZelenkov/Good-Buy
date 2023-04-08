@@ -4,14 +4,15 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Topbar from "./pages/global/Topbar";
-import Home from "./pages/home";
 import OfferedProducts from "./pages/offeredProducts";
+import Home from "./pages/home";
 import Products from "./pages/products";
+import Deals from "./pages/deals";
 import GoogleMaps from "./pages/google-maps";
-import Authentication from "./pages/authentication";
-import Settings from "./pages/settings";
 import ShoppingList from "./pages/shoppingList";
 import ShoppingCart from "./pages/shoppingCart";
+import Authentication from "./pages/authentication";
+import Settings from "./pages/settings";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -51,11 +52,12 @@ function App() {
                                     : <></>
                                 }
                                 <Route exact path="/products" element={<Products/>}/>
+                                <Route exact path="/deals" element={<Deals/>}/>
                                 <Route exact path="/google-maps" element={<GoogleMaps/>}/>
                                 <Route exact path="/shopping-list" element={<ShoppingList/>}/>
                                 <Route exact path="/shopping-cart" element={<ShoppingCart/>}/>
-                                <Route exact path="/authentication" element={<Authentication user={user} updateUser={updateUser}/>}/>
                                 <Route exact path="/settings" element={<Settings/>}/>
+                                <Route exact path="/authentication" element={<Authentication user={user} updateUser={updateUser}/>}/>
                             </Routes>
                         </AnimatePresence>
                     </main>

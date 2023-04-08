@@ -246,3 +246,99 @@ export const muiPaginationCSS = {
 		}
 	}
 }
+export const itemData0 = [
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202302/1623/430628d4872bbaef36b5458880a609af5094ff976778252b.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/156/127/e98c4015-3c83-4363-9af5-a757fad811e1.png?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/156/131/b5bb550a-43da-4561-976d-0791045c928c.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/2222/l8QTN7ThQK3lRBHhB3nX1s7h.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202303/0712/7719871c99576b38d737dacbcd513359a2f7c187b370e424.png?w=440&thumb=false"
+	}
+];
+
+
+export const itemData1 = [
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202302/1623/430628d4872bbaef36b5458880a609af5094ff976778252b.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/156/127/e98c4015-3c83-4363-9af5-a757fad811e1.png?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/156/131/b5bb550a-43da-4561-976d-0791045c928c.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
+	}
+];
+
+export const itemData2 = [
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+];
+
+export const itemData3 = [
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/2222/l8QTN7ThQK3lRBHhB3nX1s7h.png?w=440&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
+	},
+	{
+		img: "https://image.api.playstation.com/vulcan/ap/rnd/202303/0712/7719871c99576b38d737dacbcd513359a2f7c187b370e424.png?w=440&thumb=false"
+	}
+];

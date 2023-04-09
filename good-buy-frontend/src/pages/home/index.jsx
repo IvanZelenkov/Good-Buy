@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Box, InputBase, IconButton, useTheme, Typography, Container } from "@mui/material";
+import { Box, InputBase, IconButton, useTheme, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import {muiTextFieldCSS, tokens} from "../../theme";
+import { tokens} from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
+import SubscribePopup from "../../components/SubscribePopup";
 
 
-const Home = ({ productFound }) => {
+const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [inputProductName, setInputProductName] = useState("");
@@ -29,6 +30,7 @@ const Home = ({ productFound }) => {
 
 	return (
 		<motion.div exit={{ opacity: 0 }}>
+			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: "70vh" }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
 					<Box sx={{
@@ -42,7 +44,8 @@ const Home = ({ productFound }) => {
 						marginBottom: "2vh",
 						backgroundColor: "custom.customColorF",
 						padding: "1.5vh",
-						borderRadius: "10px"
+						borderRadius: "10px",
+						width: "40vw"
 					}}>
 						<Box
 							component="img"
@@ -51,24 +54,23 @@ const Home = ({ productFound }) => {
 									xs: "none",
 									md: "flex",
 									color: "black",
-									width: "10vh"
+									width: "8vw"
 								},
 								mr: 1
 							}}
 							src={require('../../images/appLogo.png')}
 						/>
 						<Typography
-							variant="h6"
 							noWrap
 							component="a"
 							sx={{
 								mr: 2,
 								display: { xs: "none", md: "flex" },
 								fontWeight: 700,
-								letterSpacing: ".3rem",
+								letterSpacing: "0.3rem",
 								color: "black",
 								textDecoration: "none",
-								fontSize: "4vh",
+								fontSize: "2vw",
 								fontFamily: "Montserrat"
 							}}
 						>
@@ -92,15 +94,15 @@ const Home = ({ productFound }) => {
 								required={true}
 								onKeyDown={handleKeyDown}
 								inputProps={{ style: { fontFamily: "Montserrat" }}}
-								InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 							/>
 							<IconButton
 								type="button"
-								sx={{ padding: 1, color: "custom.customColorD" }}
+								sx={{ padding: 1 }}
 								disabled={!isValid}
 								onClick={() => productFound("found", inputProductName)}
 							>
-								<SearchIcon/>
+								<SearchIcon sx={{ color: colors.customColors[5] }}/>
 							</IconButton>
 						</Box>
 					</Box>

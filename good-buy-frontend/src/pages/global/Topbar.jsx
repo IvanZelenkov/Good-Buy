@@ -1,25 +1,15 @@
 import { useState, useContext } from 'react';
-import {
-	AppBar,
-	Box,
-	Toolbar,
-	IconButton,
-	Typography,
-	Menu,
-	Container,
-	Button,
-	MenuItem,
-	useTheme
+import { AppBar, Box, Toolbar, IconButton, Typography,
+	Menu, Container, Button, MenuItem, useTheme
 } from "@mui/material";
 import {
-	Menu as MenuIcon,
-	Adb as AdbIcon,
-	SettingsOutlined as SettingsOutlinedIcon,
+	Menu as MenuIcon, SettingsOutlined as SettingsOutlinedIcon,
 	AccountCircle as AccountCircleIcon
 } from "@mui/icons-material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "../../theme";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -37,6 +27,7 @@ function Topbar() {
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
 	const colors = tokens(theme.palette.mode);
+	const navigate = useNavigate();
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -54,8 +45,6 @@ function Topbar() {
 				<Toolbar disableGutters>
 					<Typography
 						noWrap
-						component="a"
-						href="/"
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -64,8 +53,10 @@ function Topbar() {
 							letterSpacing: ".3rem",
 							color: "custom.customColorD",
 							textDecoration: "none",
-							fontFamily: "Montserrat"
+							fontFamily: "Montserrat",
+							cursor: "pointer"
 						}}
+						onClick={() => navigate("/")}
 					>
 						GOOD BUY
 					</Typography>

@@ -71,3 +71,9 @@ html, body, #root, .app, .content {
 	background-size: 400% 400%;
 	animation: Gradient 15s ease infinite;
 }
+
+.map_container {
+	border: 0;
+	width: 100%;
+	height:100%
+}

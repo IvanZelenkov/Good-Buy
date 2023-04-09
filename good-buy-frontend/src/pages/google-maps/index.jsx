@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
 	Avatar,
 	Box, Button, ButtonGroup, IconButton, InputBase,
-	List, ListItem, ListItemAvatar, ListItemText, Typography, useTheme
+	List, ListItem, ListItemAvatar, ListItemText, Typography, useTheme, UseAnimations
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { LocationOn as LocationOnIcon } from '@mui/icons-material';
@@ -26,7 +26,7 @@ const GoogleMaps = () => {
 	//SHOPPING CART EXAMPLE:
 	var productsArray = ["92588066","90488608","17773456"];
 
-	const getCurrentLocation = () => {
+	function getCurrentLocation() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 			  (position) => {
@@ -39,7 +39,7 @@ const GoogleMaps = () => {
 			);
 		}
 		// eslint-disable-next-line no-undef	
-		setService(new google.maps.DirectionsService());
+		setService(new window.google.maps.DirectionsService());
 	}
 
 	const calculateRoute = () => {
@@ -80,7 +80,7 @@ const GoogleMaps = () => {
 	}
 
 	//function that is calling the directions service
-	const getDirection = () =>  {
+	function getDirection() {
 		directionsService.route(
 			{
 			  origin: currentPosition,
@@ -103,7 +103,18 @@ const GoogleMaps = () => {
 			}
 		  );
 	};
-	
+
+	if (isLoaded === false) {
+        return (
+            <motion.div exit={{ opacity: 0 }}>
+                <Box margin="1.5vh">
+                    <Box sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
+                        
+                    </Box>
+                </Box>
+            </motion.div>
+        );
+    }
 	return (
 		<motion.div exit={{ opacity: 0 }}>
 			<Box display="flex">

@@ -1,6 +1,7 @@
 import json
 import boto3
 import os
+from abc import ABC, abstractmethod
 # from dotenv import load_dotenv
 
 # load_dotenv()
@@ -30,14 +31,10 @@ def lambda_handler(event, context):
     # When using this path and method, must provide ID of the shopping cart you want to retrieve as a query parameter.
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':
         table = db.Table("Shopping_Cart")
-        # print(event['queryStringParameters']['ID'])
-        IDvalue = event['queryStringParameters']['ID']
-        response = table.get_item(
-            Key = {
-                'ID': int(IDvalue)
-            }
-        )
-        print(response['Item']['cart'])
+        getAction = GetAction(event, table)
+        response = getAction.action()
+        # print(response['Item']['cart'])
+        print(response['Item'])
         return {
             'statusCode': 200,
             'body': json.dumps(response['Item']['cart'], indent=2,default=str)
@@ -45,29 +42,23 @@ def lambda_handler(event, context):
     # When using this path and method, must provide ID of the user account you want to retrieve as a query parameter.
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'GET':
         table = db.Table("Users")
-        # print(event['queryStringParameters']['ID'])
-        IDvalue = event['queryStringParameters']['ID']
-        response = table.get_item(
-            Key = {
-                'ID': int(IDvalue)
-            }
-        )
-        # print(response['Item'])
+        getAction = GetAction(event, table)
+        response = getAction.action()
+        print(response['Item'])
         return {
             'statusCode': 200,
-            'body': json.dumps(response, indent=2,default=str)
+            'body': json.dumps(response['Item'], indent=2,default=str)
         }
     # When using this path and method, must provide the ID and the cart values the newly created cart as json body data.
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'POST':
         table = db.Table("Shopping_Cart")
         decodedEvent = json.loads(event['body'])
-        response = table.put_item(
-            Item ={
+        Item ={
                 'ID': int(decodedEvent['ID']),
                 'cart': decodedEvent['cart']
-            }
-        )
-        # print(event['body'])
+        }
+        postAction = PostAction(event, table, Item)
+        response = postAction.action()
         return {
             'statusCode': 200,
             'headers': {
@@ -81,15 +72,15 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'POST':
         table = db.Table("Users")
         decodedEvent = json.loads(event['body'])
-        response = table.put_item(
-            Item ={
+        Item ={
                 'ID': int(decodedEvent['ID']),
                 'email': decodedEvent['email'],
                 'password': decodedEvent['password'],
                 'phone': decodedEvent['phone'],
                 'username': decodedEvent['username']
             }
-        )
+        postAction = PostAction(event, table, Item)
+        response = postAction.action()
         return {
             'statusCode': 200,
             'headers': {
@@ -108,18 +99,18 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'PUT':
         
         table = db.Table("Shopping_Cart")
-        IDvalue = event['queryStringParameters']['ID']
         decodedEvent = json.loads(event['body'])
         
-        response = table.update_item(
-            Key = {
-                'ID' : int(IDvalue)
-            },
-            UpdateExpression = "SET cart =:cart",
-            ExpressionAttributeValues = {
-                ':cart' : decodedEvent['cart']
-            }
-        )
+        UpdateExpression = "SET cart =:cart"
+        ExpressionAttributeValues = {
+            ':cart' : decodedEvent['cart']
+        }
+
+        # decodedExpressionAttributes = json.dumps(ExpressionAttributeValues)
+
+        putAction = PutAction(event, table, UpdateExpression, ExpressionAttributeValues)
+        response = putAction.action()
+        
         return {
             'statusCode': 200,
             'headers': {
@@ -134,20 +125,18 @@ def lambda_handler(event, context):
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'PUT':
         
         table = db.Table("Users")
-        IDvalue = event['queryStringParameters']['ID']
         decodedEvent = json.loads(event['body'])
         
-        response = table.update_item(
-            Key = {
-                'ID' : int(IDvalue)
-            },
-            UpdateExpression = "SET password = :password, phone = :phone, username = :username",
-            ExpressionAttributeValues = {
-                ':password' : decodedEvent['password'],
-                ':phone' : decodedEvent['phone'],
-                ':username': decodedEvent['username']
-            }
-        )
+        UpdateExpression = "SET password = :password, phone = :phone, username = :username"
+        ExpressionAttributeValues = {
+            ':password' : decodedEvent['password'],
+            ':phone' : decodedEvent['phone'],
+            ':username': decodedEvent['username']
+        }
+
+        putAction = PutAction(event, table, UpdateExpression, ExpressionAttributeValues)
+        response = putAction.action()
+
         return {
             'statusCode': 200,
             'headers': {
@@ -160,13 +149,10 @@ def lambda_handler(event, context):
     # When using this path and method, must pass the ID of the shopping cart that you want to delete as a query parameter.
     elif event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'DELETE':
         table = db.Table("Shopping_Cart")
-        IDvalue = event['queryStringParameters']['ID']
         
-        response = table.delete_item(
-            Key = {
-                'ID' : int(IDvalue)
-            }
-        )
+        deleteAction = DeleteAction(event, table)
+        response = deleteAction.action()
+
         return {
             'statusCode': 200,
             'headers': {
@@ -179,13 +165,10 @@ def lambda_handler(event, context):
     # When using this path and method, must pass the ID of the user acount you want to delete at query parameter. 
     elif event['path'] == '/database/user-account' and event['httpMethod'] == 'DELETE':
         table = db.Table("Users")
-        IDvalue = event['queryStringParameters']['ID']
         
-        response = table.delete_item(
-            Key = {
-                'ID' : int(IDvalue)
-            }
-        )
+        deleteAction = DeleteAction(event, table)
+        response = deleteAction.action()
+        
         return {
             'statusCode': 200,
             'headers': {
@@ -196,9 +179,67 @@ def lambda_handler(event, context):
             'body': 'Deleted a user account'
         }
 
+class DBActionInterface(ABC):
+    @abstractmethod
+    def action(self):
+        pass
 
-    # items = json.dumps(response)
-    # print(items)
+class GetAction(DBActionInterface):
     
+    def __init__(self, event, table):
+        self.event = event
+        self.table = table
+    
+    def action(self):        
+        # print(event['queryStringParameters']['ID'])
+        IDvalue = self.event['queryStringParameters']['ID']
+        response = self.table.get_item(
+            Key = {
+                'ID': int(IDvalue)
+            }
+        )
+        return response
 
-    # 'body': json.dumps('good-buy-dynamodb-handler is working')
+class PostAction(DBActionInterface):
+    def __init__(self, event, table, Item):
+        self.event = event
+        self.table = table
+        self.Item = Item
+
+    def action(self):
+        response = self.table.put_item(
+            Item = self.Item
+        )
+        return response
+
+class PutAction(DBActionInterface):
+    def __init__(self, event, table, updateExpression, expressionAttributeValues):
+        self.event = event 
+        self.table = table
+        self.updateExpression = updateExpression
+        self.expressionAttributeValues = expressionAttributeValues
+
+    def action(self):
+        IDvalue = self.event['queryStringParameters']['ID']
+        # decodedExpressionAttributes = json.loads(self.expressionAttributeValues)
+        response = self.table.update_item(
+            Key = {
+                'ID' : int(IDvalue)
+            },
+            UpdateExpression = self.updateExpression,
+            ExpressionAttributeValues = self.expressionAttributeValues
+        )
+        return response
+
+class DeleteAction(DBActionInterface):
+    def __init__(self, event, table):
+        self.event = event
+        self.table = table 
+    def action(self):
+        IDvalue = self.event['queryStringParameters']['ID']
+        response = self.table.delete_item(
+            Key = {
+                'ID' : int(IDvalue)
+            }
+        )
+        return response

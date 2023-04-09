@@ -183,33 +183,35 @@ export const useMode = () => {
 	return [theme, colorMode];
 };
 
-export const muiTextFieldCSS = {
-	"& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-		borderColor: "#1C2A33"
-	},
-	"&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-		borderColor: "#1C2A33"
-	},
-	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-		borderColor: "#1C2A33"
-	},
-	"& .MuiOutlinedInput-input": {
-		color: "#1C2A33"
-	},
-	"&:hover .MuiOutlinedInput-input": {
-		color: "#1C2A33"
-	},
-	"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
-		color: "#1C2A33"
-	},
-	"& .MuiInputLabel-outlined": {
-		color: "#1C2A33"
-	},
-	"&:hover .MuiInputLabel-outlined": {
-		color: "#1C2A33"
-	},
-	"& .MuiInputLabel-outlined.Mui-focused": {
-		color: "#1C2A33"
+export function muiTextFieldCSS(themeColor) {
+	return {
+		"& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+			borderColor: themeColor
+		},
+		"&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+			borderColor: themeColor
+		},
+		"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+			borderColor: themeColor
+		},
+		"& .MuiOutlinedInput-input": {
+			color: themeColor
+		},
+		"&:hover .MuiOutlinedInput-input": {
+			color: themeColor
+		},
+		"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
+			color: themeColor
+		},
+		"& .MuiInputLabel-outlined": {
+			color: themeColor
+		},
+		"&:hover .MuiInputLabel-outlined": {
+			color: themeColor
+		},
+		"& .MuiInputLabel-outlined.Mui-focused": {
+			color: themeColor
+		}
 	}
 }
 

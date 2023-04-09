@@ -11,7 +11,7 @@ const Copyright = (props) => {
 			}}
 		>
 			{"Copyright © "}
-			<Link sx={{ color: "custom.customColorA", textDecorationColor: "black" }} href="https://main.d1ch79678kx2mg.amplifyapp.com/">
+			<Link sx={{ color: "custom.customColorA", textDecorationColor: props.textdecorationcolor }} href="https://main.d1ch79678kx2mg.amplifyapp.com/">
 				Good Buy
 			</Link>{" "}
 			{new Date().getFullYear()}

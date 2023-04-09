@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Montserrat&display=swap');
 
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
 html, body, #root, .app, .content {
 	height: 100%;
 	width: 100%;
@@ -52,4 +64,10 @@ html, body, #root, .app, .content {
 
 .product-image:hover {
 	filter: brightness(75%);
+}
+
+.subscribe-popup-title-background-gradient {
+	background: linear-gradient(to right, #d43500, #e46318, #D40000);
+	background-size: 400% 400%;
+	animation: Gradient 15s ease infinite;
 }

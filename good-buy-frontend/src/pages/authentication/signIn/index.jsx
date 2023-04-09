@@ -63,9 +63,9 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -77,14 +77,14 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							error={invalidPasswordMessage !== ""}
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<FormControlLabel
 							control={<Checkbox
 								value="remember"
-								sx={{ color: "black" }}
+								sx={{ color: "custom.customColorA" }}
 								checkedIcon={<CheckBoxIcon sx={{ color: "custom.customColorA" }}/>}
 							/>}
 							label={
@@ -106,7 +106,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							sx={{
 								marginTop: 3,
 								marginBottom: 2,
-								color: "white",
+								color: "custom.customColorE",
 								backgroundColor: "custom.customColorA"
 							}}
 						>
@@ -118,7 +118,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									variant="body2"
 									sx={{
 										color: "custom.customColorA",
-										textDecorationColor: "black",
+										textDecorationColor: colors.customColors[1],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}
@@ -132,7 +132,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									variant="body2"
 									sx={{
 										color: "custom.customColorA",
-										textDecorationColor: "black",
+										textDecorationColor: colors.customColors[1],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}
@@ -143,7 +143,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						</Grid>
 					</Box>
 				</Box>
-				<Copyright/>
+				<Copyright textdecorationcolor={colors.customColors[1]}/>
 			</Container>
 		</motion.div>
 	);

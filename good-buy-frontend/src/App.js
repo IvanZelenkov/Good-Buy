@@ -56,10 +56,8 @@ function App() {
         try {
             const authUser = await Auth.currentAuthenticatedUser();
             updateUser(authUser);
-            console.log("User authenticated.", authUser);
             setShowPopup(true);
         } catch (error) {
-            console.log("User not authenticated.", error);
             if (!localStorage.getItem("popupClosed")) {
                 setShowPopup(true);
             } else {
@@ -71,8 +69,6 @@ function App() {
     useEffect(() => {
         checkUser();
     }, []);
-
-    console.log(showPopup)
 
     return (
         <ColorModeContext.Provider value={colorMode}>

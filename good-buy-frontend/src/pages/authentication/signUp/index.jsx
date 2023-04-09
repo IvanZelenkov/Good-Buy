@@ -1,12 +1,6 @@
 import {
-	Avatar,
-	Button,
-	TextField,
-	Link,
-	Box,
-	Typography,
-	Container,
-	useTheme
+	Avatar, Button, TextField, Link, Box,
+	Typography, Container, useTheme
 } from "@mui/material";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import Copyright from "../../../components/Copyright";
@@ -16,15 +10,6 @@ import { motion } from "framer-motion";
 const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, invalidUsernameMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
-	};
 
 	return (
 		<motion.div exit={{ opacity: 0 }}>

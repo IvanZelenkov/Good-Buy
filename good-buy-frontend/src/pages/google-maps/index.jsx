@@ -18,7 +18,7 @@ const GoogleMaps = () => {
 			<Box display="flex">
 				<Box
 					sx={{
-						width: "18%",
+						width: "20%",
 						height: `calc(100vh - ${topBarHeight}px)`,
 						padding: "1.5vh"
 					}}
@@ -27,7 +27,7 @@ const GoogleMaps = () => {
 						<Box sx={{ backgroundColor: `${colors.customColors[1]}`, borderRadius: "10px" }}>
 							<ListItem sx={{ display: "flex", flexDirection: "column" }}>
 								<ListItemText>
-									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}` }}>
+									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}`, fontFamily: "Montserrat" }}>
 										Recommended
 									</Typography>
 								</ListItemText>
@@ -40,14 +40,30 @@ const GoogleMaps = () => {
 									alt="profile-user"
 									width="5vh"
 									height="3vh"
-									src={require("../../images/stores/walmartLogo.png")}
+									src={require("../../images/stores/walmart-logo.png")}
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Walmart</Typography>}
-										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>6000 Bullard Ave, New Orleans</Typography>}
+							<ListItemText primary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "1.1vh",
+									fontFamily: "Montserrat",
+									fontWeight: "600"
+								}}>
+									Walmart
+								</Typography>
+							} secondary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "0.9vh",
+									fontFamily: "Montserrat"
+								}}>
+									6000 Bullard Ave, New Orleans
+								</Typography>
+							}
 							/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
+							<Typography sx={{ fontSize: "1.1vh", color: `${colors.customColors[1]}`, fontFamily: "Montserrat" }}>
 								19 min (3.1 mi)
 							</Typography>
 						</ListItem>
@@ -58,14 +74,29 @@ const GoogleMaps = () => {
 									alt="profile-user"
 									width="5vh"
 									height="3vh"
-									src={require("../../images/stores/walmartLogo.png")}
+									src={require("../../images/stores/walmart-logo.png")}
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Walmart</Typography>}
-										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>8101 W Judge Perez Dr, Chalmette</Typography>}
+							<ListItemText primary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "1.1vh",
+									fontFamily: "Montserrat",
+									fontWeight: "600"
+								}}>
+									Walmart
+								</Typography>
+							} secondary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "0.9vh",
+									fontFamily: "Montserrat"
+								}}>
+									8101 W Judge Perez Dr, Chalmette
+								</Typography>}
 							/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
+							<Typography sx={{ fontSize: "1.1vh", color: `${colors.customColors[1]}`, fontFamily: "Montserrat" }}>
 								22 min (3.6 mi)
 							</Typography>
 						</ListItem>
@@ -76,14 +107,30 @@ const GoogleMaps = () => {
 									alt="profile-user"
 									width="5vh"
 									height="3vh"
-									src={require("../../images/stores/rousesLogo.png")}
+									src={require("../../images/stores/rouses-logo.png")}
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Rouses</Typography>}
-										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>701 Baronne St, New Orleans</Typography>}
+							<ListItemText primary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "1.1vh",
+									fontFamily: "Montserrat",
+									fontWeight: "600"
+								}}>
+									Rouses
+								</Typography>
+							} secondary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "0.9vh",
+									fontFamily: "Montserrat"
+								}}>
+									701 Baronne St, New Orleans
+								</Typography>
+							}
 							/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
+							<Typography sx={{ fontSize: "1.1vh", color: `${colors.customColors[1]}`, fontFamily: "Montserrat" }}>
 								30 min (5 mi)
 							</Typography>
 						</ListItem>
@@ -91,7 +138,7 @@ const GoogleMaps = () => {
 						<Box sx={{ backgroundColor: `${colors.customColors[1]}`, borderRadius: "10px", marginTop: "1vh" }}>
 							<ListItem sx={{ display: "flex", flexDirection: "column" }}>
 								<ListItemText>
-									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}` }}>
+									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}`, fontFamily: "Montserrat" }}>
 										Alternate
 									</Typography>
 								</ListItemText>
@@ -104,14 +151,30 @@ const GoogleMaps = () => {
 									alt="profile-user"
 									width="5vh"
 									height="3vh"
-									src={require("../../images/stores/winnDixieLogo.jpg")}
+									src={require("../../images/stores/winn-dixie-logo.png")}
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Winn-Dixie</Typography>}
-										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>5400 Tchoupitoulas St, New Orleans</Typography>}
+							<ListItemText primary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "1.1vh",
+									fontFamily: "Montserrat",
+									fontWeight: "600"
+								}}>
+									Winn-Dixie
+								</Typography>
+							} secondary={
+								<Typography sx={{
+									color: `${colors.customColors[1]}`,
+									fontSize: "0.9vh",
+									fontFamily: "Montserrat"
+								}}>
+									5400 Tchoupitoulas St, New Orleans
+								</Typography>
+							}
 							/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
+							<Typography sx={{ fontSize: "1.1vh", color: `${colors.customColors[1]}`, fontFamily: "Montserrat" }}>
 								40 min (8 mi)
 							</Typography>
 						</ListItem>

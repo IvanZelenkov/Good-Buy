@@ -11,6 +11,7 @@ import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 import { muiPaginationCSS } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
+import RatingStars from "../../components/RatingStars";
 
 const Products = () => {
 	const theme = useTheme();
@@ -198,8 +199,6 @@ const Products = () => {
 								>
 									<img
 										className={"product-image"}
-										// src={`${product.img_url}?w=164&h=164&fit=crop&auto=format`}
-										// srcSet={`${product.imgSource}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
 										src={require("../../images/product_sample.png")}
 										alt=""
 										loading="lazy"
@@ -211,18 +210,47 @@ const Products = () => {
 										}}
 									/>
 									<Box sx={{
-										backgroundColor: `${colors.customColors[1]}`,
+										backgroundColor: theme.palette.mode === "dark" ? colors.customColors[1] : "#1C2A33",
 										borderBottomLeftRadius: "20px",
 										borderBottomRightRadius: "20px",
-										borderTop: `2px solid ${colors.customColors[5]}`
+										borderTop: "2px solid white"
 									}}>
-										<Typography sx={{
-											padding: "1vh",
-											fontSize: "1vh",
-											color: `${colors.customColors[5]}`
+										<Box sx={{
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "space-between",
+											padding: "1vh"
 										}}>
-											{product.Name}
-										</Typography>
+											<Box
+												component="img"
+												alt="profile-user"
+												width="5vh"
+												height="3vh"
+												src={require("../../images/stores/" + product.store_name.toString().toLowerCase() + "-logo.png")}
+												sx={{ borderRadius: "10px", marginRight: "1vh" }}
+											/>
+											<Typography sx={{
+												padding: "0.5vh",
+												fontSize: "1.5vh",
+												color: "white"
+											}}>
+												{product.Name}
+											</Typography>
+										</Box>
+										<Box sx={{
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "space-between",
+											padding: "1vh"
+										}}>
+											<RatingStars rating={product.rating} starColor={"gold"}/>
+											<Typography sx={{
+												fontSize: "2vh",
+												color: "white"
+											}}>
+												${product.price}
+											</Typography>
+										</Box>
 									</Box>
 								</ImageListItem>
 							))}

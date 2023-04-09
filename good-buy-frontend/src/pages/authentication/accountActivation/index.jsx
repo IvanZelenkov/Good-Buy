@@ -60,9 +60,9 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -73,9 +73,9 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							error={invalidAuthCodeMessage !== ""}
 							helperText={invalidAuthCodeMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
 							type="submit"
@@ -85,7 +85,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							sx={{
 								marginTop: 3,
 								marginBottom: 2,
-								color: "white",
+								color: "custom.customColorE",
 								backgroundColor: "custom.customColorA"
 							}}
 						>
@@ -96,7 +96,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 								variant="body2"
 								sx={{
 									color: "custom.customColorA",
-									textDecorationColor: "black",
+									textDecorationColor: colors.customColors[1],
 									cursor: "pointer"
 								}}
 							>
@@ -105,7 +105,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 						</Box>
 					</Box>
 				</Box>
-				<Copyright/>
+				<Copyright textdecorationcolor={colors.customColors[1]}/>
 			</Container>
 		</motion.div>
 	);

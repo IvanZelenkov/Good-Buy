@@ -10,11 +10,10 @@ const Deals = () => {
 
 	return (
 		<motion.div exit={{ opacity: 0 }}>
-			<Box sx={{ display: "flex", flexDirection: "column", backgroundColor: colors.customColors[5] }}>
+			<Box sx={{ display: "flex", flexDirection: "column" }}>
 				<Box sx={{
 					display: "flex",
 					height: "5vh",
-					backgroundColor: colors.customColors[5],
 				}}/>
 				<Box sx={{ position: "relative" }}>
 					<Box sx={{
@@ -45,7 +44,6 @@ const Deals = () => {
 				<Box sx={{
 					display: "flex",
 					height: "10vh",
-					backgroundColor: colors.customColors[5],
 					justifyContent: "space-between",
 					alignItems: "center",
 					padding: "0 2rem",

@@ -6,7 +6,7 @@ import loading from "react-useanimations/lib/loading";
 
 const Profile = ({ user }) => {
 
-	console.log(user)
+	// console.log(user)
 
 	if (user === null) {
 		return (

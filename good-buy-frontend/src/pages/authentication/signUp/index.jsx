@@ -69,9 +69,9 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -83,9 +83,9 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidUsernameMessage !== ""}
 							helperText={invalidUsernameMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<TextField
 							margin="normal"
@@ -97,9 +97,9 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidPasswordMessage !== ""}
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS}
+							sx={muiTextFieldCSS(colors.customColors[1])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
 							fullWidth
@@ -108,7 +108,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							sx={{
 								marginTop: 3,
 								marginBottom: 2,
-								color: "white",
+								color: "custom.customColorE",
 								backgroundColor: "custom.customColorA"
 							}}
 						>
@@ -120,7 +120,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 								variant="body2"
 								sx={{
 									color: "custom.customColorA",
-									textDecorationColor: "black",
+									textDecorationColor: colors.customColors[1],
 									cursor: "pointer"
 								}}
 							>
@@ -129,7 +129,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						</Box>
 					</Box>
 				</Box>
-				<Copyright sx={{ marginTop: 8, marginBottom: 4 }}/>
+				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={colors.customColors[1]}/>
 			</Container>
 		</motion.div>
 	);

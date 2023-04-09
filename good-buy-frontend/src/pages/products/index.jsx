@@ -93,7 +93,7 @@ const Products = () => {
 								placeholder="Search"
 								required={true}
 								inputProps={{ style: { fontFamily: "Montserrat" }}}
-								InputLabelProps={{ style: { fontFamily: "Montserrat" }}}
+								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 							/>
 							<IconButton
 								type="button"
@@ -174,7 +174,7 @@ const Products = () => {
 				<Box sx={{
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "space-between",
 					alignItems: "center",
 					height: `calc(100vh - ${topBarHeight}px - 3vh)`
 				}}>
@@ -182,7 +182,7 @@ const Products = () => {
 						cols={5}
 						gap={50}
 						sx={{
-							width: "95%",
+							width: "auto",
 							marginLeft: "5vh"
 						}}
 					>
@@ -211,15 +211,15 @@ const Products = () => {
 										}}
 									/>
 									<Box sx={{
-										backgroundColor: `${colors.customColors[5]}`,
+										backgroundColor: `${colors.customColors[1]}`,
 										borderBottomLeftRadius: "20px",
 										borderBottomRightRadius: "20px",
-										borderTop: `2px solid ${colors.customColors[1]}`
+										borderTop: `2px solid ${colors.customColors[5]}`
 									}}>
 										<Typography sx={{
 											padding: "1vh",
 											fontSize: "1vh",
-											color: `${colors.customColors[1]}`
+											color: `${colors.customColors[5]}`
 										}}>
 											{product.Name}
 										</Typography>

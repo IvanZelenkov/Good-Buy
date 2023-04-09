@@ -20,15 +20,14 @@ const GoogleMaps = () => {
 					sx={{
 						width: "18%",
 						height: `calc(100vh - ${topBarHeight}px)`,
-						backgroundColor: `${colors.customColors[1]}`,
 						padding: "1.5vh"
 					}}
 				>
 					<List>
-						<Box sx={{ backgroundColor: `${colors.customColors[5]}`, borderRadius: "10px" }}>
+						<Box sx={{ backgroundColor: `${colors.customColors[1]}`, borderRadius: "10px" }}>
 							<ListItem sx={{ display: "flex", flexDirection: "column" }}>
 								<ListItemText>
-									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[1]}` }}>
+									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}` }}>
 										Recommended
 									</Typography>
 								</ListItemText>
@@ -45,8 +44,10 @@ const GoogleMaps = () => {
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary="Walmart" secondary="6000 Bullard Ave, New Orleans"/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[4]}` }}>
+							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Walmart</Typography>}
+										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>6000 Bullard Ave, New Orleans</Typography>}
+							/>
+							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
 								19 min (3.1 mi)
 							</Typography>
 						</ListItem>
@@ -61,8 +62,10 @@ const GoogleMaps = () => {
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary="Walmart" secondary="8101 W Judge Perez Dr, Chalmette"/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[4]}` }}>
+							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Walmart</Typography>}
+										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>8101 W Judge Perez Dr, Chalmette</Typography>}
+							/>
+							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
 								22 min (3.6 mi)
 							</Typography>
 						</ListItem>
@@ -77,16 +80,18 @@ const GoogleMaps = () => {
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary="Rouses" secondary="701 Baronne St, New Orleans"/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[4]}` }}>
+							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Rouses</Typography>}
+										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>701 Baronne St, New Orleans</Typography>}
+							/>
+							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
 								30 min (5 mi)
 							</Typography>
 						</ListItem>
 
-						<Box sx={{ backgroundColor: `${colors.customColors[5]}`, borderRadius: "10px", marginTop: "1vh" }}>
+						<Box sx={{ backgroundColor: `${colors.customColors[1]}`, borderRadius: "10px", marginTop: "1vh" }}>
 							<ListItem sx={{ display: "flex", flexDirection: "column" }}>
 								<ListItemText>
-									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[1]}` }}>
+									<Typography sx={{ fontSize: "1.5vh", color: `${colors.customColors[5]}` }}>
 										Alternate
 									</Typography>
 								</ListItemText>
@@ -103,8 +108,10 @@ const GoogleMaps = () => {
 									sx={{ borderRadius: "10px", marginRight: "1vh" }}
 								/>
 							</ListItemAvatar>
-							<ListItemText primary="Winn-Dixie" secondary="5400 Tchoupitoulas St, New Orleans"/>
-							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[4]}` }}>
+							<ListItemText primary={<Typography sx={{ color: `${colors.customColors[1]}` }}>Winn-Dixie</Typography>}
+										  secondary={<Typography sx={{ color: `${colors.customColors[1]}` }}>5400 Tchoupitoulas St, New Orleans</Typography>}
+							/>
+							<Typography sx={{ fontSize: "1.2vh", color: `${colors.customColors[1]}` }}>
 								40 min (8 mi)
 							</Typography>
 						</ListItem>

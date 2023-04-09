@@ -6,7 +6,7 @@ import { Auth, Hub } from "aws-amplify";
 import SignIn from "./signIn";
 import AccountActivation from "./accountActivation";
 import SignUp from "./signUp";
-import Profile from "../profile";
+import UserProfile from "../userProfile";
 
 const initialFormState = {
 	username: "", // In Cognito, the field "username" means "email"
@@ -36,8 +36,6 @@ const Authentication = ({ user, updateUser }) => {
 			updateFormState(() => ({ ...formState, formType: "signIn" }));
 		}
 	};
-
-	console.log(user);
 
 	const setAuthListener = async () => {
 		Hub.listen("auth", (data) => {
@@ -161,7 +159,7 @@ const Authentication = ({ user, updateUser }) => {
 				/>
 			)}
 			{formType === "signedIn" && (
-				<Profile user={user}/>
+				<UserProfile user={user}/>
 			)}
 		</motion.div>
 	);

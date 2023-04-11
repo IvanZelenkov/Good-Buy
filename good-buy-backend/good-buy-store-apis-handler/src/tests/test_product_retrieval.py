@@ -1,5 +1,5 @@
 """
-product_retrieval.py validates the various attribute values of
+test_product_retrieval.py validates the various attribute values of
 a specific product retrieved from the Store API.
 """
 

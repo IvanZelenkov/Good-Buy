@@ -5,9 +5,10 @@ pipeline {
         AWS_REGION = "us-east-1"
         ECR_NAME = "good-buy-ecr"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-        DYNAMO_DB_HANDLER_PATH = "good-buy-backend/good-buy-dynamodb-handler"
-        GOOGLE_MAPS_HANDLER_PATH = "good-buy-backend/good-buy-google-maps-handler"
-        STORE_APIS_HANDLER_PATH = "good-buy-backend/good-buy-store-apis-handler"
+        BACKEND_FOLDER_NAME = "good-buy-backend"
+        DYNAMO_DB_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/good-buy-dynamodb-handler"
+        GOOGLE_MAPS_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/good-buy-google-maps-handler"
+        STORE_APIS_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/good-buy-store-apis-handler"
         LAMBDA_FUNCTION_NAME_1 = "good-buy-dynamodb-handler"
         LAMBDA_FUNCTION_NAME_2 = "good-buy-google-maps-handler"
         LAMBDA_FUNCTION_NAME_3 = "good-buy-store-apis-handler"
@@ -35,17 +36,17 @@ pipeline {
                 }
                 stage ("Unit tests") {
                     steps {
-                        sh "python3 -m pytest ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
+                        sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
                     }
                 }
-                stage ("Security test") {
+                stage ("Security tests") {
                     steps {
-                        sh "python3 -m bandit ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
+                        sh "python3 -m bandit -r ${BACKEND_FOLDER_NAME}"
                     }
                 }
-                stage ("Lint") {
+                stage ("Linting tests") {
                     steps {
-                        sh "python3 -m pylint ${STORE_APIS_HANDLER_PATH}/src/tests/product_retrieval.py"
+                        sh "python3 -m pylint -r y ${BACKEND_FOLDER_NAME}"
                     }
                 }
             }

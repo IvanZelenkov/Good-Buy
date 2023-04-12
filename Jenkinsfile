@@ -206,7 +206,7 @@ pipeline {
                                         --function-name ${LAMBDA_FUNCTION_NAME_4} \
                                         --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_4}
                                     '''
-                                }
+                                },
                                 "Deploy ${LAMBDA_FUNCTION_NAME_5} image": {
                                     sh '''
                                         aws lambda update-function-code \

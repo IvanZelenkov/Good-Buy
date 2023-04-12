@@ -175,7 +175,7 @@ pipeline {
                     steps {
                         script {
                             parallel (
-                                "Deploy ${LAMBDA_FUNCTION_NAME_1} image" {
+                                "Deploy ${LAMBDA_FUNCTION_NAME_1} image": {
                                     sh '''
                                         aws lambda update-function-code \
                                         --region ${AWS_REGION} \
@@ -183,7 +183,7 @@ pipeline {
                                         --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
                                     '''
                                 },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_2} image" {
+                                "Deploy ${LAMBDA_FUNCTION_NAME_2} image": {
                                     sh '''
                                         aws lambda update-function-code \
                                         --region ${AWS_REGION} \
@@ -191,7 +191,7 @@ pipeline {
                                         --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
                                     '''
                                 },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_3} image" {
+                                "Deploy ${LAMBDA_FUNCTION_NAME_3} image": {
                                     sh '''
                                         aws lambda update-function-code \
                                         --region ${AWS_REGION} \
@@ -199,7 +199,7 @@ pipeline {
                                         --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
                                     '''
                                 },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_4} image" {
+                                "Deploy ${LAMBDA_FUNCTION_NAME_4} image": {
                                     sh '''
                                         aws lambda update-function-code \
                                         --region ${AWS_REGION} \
@@ -207,7 +207,7 @@ pipeline {
                                         --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_4}
                                     '''
                                 },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_5} image" {
+                                "Deploy ${LAMBDA_FUNCTION_NAME_5} image": {
                                     sh '''
                                         aws lambda update-function-code \
                                         --region ${AWS_REGION} \

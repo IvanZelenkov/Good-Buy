@@ -15,6 +15,10 @@ import Authentication from "./pages/authentication";
 import Settings from "./pages/settings";
 import { Auth } from "aws-amplify";
 
+//dyu1
+import{CartContext} from "./pages/shoppingCart/CartContext";
+import { useContext } from 'react';
+
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -23,6 +27,11 @@ function App() {
     const [showPopup, setShowPopup] = useState(true);
     const location = useLocation();
     const navigate = useNavigate();
+    //dyu1
+    const cart = useContext(CartContext);
+    const productsCount = cart.item.reduce((sum, product) => sum + product.quantity,0);//for caculate how many items in shoppingcart
+
+
 
     const productFound = (productStatus, productName = "") => {
         if (productStatus === "found" || productName !== "") {

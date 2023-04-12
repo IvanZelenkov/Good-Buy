@@ -14,6 +14,8 @@ import { ColorModeContext } from "../../theme";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 
+
+
 const pages = [
 	{ "pageName": "Home", "route": "/" },
 	{ "pageName": "Products", "route": "/products" },
@@ -28,6 +30,7 @@ function Topbar() {
 	const colorMode = useContext(ColorModeContext);
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
+	
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -38,6 +41,7 @@ function Topbar() {
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
+
 
 	return (
 		<AppBar position="sticky" sx={{ backgroundColor: "custom.customColorA" }}>

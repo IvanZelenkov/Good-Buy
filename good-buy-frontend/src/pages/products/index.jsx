@@ -5,7 +5,7 @@ import axios from "axios";
 import {
 	Box, ImageList, ImageListItem, Typography,
 	List, ListItem, ListItemText, Container, useTheme,
-	Pagination, ButtonGroup, Button, InputBase, IconButton
+	Pagination, ButtonGroup, Button, InputBase, IconButton, Checkbox, Divider, FormControlLabel, FormControl, FormGroup
 } from "@mui/material";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
@@ -19,18 +19,22 @@ const Products = () => {
 	const [infoLoaded, setInfoLoaded] = useState(false);
 	const [productsData, setProductsData] = useState([]);
 	const [page, setPage] = useState(1);
-	const [filter, setFilter] = useState("");
-	const [sort, setSort] = useState("");
+	const [filters, setFilters] = useState([]);
+	const [sort, setSort] = useState(null);
 	const topBarHeight = 65;
 	const productsPerPage = 25;
 	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
 	const handleFilter = (filter) => {
-		setFilter(filter);
+		if (filters.includes(filter)) {
+			setFilters(filters.filter((f) => f !== filter));
+		} else {
+			setFilters([...filters, filter]);
+		}
 	};
 
-	const handleSort = (sort) => {
-		setSort(sort);
+	const handleSort = (type) => {
+		setSort(type);
 	};
 
 	const handleChange = (event, value) => {
@@ -71,24 +75,23 @@ const Products = () => {
 	return (
 		<motion.div exit={{ opacity: 0 }}>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
-				<Box
-					sx={{
-						width: "20%",
+				<Box sx={{
+						width: 360,
 						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 						backgroundColor: `${colors.customColors[1]}`,
 						borderRadius: "10px",
 						padding: "15px"
-					}}
-				>
-					<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+					}}>
+					<Box sx={{
+						display: "flex",
+						flexDirection: "row"
+					}}>
 						<Box sx={{
 							display: "flex",
-							backgroundColor: "custom.customColorD",
+							backgroundColor: "custom.customColorE",
 							borderRadius: "10px",
-							width: "100%",
-							marginTop: "2vh"
-						}}
-						>
+							width: "100%"
+						}}>
 							<InputBase
 								sx={{ marginLeft: 2, flex: 1, color: "custom.customColorA" }}
 								placeholder="Search"
@@ -104,72 +107,145 @@ const Products = () => {
 							</IconButton>
 						</Box>
 					</Box>
-					<List>
-						<ListItem
-							sx={{
-								display: "flex",
-								flexDirection: "column",
-								backgroundColor: "custom.steamColorF",
-								margin: "10px 0",
-								borderRadius: "2px"
-							}}
-						>
-							<ListItemText>
-								<Typography sx={{ fontFamily: "Montserrat" }}>
-									FILTER
-								</Typography>
-							</ListItemText>
-							<ButtonGroup color="primary" sx={{ height: "4vh" }}>
-								<Button onClick={() => handleFilter("Rouses")}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Rouses
-									</Typography>
-								</Button>
-								<Button onClick={() => handleFilter('Walmart')}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Walmart
-									</Typography>
-								</Button>
-								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleFilter("Winn-Dixie")}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Winn-Dixie
-									</Typography>
-								</Button>
-							</ButtonGroup>
+					<Divider sx={{ margin: "1vh 0" }}/>
+					<List sx={{ height: `calc(100% - ${topBarHeight}px)`, overflowY: "auto" }}>
+						<Box sx={{ display: "flex" }}>
+							<Typography
+								sx={{
+									fontFamily: "Montserrat",
+									color: colors.customColors[5],
+									fontSize: "1.2vh",
+									float: "left",
+									fontWeight: "900"
+								}}
+							>
+								Availability
+							</Typography>
+						</Box>
+						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
+							<FormControl sx={{ mt: 1, float: "left" }}>
+								<FormGroup>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("availability")}
+												onChange={() => handleFilter("availability")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Exclude Out of Stock Items"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+								</FormGroup>
+							</FormControl>
 						</ListItem>
-
-						<ListItem
-							sx={{
-								display: "flex",
-								flexDirection: "column",
-								backgroundColor: "custom.steamColorF",
-								margin: "10px 0",
-								borderRadius: "2px"
-							}}
-						>
-							<ListItemText>
-								<Typography sx={{ fontFamily: "Montserrat" }}>
-									SORT
-								</Typography>
-							</ListItemText>
-							<ButtonGroup color="primary" sx={{ height: "6vh" }}>
-								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('priceAsc')}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Price: Low to High
-									</Typography>
-								</Button>
-								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('priceDesc')}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Price: High to Low
-									</Typography>
-								</Button>
-								<Button sx={{ fontFamily: "Montserrat" }} onClick={() => handleSort('ratingDesc')}>
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh" }}>
-										Rating: High to Low
-									</Typography>
-								</Button>
-							</ButtonGroup>
+						<Divider sx={{ margin: "1vh 0" }}/>
+						<Box sx={{ display: "flex" }}>
+							<Typography
+								sx={{
+									fontFamily: "Montserrat",
+									color: colors.customColors[5],
+									fontSize: "1.2vh",
+									float: "left",
+									fontWeight: "900"
+								}}
+							>
+								Store Name
+							</Typography>
+						</Box>
+						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
+							<FormControl sx={{ mt: 1, float: "left" }}>
+								<FormGroup>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("Rouses")}
+												onChange={() => handleFilter("Rouses")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Rouses"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("Walmart")}
+												onChange={() => handleFilter("Walmart")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Walmart"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("Winn-Dixie")}
+												onChange={() => handleFilter("Winn-Dixie")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Winn-Dixie"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+								</FormGroup>
+							</FormControl>
 						</ListItem>
+						<Divider sx={{ margin: "1vh 0" }}/>
+						<Box sx={{ display: "flex" }}>
+							<Typography
+								sx={{
+									fontFamily: "Montserrat",
+									color: colors.customColors[5],
+									fontSize: "1.2vh",
+									float: "left",
+									fontWeight: "900"
+								}}
+							>
+								Price
+							</Typography>
+						</Box>
+						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
+							<FormControl sx={{ mt: 1, float: "left" }}>
+								<FormGroup>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("priceAsc")}
+												onChange={() => handleFilter("priceAsc")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Price: Low to High"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("priceDesc")}
+												onChange={() => handleFilter("priceDesc")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Price: High to Low"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={filters.includes("ratingDesc")}
+												onChange={() => handleFilter("ratingDesc")}
+												sx={{ color: colors.customColors[5] }}
+											/>
+										}
+										label="Rating: High to Low"
+										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									/>
+								</FormGroup>
+							</FormControl>
+						</ListItem>
+						<Divider sx={{ margin: "1vh 0" }}/>
 					</List>
 				</Box>
 				<Box sx={{
@@ -177,17 +253,16 @@ const Products = () => {
 					flexDirection: "column",
 					justifyContent: "space-between",
 					alignItems: "center",
-					height: `calc(100vh - ${topBarHeight}px - 3vh)`
+					height: `calc(100vh - ${topBarHeight}px - 3vh)`,
+					overflowY: "auto"
 				}}>
 					<ImageList
 						cols={5}
 						gap={50}
-						sx={{
-							width: "auto",
-							marginLeft: "5vh"
-						}}
+						sx={{ width: "auto", marginLeft: "5vh" }}
 					>
 						{productsData?.flat()
+							.sort(() => Math.random() - 0.5)
 							.slice((page - 1) * productsPerPage, page * productsPerPage)
 							.map((product) => (
 								<ImageListItem
@@ -205,29 +280,32 @@ const Products = () => {
 										onClick={() => window.open(product.store_link, "_blank")}
 										style={{
 											backgroundColor: `${colors.customColors[3]}`,
-											borderTopLeftRadius: "20px",
-											borderTopRightRadius: "20px"
+											borderTopLeftRadius: "10px",
+											borderTopRightRadius: "10px"
 										}}
 									/>
 									<Box sx={{
 										backgroundColor: theme.palette.mode === "dark" ? colors.customColors[1] : "#1C2A33",
-										borderBottomLeftRadius: "20px",
-										borderBottomRightRadius: "20px",
+										borderBottomLeftRadius: "10px",
+										borderBottomRightRadius: "10px",
 										borderTop: "2px solid white"
 									}}>
 										<Box sx={{
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "space-between",
-											padding: "1vh"
+											padding: "0.5vh",
 										}}>
 											<Box
 												component="img"
-												alt="profile-user"
-												width="5vh"
-												height="3vh"
+												alt="store-logo"
 												src={require("../../images/stores/" + product.store_name.toString().toLowerCase() + "-logo.png")}
-												sx={{ borderRadius: "10px", marginRight: "1vh" }}
+												sx={{
+													marginRight: "1vh",
+													width: "4vh",
+													height: "2.2vh",
+													borderRadius: "5px"
+												}}
 											/>
 											<Typography sx={{
 												padding: "0.5vh",
@@ -241,7 +319,7 @@ const Products = () => {
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "space-between",
-											padding: "1vh"
+											padding: "0.5vh"
 										}}>
 											<RatingStars rating={product.rating} starColor={"gold"}/>
 											<Typography sx={{

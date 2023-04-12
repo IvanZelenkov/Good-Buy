@@ -259,7 +259,7 @@ const Products = () => {
 					<ImageList
 						cols={5}
 						gap={50}
-						sx={{ width: "auto", marginLeft: "5vh" }}
+						sx={{ width: "95%", marginLeft: "5vh" }}
 					>
 						{productsData?.flat()
 							.sort(() => Math.random() - 0.5)

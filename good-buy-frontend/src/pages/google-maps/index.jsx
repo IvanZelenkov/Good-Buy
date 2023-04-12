@@ -44,22 +44,22 @@ const GoogleMaps = () => {
 
 	const calculateRoute = () => {
 		waypts = [];
-		var xhr = new XMLHttpRequest();
-		var url = 'https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/Development/google-maps';
+		let xhr = new XMLHttpRequest();
+		let url = 'https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/Development/google-maps';
 		xhr.open("GET", url, true);
 		
 		xhr.onreadystatechange = function () {
 			if (this.readyState === 4 && this.status === 200) {
-				var res = JSON.parse(this.responseText);
-				var size = Object.keys(res).length;
+				let res = JSON.parse(this.responseText);
+				let size = Object.keys(res).length;
 				
 				for (let i = 0; i < size; i++) {
-					var product = JSON.parse(res[i]);
-					var size2 = Object.keys(product).length;
+					let product = JSON.parse(res[i]);
+					let size2 = Object.keys(product).length;
 					
 					//console.log(product[0].ID);
 					for(let j = 0; j < productsArray.length; j++){
-						
+
 						for (let k = 0; k < size2; k++) {
 							if(product[k].ID === productsArray[j]) {
 								waypts.push({
@@ -69,7 +69,7 @@ const GoogleMaps = () => {
 								console.log(product[k]);
 							}
 						}  
-					} 
+					}
 
 				}
 				console.log(waypts);
@@ -288,7 +288,6 @@ const GoogleMaps = () => {
 					</List>
 					<Box sx={{
 						zIndex: "1",
-						minW: "container.md",
 						shadow: "base"
 					}}>
 						<Button
@@ -297,11 +296,12 @@ const GoogleMaps = () => {
 							onClick={calculateRoute}
 							sx={{
 								height: "4vh",
-								width: "15vh",
+								width: "10vw",
 								marginBottom: "5vh",
 								backgroundColor: colors.customColors[1],
 								color: colors.customColors[5],
 								fontFamily: "Montserrat",
+								fontSize: "1vh",
 								"&:hover": {
 									backgroundColor: "#c1c1c1",
 									color: colors.customColors[1],

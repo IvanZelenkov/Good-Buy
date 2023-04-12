@@ -7,10 +7,10 @@ const RatingStars = ({ rating, starColor }) => {
 	const hasHalfStar = (rating - fullStars) >= 0.5;
 
 	for (let i = 1; i <= fullStars; i++)
-		starArray.push(<StarIcon key={i} sx={{ fontSize: "2.2vh", color: starColor }}/>);
+		starArray.push(<StarIcon key={i} sx={{ color: starColor }}/>);
 
 	if (hasHalfStar)
-		starArray.push(<StarHalfIcon key={fullStars + 1} sx={{ fontSize: "2.2vh", color: starColor }}/>);
+		starArray.push(<StarHalfIcon key={fullStars + 1} sx={{ color: starColor }}/>);
 
 	const emptyStars = 5 - starArray.length;
 
@@ -18,7 +18,7 @@ const RatingStars = ({ rating, starColor }) => {
 		starArray.push(
 			<StarIcon
 				key={fullStars + i + (hasHalfStar ? 1 : 0)}
-				sx={{ fontSize: "2.2vh", color: "white" }}
+				sx={{ color: "white" }}
 			/>
 		);
 

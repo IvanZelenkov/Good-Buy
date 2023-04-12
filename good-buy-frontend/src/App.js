@@ -13,6 +13,7 @@ import Settings from "./pages/settings";
 import ShoppingList from "./pages/shoppingList";
 import ShoppingCart from "./pages/shoppingCart";
 
+
 function App() {
     const [theme, colorMode] = useMode();
     const [productExists, setProductExists] = useState(false);

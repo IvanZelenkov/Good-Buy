@@ -1,23 +1,26 @@
+
 [
     {
-        "name":"商品1",
+        "name":"Product1",
         "img":"default.jpg",
         "price":12.34,
         "count":5,
         "selected":true
     },
     {
-        "name":"商品2",
+        "name":"Product2",
         "img":"default.jpg",
         "price":56.78,
         "count":4,
         "selected":true
     },
     {
-        "name":"商品3",
+        "name":"Product3",
         "img":"default.jpg",
-        "price":90.12,
+        "price":30.12,
         "count":3,
         "selected":false
     }
 ]
+
+

@@ -1,18 +1,23 @@
+import { useState } from 'react';
 import { motion } from "framer-motion";
+import { tokens } from '../../theme';
 import * as React from 'react';
 import defImg  from '../../images/product_sample.png'
-import Grid from '@mui/material/Grid';
+import { useTheme } from "@emotion/react";
+import './Cart.scss'
 
 const name = "ShoppingCart";
 
-
-
 const ShoppingCart = () => {
-	
-	return (
-		
-		<div className="cart-wrapper">
+	const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [inputProductName, setInputProductName] = useState("");
+	const [isValid, setIsValid] = useState(false);
 
+	return (
+        
+		<div className="cart-wrapper">
+    
 		<div className="top">
 			<div className='sel-box'>
 				<input type="checkbox" />
@@ -157,7 +162,6 @@ const ShoppingCart = () => {
                 </div>
             </div>
         </div>
-
 
 
 	);

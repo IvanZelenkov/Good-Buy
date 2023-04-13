@@ -5,6 +5,7 @@ import * as React from 'react';
 import defImg  from '../../images/product_sample.png'
 import { useTheme } from "@emotion/react";
 import './Cart.scss'
+import { Container } from 'react-bootstrap';
 
 const name = "ShoppingCart";
 
@@ -16,8 +17,8 @@ const ShoppingCart = () => {
 
 	return (
         
-		<div className="cart-wrapper">
-    
+        <Container className="my-3">
+         
 		<div className="top">
 			<div className='sel-box'>
 				<input type="checkbox" />
@@ -161,7 +162,8 @@ const ShoppingCart = () => {
                     <i>Totall</i>
                 </div>
             </div>
-        </div>
+            </Container>
+
 
 
 	);

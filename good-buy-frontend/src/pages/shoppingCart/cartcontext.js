@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 import { createContext,useState } from "react";
 import { productArray, getProductData } from "./productStore";
+=======
+import { createContext, createContext,useState } from "react";
+import { productArray, getProductData } from "./productstore";
+>>>>>>> Stashed changes
 
 export const CartContext = createContext({
     item:[],
@@ -20,9 +25,15 @@ export function CartProvider({children}){
     //{id:1,quantity:2}
 
     function getProductQuanity(id){
+<<<<<<< Updated upstream
         const quantity = cartProducts.find(product => product.id === id)?.quantity;
         
         if(quantity === undefined){
+=======
+        cartProducts.find(product => product.id ===id)?.quantity
+        
+        if(quantity===undefined){
+>>>>>>> Stashed changes
             return 0;
         }
 
@@ -70,10 +81,17 @@ export function CartProvider({children}){
 
 
     function removeOneFromCart(id){
+<<<<<<< Updated upstream
         const quantity = getProductQuanity(id);
         
         if(quantity == 1){
             removeEverthingFromCart(id);
+=======
+        const quantity = getProductQuanity(id)
+        
+        if(quantity==1){
+            deleteFromCart(id);
+>>>>>>> Stashed changes
         }else{
             setCartProducts(
                 setCartProducts(
@@ -116,4 +134,8 @@ export function CartProvider({children}){
 }
 
 
+<<<<<<< Updated upstream
 export default CartProvider;
+=======
+export default Provider;
+>>>>>>> Stashed changes

@@ -19,7 +19,11 @@
         "framer-motion": "^9.0.2",
         "node-sass": "^7.0.3",
         "react": "^18.2.0",
+<<<<<<< Updated upstream
         "react-bootstrap": "^2.7.3",
+=======
+        "react-bootstrap": "^2.7.2",
+>>>>>>> Stashed changes
         "react-dom": "^18.2.0",
         "react-icons": "^4.7.1",
         "react-pro-sidebar": "^0.7.1",

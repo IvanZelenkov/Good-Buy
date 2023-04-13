@@ -13,16 +13,16 @@ from typing import Dict, Any
 import boto3
 from botocore.exceptions import NoCredentialsError
 
-from strategy.StoreNameStrategy import StoreNameStrategy
-from strategy.CustomerRatingStrategy import CustomerRatingStrategy
-from strategy.PriceRangeStrategy import PriceRangeStrategy
-from strategy.MaxPriceStrategy import MaxPriceStrategy
-from strategy.MinPriceStrategy import MinPriceStrategy
-from strategy.OnSaleStrategy import OnSaleStrategy
-from strategy.ClearanceStrategy import ClearanceStrategy
-from strategy.AvailabilityStrategy import AvailabilityStrategy
-from service.ProductService import ProductService
-from service.S3Service import S3Service
+from StoreNameStrategy import StoreNameStrategy
+from CustomerRatingStrategy import CustomerRatingStrategy
+from PriceRangeStrategy import PriceRangeStrategy
+from MaxPriceStrategy import MaxPriceStrategy
+from MinPriceStrategy import MinPriceStrategy
+from OnSaleStrategy import OnSaleStrategy
+from ClearanceStrategy import ClearanceStrategy
+from AvailabilityStrategy import AvailabilityStrategy
+from ProductService import ProductService
+from S3Service import S3Service
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 service_dir = os.path.join(current_dir, "service")
@@ -42,7 +42,7 @@ FILTER_STRATEGY_MAP = {
 }
 
 
-def lambda_handler(event: Dict[str, Any]):
+def lambda_handler(event: Dict[str, Any], context: Any) -> Any:
     """
         Filters products based on query string parameters and returns
         the filtered products as a JSON-encoded response.

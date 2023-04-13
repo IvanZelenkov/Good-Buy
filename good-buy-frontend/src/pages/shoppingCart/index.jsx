@@ -1,19 +1,25 @@
+import { useState } from 'react';
 import { motion } from "framer-motion";
+import { tokens } from '../../theme';
 import * as React from 'react';
-import defImg  from '../../images/product_sample.png'
-import { Box } from "@mui/material";
+import defImg  from '../../images/product_sample.png';
+import {Box, Container, useTheme} from "@mui/material";
+
+const name = "ShoppingCart";
 
 const ShoppingCart = () => {
-	return (
-        <Box component={motion.div} exit={{ opacity: 0 }}>
-            <div className="cart-wrapper">
+	const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [inputProductName, setInputProductName] = useState("");
+	const [isValid, setIsValid] = useState(false);
 
-            <div className="top">
+	return (
+        <Container className="my-3">
+		    <div className="top">
                 <div className='sel-box'>
                     <input type="checkbox" />
                     <i>pick all</i>
                 </div>
-
                 <span className='imgname-box'>product name</span>
                 <span>price</span>
                 <span className='count-box'>count</span>
@@ -151,8 +157,7 @@ const ShoppingCart = () => {
                         <i>Totall</i>
                     </div>
                 </div>
-            </div>
-        </Box>
+        </Container>
 	);
 }
 

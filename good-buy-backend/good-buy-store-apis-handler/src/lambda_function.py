@@ -1,22 +1,17 @@
 """
-The module defines a Lambda function that filters products. When invoked, the function
-accepts an event as input and retrieves the query string parameters from it. The function
-then applies the specified filters to the products and returns the filtered products
-as a JSON-encoded response.
+This module provides a Lambda function that has the capability to
+filter products. Once triggered, the function takes an input event
+and retrieves the query string parameters from it. The specified
+filters are then applied to the products, and the function returns
+the filtered products in a JSON-encoded response.
 """
 
 import os
 import sys
 import json
+from typing import Dict, Any
 import boto3
-
 from botocore.exceptions import NoCredentialsError
-
-current_dir = os.path.dirname(os.path.realpath(__file__))
-service_dir = os.path.join(current_dir, "service")
-strategy_dir = os.path.join(current_dir, "strategy")
-sys.path.append(service_dir)
-sys.path.append(strategy_dir)
 
 from strategy.StoreNameStrategy import StoreNameStrategy
 from strategy.CustomerRatingStrategy import CustomerRatingStrategy
@@ -28,6 +23,12 @@ from strategy.ClearanceStrategy import ClearanceStrategy
 from strategy.AvailabilityStrategy import AvailabilityStrategy
 from service.ProductService import ProductService
 from service.S3Service import S3Service
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
+service_dir = os.path.join(current_dir, "service")
+strategy_dir = os.path.join(current_dir, "strategy")
+sys.path.append(service_dir)
+sys.path.append(strategy_dir)
 
 FILTER_STRATEGY_MAP = {
     "/products/filter/byStoreName": StoreNameStrategy,
@@ -41,10 +42,17 @@ FILTER_STRATEGY_MAP = {
 }
 
 
-def lambda_handler(event):
+def lambda_handler(event: Dict[str, Any]):
     """
-    TODO
-    """
+        Filters products based on query string parameters and returns
+        the filtered products as a JSON-encoded response.
+
+         Args:
+            The event that triggered the lambda function.
+
+         Returns:
+            A list of filtered products.
+        """
     try:
         s3_resource = boto3.resource(
             "s3",

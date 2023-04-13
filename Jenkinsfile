@@ -52,7 +52,7 @@ pipeline {
                 }
                 stage ("Linting tests") {
                     steps {
-                        sh "python3 -m pylint --ignore=data-scripts,tests -r y ${BACKEND_FOLDER_NAME}"
+                        sh "python3 -m pylint --rcfile=${BACKEND_FOLDER_NAME}/.pylintrc --ignore=data-scripts,tests -r y ${BACKEND_FOLDER_NAME}"
                     }
                 }
             }

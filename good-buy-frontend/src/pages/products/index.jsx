@@ -1,18 +1,13 @@
 import { useState, useEffect } from "react";
-import { tokens } from "../../theme";
-import { motion } from "framer-motion";
 import axios from "axios";
-import {
-	Box, ImageList, ImageListItem, Typography,
-	List, ListItem, useTheme, Pagination, InputBase,
-	IconButton, Checkbox, Divider, FormControlLabel,
-	FormControl, FormGroup
-} from "@mui/material";
+import { Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, IconButton, ImageList, ImageListItem, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
-import { muiPaginationCSS } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import RatingStars from "../../components/RatingStars";
+import { tokens, muiPaginationCSS } from "../../theme";
+
 
 const Products = () => {
 	const theme = useTheme();
@@ -74,16 +69,7 @@ const Products = () => {
 		);
 	}
 	return (
-		<Box
-			component={motion.div}
-			exit={{ opacity: 0 }}
-			sx={{
-				display: "flex",
-				margin: "1.5vh",
-				justifyContent: "center",
-				height: "70vh",
-			}}
-		>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
 				<Box sx={{
 						width: 360,

@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { useLoadScript } from '@react-google-maps/api';
 import { useState } from "react";
 import { Box, List, useTheme } from "@mui/material";
-import { tokens, stores } from "../../theme";
-import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStoreCategory";
 import CalculateRouteButton from "../../components/google-maps/CalculateRouteButton";
-import Map from "../../components/google-maps/Map";
+import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStoreCategory";
 import Loader from "../../components/Loader";
-import { getCurrentLocation, calculateRoute, getDirection } from "../../utils/google-maps/utils";
+import Map from "../../components/google-maps/Map";
+import { calculateRoute, getCurrentLocation, getDirection } from "../../utils/google-maps/utils";
+import { stores, tokens } from "../../theme";
 
 const GoogleMaps = () => {
 	const { isLoaded } = useLoadScript({
@@ -32,7 +32,7 @@ const GoogleMaps = () => {
 				<Box
 					sx={{
 						display: "flex",
-						width: 360,
+						width: 400,
 						height: `calc(100vh - ${topBarHeight}px)`,
 						padding: "1.5vh",
 						backgroundColor: `${colors.customColors[5]}`,
@@ -41,7 +41,7 @@ const GoogleMaps = () => {
 						alignItems: "center"
 					}}
 				>
-					<List>
+					<List sx={{ display: "flex", flexDirection: "column", overflowY: "auto", height: "75vh" }}>
 						<GoogleMapsStoreCategory stores={stores.recommended} title={"Recommended"} colors={colors}/>
 						<GoogleMapsStoreCategory stores={stores.alternate} title={"Alternate"} colors={colors}/>
 					</List>

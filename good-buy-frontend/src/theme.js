@@ -34,7 +34,7 @@ export const tokens = (mode) => ({
 				4: "#DBE2E7",
 				5: "#FFFFFF",
 				6: "#ACBAC3",
-				7: "#ccba7c"
+				7: "#FFFFFF"
 			}
 		}
 		: {
@@ -67,7 +67,7 @@ export const tokens = (mode) => ({
 				4: "#FFFFFF",
 				5: "#2a475e",
 				6: "#ACBAC3",
-				7: "#ccba7c"
+				7: "#000000"
 			}
 		})
 });

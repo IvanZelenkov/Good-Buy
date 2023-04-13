@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Box, InputBase, IconButton, useTheme, Typography } from "@mui/material";
+import { Box, IconButton, InputBase, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import { tokens} from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/SubscribePopup";
+import { tokens } from "../../theme";
 
 const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
+	const topBarHeight = 65;
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const [inputProductName, setInputProductName] = useState("");
@@ -28,18 +29,9 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 	}
 
 	return (
-		<Box
-			component={motion.div}
-			exit={{ opacity: 0 }}
-			sx={{
-				display: "flex",
-				margin: "1.5vh",
-				justifyContent: "center",
-				height: "70vh",
-			}}
-		>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
-			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: "70vh" }}>
+			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: `calc(100vh - ${topBarHeight}px - 3vh)` }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
 					<Box
 						sx={{
@@ -51,7 +43,7 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 							backgroundColor: "custom.customColorF",
 							padding: "1.5vh",
 							borderRadius: "10px",
-							width: "40vw",
+							width: "40vw"
 						}}
 					>
 						<Box
@@ -64,7 +56,7 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 								},
 								mr: 1,
 								color: "black",
-								width: "8vw",
+								width: "8vw"
 							}}
 							alt=""
 						/>

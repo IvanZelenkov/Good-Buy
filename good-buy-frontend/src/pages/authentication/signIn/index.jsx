@@ -1,27 +1,27 @@
+import { motion } from "framer-motion";
+import { CheckBox as CheckBoxIcon, LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import {
 	Avatar,
-	Button,
-	TextField,
-	FormControlLabel,
-	Checkbox,
-	Link,
-	Grid,
 	Box,
-	Typography,
+	Button,
+	Checkbox,
 	Container,
-	useTheme
+	FormControlLabel,
+	Grid,
+	Link,
+	TextField,
+	Typography,
+	useTheme,
 } from "@mui/material";
-import { CheckBox as CheckBoxIcon, LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import Copyright from "../../../components/Copyright";
 import { muiTextFieldCSS, tokens } from "../../../theme";
-import { motion } from "framer-motion";
+import Copyright from "../../../components/Copyright";
 
 const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
 				maxWidth="xs"
 				sx={{
@@ -145,7 +145,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 				</Box>
 				<Copyright textdecorationcolor={colors.customColors[1]}/>
 			</Container>
-		</motion.div>
+		</Box>
 	);
 }
 

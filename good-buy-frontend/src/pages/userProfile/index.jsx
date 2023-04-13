@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import {Box, Button, Container, Typography, Avatar, useTheme} from "@mui/material";
 import { Auth } from "aws-amplify";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
+import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/material";
+import { motion } from "framer-motion";
 import { tokens } from "../../theme";
 
 const UserProfile = ({ user }) => {

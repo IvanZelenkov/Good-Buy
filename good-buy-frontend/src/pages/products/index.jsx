@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import {
 	Box, ImageList, ImageListItem, Typography,
-	List, ListItem, ListItemText, Container, useTheme,
-	Pagination, ButtonGroup, Button, InputBase, IconButton, Checkbox, Divider, FormControlLabel, FormControl, FormGroup
+	List, ListItem, useTheme, Pagination, InputBase,
+	IconButton, Checkbox, Divider, FormControlLabel,
+	FormControl, FormGroup
 } from "@mui/material";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
@@ -73,7 +74,16 @@ const Products = () => {
 		);
 	}
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box
+			component={motion.div}
+			exit={{ opacity: 0 }}
+			sx={{
+				display: "flex",
+				margin: "1.5vh",
+				justifyContent: "center",
+				height: "70vh",
+			}}
+		>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
 				<Box sx={{
 						width: 360,
@@ -341,7 +351,7 @@ const Products = () => {
 					/>
 				</Box>
 			</Box>
-		</motion.div>
+		</Box>
 	);
 }
 

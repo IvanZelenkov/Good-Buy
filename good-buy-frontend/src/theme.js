@@ -330,17 +330,33 @@ export const itemData2 = [
 	},
 ];
 
-export const itemData3 = [
-	{
-		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/2222/l8QTN7ThQK3lRBHhB3nX1s7h.png?w=440&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/vulcan/ap/rnd/202303/0712/7719871c99576b38d737dacbcd513359a2f7c187b370e424.png?w=440&thumb=false"
-	}
-];
+export const stores = {
+	recommended: [
+		{
+			name: "Walmart",
+			address: "6000 Bullard Ave, New Orleans",
+			distance: "19 min (3.1 mi)",
+			logo: "walmart-logo.png"
+		},
+		{
+			name: "Walmart",
+			address: "8101 W Judge Perez Dr, Chalmette",
+			distance: "22 min (3.6 mi)",
+			logo: "walmart-logo.png"
+		},
+		{
+			name: "Rouses",
+			address: "701 Baronne St, New Orleans",
+			distance: "30 min (5 mi)",
+			logo: "rouses-logo.png"
+		}
+	],
+	alternate: [
+		{
+			name: "Winn-Dixie",
+			address: "8101 W Judge Perez Dr, Chalmette",
+			distance: "22 min (3.6 mi)",
+			logo: "winn-dixie-logo.png"
+		}
+	]
+};

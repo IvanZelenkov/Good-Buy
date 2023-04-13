@@ -1,26 +1,25 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Box, InputBase, IconButton, useTheme, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { tokens} from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/SubscribePopup";
 
-
 const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
+	const { palette: { mode } } = useTheme();
+	const colors = useMemo(() => tokens(mode), [mode]);
 	const [inputProductName, setInputProductName] = useState("");
 	const [isValid, setIsValid] = useState(false);
 
-	const searchProductByName = (input) => {
-		const regex = new RegExp("[L|l]aptop");
-		if (regex.test(input.target.value)) {
+	const searchProductByName = useCallback((event) => {
+		const regex = /[L|l]aptop/;
+		if (regex.test(event.target.value)) {
 			setIsValid(true);
-			setInputProductName(input.target.value);
+			setInputProductName(event.target.value);
 		} else {
 			setIsValid(false);
 		}
-	}
+	}, []);
 
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
@@ -29,36 +28,45 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 	}
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box
+			component={motion.div}
+			exit={{ opacity: 0 }}
+			sx={{
+				display: "flex",
+				margin: "1.5vh",
+				justifyContent: "center",
+				height: "70vh",
+			}}
+		>
 			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: "70vh" }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-					<Box sx={{
-						display: {
-							md: "flex",
-							xs: "none",
-						},
-						flexDirection: "row",
-						justifyContent: "center",
-						alignItems: "center",
-						marginBottom: "2vh",
-						backgroundColor: "custom.customColorF",
-						padding: "1.5vh",
-						borderRadius: "10px",
-						width: "40vw"
-					}}>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "center",
+							alignItems: "center",
+							marginBottom: "2vh",
+							backgroundColor: "custom.customColorF",
+							padding: "1.5vh",
+							borderRadius: "10px",
+							width: "40vw",
+						}}
+					>
 						<Box
 							component="img"
+							src={require('../../images/appLogo.png')}
 							sx={{
 								display: {
 									xs: "none",
 									md: "flex",
-									color: "black",
-									width: "8vw"
 								},
-								mr: 1
+								mr: 1,
+								color: "black",
+								width: "8vw",
 							}}
-							src={require('../../images/appLogo.png')}
+							alt=""
 						/>
 						<Typography
 							noWrap
@@ -98,17 +106,17 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 							/>
 							<IconButton
 								type="button"
-								sx={{ padding: 1 }}
 								disabled={!isValid}
 								onClick={() => productFound("found", inputProductName)}
+								sx={{ padding: 1, color: colors.customColors[5] }}
 							>
-								<SearchIcon sx={{ color: colors.customColors[5] }}/>
+								<SearchIcon />
 							</IconButton>
 						</Box>
 					</Box>
 				</Box>
 			</Box>
-		</motion.div>
+		</Box>
 	);
 };
 

@@ -198,6 +198,7 @@ def lambda_handler(event):
             },
             'body': 'Deleted a user account'
         }
+    return None
 
 class DBActionInterface(ABC):
     '''

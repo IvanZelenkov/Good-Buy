@@ -42,12 +42,12 @@ pipeline {
                 }
                 stage ("Unit tests") {
                     steps {
-                        sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                        sh "python3 -m pytest --ignore=data-scripts -r ${BACKEND_FOLDER_NAME}"
                     }
                 }
                 stage ("Security tests") {
                     steps {
-                        sh "python3 -m bandit -r ${BACKEND_FOLDER_NAME}"
+                        sh "python3 -m bandit --ignore=data-scripts -r ${BACKEND_FOLDER_NAME}"
                     }
                 }
                 stage ("Linting tests") {

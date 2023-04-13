@@ -13,6 +13,12 @@ from typing import Dict, Any
 import boto3
 from botocore.exceptions import NoCredentialsError
 
+current_dir = os.path.dirname(os.path.realpath(__file__))
+service_dir = os.path.join(current_dir, "service")
+strategy_dir = os.path.join(current_dir, "strategy")
+sys.path.append(service_dir)
+sys.path.append(strategy_dir)
+
 from StoreNameStrategy import StoreNameStrategy
 from CustomerRatingStrategy import CustomerRatingStrategy
 from PriceRangeStrategy import PriceRangeStrategy
@@ -23,12 +29,6 @@ from ClearanceStrategy import ClearanceStrategy
 from AvailabilityStrategy import AvailabilityStrategy
 from ProductService import ProductService
 from S3Service import S3Service
-
-current_dir = os.path.dirname(os.path.realpath(__file__))
-service_dir = os.path.join(current_dir, "service")
-strategy_dir = os.path.join(current_dir, "strategy")
-sys.path.append(service_dir)
-sys.path.append(strategy_dir)
 
 FILTER_STRATEGY_MAP = {
     "/products/filter/byStoreName": StoreNameStrategy,

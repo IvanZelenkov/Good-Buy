@@ -1,18 +1,13 @@
-import { useState, useContext } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography,
-	Menu, Container, Button, MenuItem, useTheme
-} from "@mui/material";
-import {
-	Menu as MenuIcon, SettingsOutlined as SettingsOutlinedIcon,
-	AccountCircle as AccountCircleIcon
-} from "@mui/icons-material";
+import { useContext, useState } from 'react';
+import { Link } from "react-router-dom";
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography, useTheme } from "@mui/material";
+import { AccountCircle as AccountCircleIcon, Menu as MenuIcon, SettingsOutlined as SettingsOutlinedIcon } from "@mui/icons-material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "../../theme";
-import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
 	{ "pageName": "Home", "route": "/" },

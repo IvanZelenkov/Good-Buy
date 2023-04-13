@@ -7,7 +7,7 @@ const Map = ({ topBarHeight, currentLocation, getCurrentLocation, directions }) 
 			sx={{
 				display: "flex",
 				justifyContent: "center",
-				width: "82%",
+				width: "100%",
 				height: `calc(100vh - ${topBarHeight}px)`,
 				alignItems: "center"
 			}}

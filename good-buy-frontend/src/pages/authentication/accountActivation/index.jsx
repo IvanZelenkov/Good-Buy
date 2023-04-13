@@ -1,24 +1,24 @@
+import { motion } from "framer-motion";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import {
 	Avatar,
-	Button,
-	TextField,
-	Link,
 	Box,
-	Typography,
+	Button,
 	Container,
-	useTheme
+	Link,
+	TextField,
+	Typography,
+	useTheme,
 } from "@mui/material";
-import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import Copyright from "../../../components/Copyright";
 import { muiTextFieldCSS, tokens } from "../../../theme";
-import { motion } from "framer-motion";
+import Copyright from "../../../components/Copyright";
 
 const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, invalidAuthCodeMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
 				maxWidth="xs"
 				sx={{
@@ -107,7 +107,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 				</Box>
 				<Copyright textdecorationcolor={colors.customColors[1]}/>
 			</Container>
-		</motion.div>
+		</Box>
 	);
 }
 

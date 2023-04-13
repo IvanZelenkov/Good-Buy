@@ -1,15 +1,15 @@
-import {Box, Button, Typography, useTheme, Grid, Container, Paper, Card} from "@mui/material";
 import { motion } from "framer-motion";
+import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
 import mainImage from "../../images/deals/dealsMainImage.avif";
 import saleImage from "../../images/deals/saleImage.avif";
-import { tokens, itemData } from "../../theme";
+import { itemData, tokens } from "../../theme";
 
 const Deals = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
 				<Box sx={{
 					display: "flex",
@@ -131,7 +131,7 @@ const Deals = () => {
 					</Container>
 				</Box>
 			</Box>
-		</motion.div>
+		</Box>
 	);
 }
 

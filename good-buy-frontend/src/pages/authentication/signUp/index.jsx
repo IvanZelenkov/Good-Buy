@@ -1,18 +1,24 @@
-import {
-	Avatar, Button, TextField, Link, Box,
-	Typography, Container, useTheme
-} from "@mui/material";
-import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import Copyright from "../../../components/Copyright";
-import { muiTextFieldCSS, tokens } from "../../../theme";
 import { motion } from "framer-motion";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
+import {
+	Avatar,
+	Box,
+	Button,
+	Container,
+	Link,
+	TextField,
+	Typography,
+	useTheme,
+} from "@mui/material";
+import { muiTextFieldCSS, tokens } from "../../../theme";
+import Copyright from "../../../components/Copyright";
 
 const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, invalidUsernameMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
 				maxWidth="xs"
 				sx={{
@@ -116,7 +122,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 				</Box>
 				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={colors.customColors[1]}/>
 			</Container>
-		</motion.div>
+		</Box>
 	);
 }
 

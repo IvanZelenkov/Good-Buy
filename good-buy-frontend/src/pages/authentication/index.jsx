@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { motion } from "framer-motion";
 import { Auth, Hub } from "aws-amplify";
@@ -130,7 +130,7 @@ const Authentication = ({ user, updateUser }) => {
 	}
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			{formType === "signUp" && (
 				<SignUp
 					onInputChange={onChange}
@@ -161,7 +161,7 @@ const Authentication = ({ user, updateUser }) => {
 			{formType === "signedIn" && (
 				<UserProfile user={user}/>
 			)}
-		</motion.div>
+		</Box>
 	);
 }
 

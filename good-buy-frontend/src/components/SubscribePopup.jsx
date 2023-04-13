@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
 	Dialog, DialogTitle, DialogContent, DialogContentText,
-	DialogActions, Button, TextField, InputAdornment, IconButton,
-	Zoom, useTheme
-} from '@mui/material';
+	DialogActions, Button, TextField, InputAdornment,
+	IconButton, Zoom, useTheme
+} from "@mui/material";
 import { Email as EmailIcon } from '@mui/icons-material';
-import {muiTextFieldCSS, tokens} from "../theme";
+import { muiTextFieldCSS, tokens } from "../theme";
 
 const SubscribePopup = ({ onClose }) => {
 	const theme = useTheme();

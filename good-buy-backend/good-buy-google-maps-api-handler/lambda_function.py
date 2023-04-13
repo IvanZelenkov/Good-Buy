@@ -8,10 +8,14 @@ import os
 import boto3
 
 
-def lambda_handler():
+def lambda_handler(event, context):
     """
     This is a module docstring meant for passing the linter.
     """
+
+    print(event)
+    print(context)
+
     stores = ["walmart", "rouses", "winn_dixie"]
     jsons = []
 

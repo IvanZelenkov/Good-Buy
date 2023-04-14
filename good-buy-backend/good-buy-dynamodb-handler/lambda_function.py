@@ -42,6 +42,7 @@ def lambda_handler(event,context):
     # When using this path and method, must provide ID of the shopping
     # cart you want to retrieve as a query parameter.
     print(context)
+    print(event)
     if event['body']:
         decoded_event = json.loads(event['body'])
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':
@@ -51,7 +52,7 @@ def lambda_handler(event,context):
         response = get_action.action()
         ret_val = {
             'statusCode': 200,
-            'body': json.dumps(response['Item']['cart'], indent=2,default=str)
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must provide ID of the user account you
     # want to retrieve as a query parameter.
@@ -62,7 +63,7 @@ def lambda_handler(event,context):
         response = get_action.action()
         ret_val = {
             'statusCode': 200,
-            'body': json.dumps(response['Item'], indent=2,default=str)
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must provide the ID and the cart
     # values the newly created cart as json body data.
@@ -83,7 +84,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Created new shopping cart'
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must provide the ID email, password,
     # phone, and username values the newly created cart as json body data.
@@ -107,7 +108,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Created new user account'
+            'body': json.dumps(response,indent=4,default=str)
         }
 
     # Idea for updating cart
@@ -140,7 +141,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Updated a shopping cart'
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must pass the ID of
     # the user accound you want to update as a query parameter,
@@ -169,7 +170,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Updated a user account'
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must pass the ID of the shopping cart
     # that you want to delete as a query parameter.
@@ -187,7 +188,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Deleted a shopping cart'
+            'body': json.dumps(response,indent=4,default=str)
         }
     # When using this path and method, must pass the ID of the user
     # acount you want to delete at query parameter.
@@ -205,7 +206,7 @@ def lambda_handler(event,context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': 'Deleted a user account'
+            'body': json.dumps(response,indent=4,default=str)
         }
     return ret_val
 
@@ -250,6 +251,7 @@ class GetAction(DBActionInterface):
         #         'ID': int(id_value)
         #     }
         # )
+        # print(self.response)
         return self.response
 
 class PostAction(DBActionInterface):
@@ -266,6 +268,7 @@ class PostAction(DBActionInterface):
         self.response = {}
 
     def action(self):
+        # print(self.response)
         return self.response
 
     def set_action(self):
@@ -290,6 +293,7 @@ class PutAction(DBActionInterface):
         self.response = {}
 
     def action(self):
+        # print(self.response)
         return self.response
 
     def set_action(self):
@@ -316,6 +320,7 @@ class DeleteAction(DBActionInterface):
         self.table = table
         self.response = {}
     def action(self):
+        # print(self.response)
         return self.response
 
     def set_action(self):

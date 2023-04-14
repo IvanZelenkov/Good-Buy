@@ -1,154 +1,34 @@
-
-.cart-wrapper {
-    width: 1800px;
-    height: 500px;
-    border: 1px solid #eee;
-    border-radius: 2px;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-
-    .center-screen {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        min-height: 300vh;
-      }
-    .price {
-        color: orangered;
-        font-weight: bold;
+@media (min-width: 1025px) {
+    .h-custom {
+    height: 100vh !important;
     }
-
-    .top {
-        display: flex;
-        background-color: #eee;
-        height: 40px;
-        align-items: center;
-        padding: 0 10px;
-
-        .sel-box {
-            // width: 40px;
-            margin-left: 12px;
-            // input {
-            //   display: inline-block;
-            //   margin: -50px 4px 0 0;
-            // }
-            i {
-                display: inline-block;
-                margin-left: 5px;
-                padding-bottom: 0px;
-            }
-        }
-
-        span {
-            display: inline-block;
-            flex-grow: 1;
-        }
-
-        .imgname-box {
-            flex-grow: 2.3;
-        }
-
-        .count-box {
-            flex-grow: 1.5;
-        }
     }
-
-    .middle {
-        flex-grow: 1;
-
-        ul::-webkit-scrollbar {
-            display: none; /* Chrome Safari */
-        }
-
-        ul {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 0px;
-            margin: 6px;
-            height: 400px;
-            overflow-y: scroll;
-
-            li.item {
-                display: flex;
-                height: 100px;
-                border-bottom: 1px solid #ddd;
-
-                div {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .sel-box {
-                    width: 40px;
-                }
-
-                .imgname-box {
-                    img {
-                        width: 60px;
-                        height: 60px;
-                        margin-right: 5px;
-                    }
-
-                    span {
-                        display: inline-block;
-                        width: 200px;
-                        text-align: left;
-                    }
-                }
-
-                .price-box {
-                    flex-grow: 1;
-                }
-
-                .count-box {
-                    flex-grow: 0.6;
-                    input {
-                        width: 30px;
-                        height: 25px;
-                    }
-                    button {
-                        border-radius: 2px;
-                        margin: 0 2px;
-                    }
-                }
-
-                .amount-box {
-                    flex-grow: 1;
-                }
-
-                .action-box {
-                    flex-grow: 1;
-                }
-            }
-        }
+    
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
     }
-
-    .bottom {
-        display: flex;
-        background-color: #eee;
-        height: 40px;
-        align-items: center;
-
-        .price {
-            font-size: 0.9rem;
-        }
-
-        div {
-            flex-grow: 1;
-        }
-
-        div.left {
-            flex-grow: 8;
-        }
-
-        div.pay-box {
-            background-color: gray;
-            text-align: center;
-            color: white;
-            padding: 8px;
-        }
+    
+    .card-registration .select-arrow {
+    top: 13px;
     }
-}
+    
+    .bg-grey {
+    background-color: #eae8e8;
+    }
+    
+    @media (min-width: 992px) {
+    .card-registration-2 .bg-grey {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    }
+    }
+    
+    @media (max-width: 991px) {
+    .card-registration-2 .bg-grey {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    }
+    }

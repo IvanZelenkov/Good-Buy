@@ -61,12 +61,12 @@ pipeline {
             }
         }
         stage("Merge branch into 'main'") {
-            when {
-                expression {
-                    def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-                    return isMergeCommit.startsWith("Merge pull request #")
-                }
-            }
+//             when {
+//                 expression {
+//                     def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+//                     return isMergeCommit.startsWith("Merge pull request #")
+//                 }
+//             }
             stages {
                 stage("Authenticate Docker client to ECR") {
                     steps {
@@ -87,11 +87,12 @@ pipeline {
                             def buildSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return ["Build ${functionName} image": {
-                                    dir(handlerPath) {
-                                        sh "docker build -t ${dockerImageTag} ."
-                                    }
-                                }]
+                                return [name: "Build ${functionName} image",
+                                        body: {
+                                            dir(handlerPath) {
+                                                sh "docker build -t ${dockerImageTag} ."
+                                            }
+                                        }]
                             }
                             parallel(buildSteps)
                         }
@@ -105,11 +106,12 @@ pipeline {
                             def tagSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return ["Tag ${functionName} image": {
-                                    dir(handlerPath) {
-                                        sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
-                                    }
-                                }]
+                                return [name: "Tag ${functionName} image",
+                                        body: {
+                                            dir(handlerPath) {
+                                                sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                            }
+                                        }]
                             }
                             parallel(tagSteps)
                         }
@@ -123,11 +125,12 @@ pipeline {
                             def pushSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                ["Push ${functionName} image": {
-                                    dir(handlerPath) {
-                                        sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
-                                    }
-                                }]
+                                return [name: "Push ${functionName} image",
+                                        body: {
+                                            dir(handlerPath) {
+                                                sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                            }
+                                        }]
                             }
                             parallel(pushSteps)
                         }
@@ -141,14 +144,15 @@ pipeline {
                             def deploySteps = lambdaFunctionNamesList.collect { functionName ->
                                 def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
                                 def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"
-                                ["Deploy ${functionName} image": {
-                                    sh """
-                                        aws lambda update-function-code \\
-                                        --region ${AWS_REGION} \\
-                                        --function-name ${functionName} \\
-                                        --image-uri ${dockerImageUri}
-                                    """
-                                }]
+                                return [name: "Deploy ${functionName} image",
+                                        body: {
+                                            sh """
+                                                aws lambda update-function-code \\
+                                                --region ${AWS_REGION} \\
+                                                --function-name ${functionName} \\
+                                                --image-uri ${dockerImageUri}
+                                            """
+                                        }]
                             }
                             parallel(deploySteps)
                         }

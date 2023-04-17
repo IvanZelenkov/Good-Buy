@@ -82,7 +82,7 @@ pipeline {
                 stage("Build Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
                             def buildSteps = [:]
                             lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
@@ -100,7 +100,7 @@ pipeline {
                 stage("Tag Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
                             def tagSteps = [:]
                             lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
@@ -118,7 +118,7 @@ pipeline {
                 stage("Push Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
                             def pushSteps = [:]
                             lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
@@ -136,7 +136,7 @@ pipeline {
                 stage("Deploy Docker images to Lambdas from ECR") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
                             def deploySteps = [:]
                             lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
@@ -144,11 +144,11 @@ pipeline {
                                 deploySteps["Deploy ${functionName} image"] = {
                                     dir(handlerPath) {
                                         sh """
-                                                aws lambda update-function-code \\
-                                                --region ${AWS_REGION} \\
-                                                --function-name ${functionName} \\
-                                                --image-uri ${REPOSITORY_URI}:${functionName}
-                                            """
+                                            aws lambda update-function-code \\
+                                            --region ${AWS_REGION} \\
+                                            --function-name ${functionName} \\
+                                            --image-uri ${REPOSITORY_URI}:${dockerImageTag}"
+                                        """
                                     }
                                 }
                             }

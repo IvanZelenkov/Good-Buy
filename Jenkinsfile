@@ -15,7 +15,7 @@ pipeline {
                                 "good-buy-filter-products-handler," +
                                 "good-buy-email-subscriber-handler," +
                                 "good-buy-email-notifier-handler"
-        DOCKER_IMAGE_TAGS = LAMBDA_FUNCTION_NAMES.split(",").collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
+        DOCKER_IMAGE_TAGS = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
     }
 
     stages {
@@ -76,7 +76,7 @@ pipeline {
                 stage("Build Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",")
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
                             def buildSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
@@ -93,7 +93,7 @@ pipeline {
                 stage("Tag Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",")
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
                             def tagSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
@@ -110,7 +110,7 @@ pipeline {
                 stage("Push Docker images to ECR") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",")
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
                             def pushSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
@@ -127,7 +127,7 @@ pipeline {
                 stage("Deploy Docker images to Lambdas from ECR") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",")
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
                             def deploySteps = lambdaFunctionNamesList.collect { functionName ->
                                 def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
                                 def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"

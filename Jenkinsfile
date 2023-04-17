@@ -29,6 +29,8 @@ pipeline {
                     def exclude_dirs = "data-scripts,tests"
                     def pylint_rcfile = "${BACKEND_FOLDER_NAME}/.pylintrc"
                     sh """
+                        python -m venv env
+                        source env/bin/activate
                         python3 -m pip install --upgrade pip
                         pip3 install -r requirements.txt
                     """

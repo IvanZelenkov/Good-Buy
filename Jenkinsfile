@@ -34,7 +34,7 @@ pipeline {
                         python3 -m pip install --upgrade pip
                         pip3 install -r requirements.txt
                     """
-                    parallel {
+                    parallel (
                         stage("Unit tests") {
                             sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
                         }
@@ -46,11 +46,13 @@ pipeline {
                         }
                         stage("Coverage") {
                             steps {
-                                sh "python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}"
-                                sh "python3 -m coverage report"
+                                sh """
+                                    python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}
+                                    python3 -m coverage report
+                                """
                             }
                         }
-                    }
+                    )
                 }
             }
         }

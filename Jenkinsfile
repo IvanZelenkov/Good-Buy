@@ -15,9 +15,7 @@ pipeline {
                                 "good-buy-filter-products-handler," +
                                 "good-buy-email-subscriber-handler," +
                                 "good-buy-email-notifier-handler"
-        DOCKER_IMAGE_TAGS = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
     }
-
     stages {
         stage ("Pre-deployment stage") {
             agent {
@@ -77,9 +75,10 @@ pipeline {
                     steps {
                         script {
                             def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
+                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
                             def buildSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
+                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
                                 return ["Build ${functionName} image": {
                                     dir(handlerPath) {
                                         sh "docker build -t ${dockerImageTag} ."
@@ -94,9 +93,10 @@ pipeline {
                     steps {
                         script {
                             def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
+                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
                             def tagSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
+                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
                                 return ["Tag ${functionName} image": {
                                     dir(handlerPath) {
                                         sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
@@ -111,9 +111,10 @@ pipeline {
                     steps {
                         script {
                             def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
+                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
                             def pushSteps = lambdaFunctionNamesList.collect { functionName ->
                                 def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
+                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
                                 ["Push ${functionName} image": {
                                     dir(handlerPath) {
                                         sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
@@ -128,8 +129,9 @@ pipeline {
                     steps {
                         script {
                             def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
+                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
                             def deploySteps = lambdaFunctionNamesList.collect { functionName ->
-                                def dockerImageTag = DOCKER_IMAGE_TAGS[lambdaFunctionNamesList.indexOf(functionName)]
+                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
                                 def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"
                                 ["Deploy ${functionName} image": {
                                     sh """

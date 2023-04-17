@@ -98,6 +98,24 @@ pipeline {
                         }
                     }
                 }
+                stage("Build Docker images") {
+                    steps {
+                        script {
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def buildSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${REPOSITORY_URI}:${functionName}"
+                                buildSteps["Build ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker build -t ${dockerImageTag} ."
+                                    }
+                                }
+                            }
+                            parallel(buildSteps)
+                        }
+                    }
+                }
                 stage("Tag Docker images") {
                     steps {
                         script {

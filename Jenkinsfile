@@ -71,10 +71,10 @@ pipeline {
                 stage("Authenticate Docker client to ECR") {
                     steps {
                         sh """
-                            aws ecr get-login-password \
-                            --region ${AWS_REGION} \
-                            | docker login \
-                            --username AWS \
+                            aws ecr get-login-password \\
+                            --region ${AWS_REGION} \\
+                            | docker login \\
+                            --username AWS \\
                             --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                         """
                     }
@@ -82,16 +82,16 @@ pipeline {
                 stage("Build Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def buildSteps = lambdaFunctionNamesList.collect { functionName ->
-                                def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return ["Build ${functionName} image": {
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
+                            def buildSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                buildSteps["Build ${functionName} image"] = {
                                     dir(handlerPath) {
                                         sh "docker build -t ${dockerImageTag} ."
                                     }
-                                }]
+                                }
                             }
                             parallel(buildSteps)
                         }
@@ -100,34 +100,34 @@ pipeline {
                 stage("Tag Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def tagSteps = lambdaFunctionNamesList.collect { functionName ->
-                                def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return ["Tag ${functionName} image": {
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
+                            def tagSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                tagSteps["Tag ${functionName} image"] = {
                                     dir(handlerPath) {
                                         sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
                                     }
-                                }]
+                                }
                             }
                             parallel(tagSteps)
                         }
                     }
                 }
-                stage("Push Docker images to ECR") {
+                stage("Push Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def pushSteps = lambdaFunctionNamesList.collect { functionName ->
-                                def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                ["Push ${functionName} image": {
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
+                            def pushSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                pushSteps["Push ${functionName} image"] = {
                                     dir(handlerPath) {
-                                        sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                        sh "docker push ${REPOSITORY_URI}:${dockerImageTag}"
                                     }
-                                }]
+                                }
                             }
                             parallel(pushSteps)
                         }
@@ -136,19 +136,21 @@ pipeline {
                 stage("Deploy Docker images to Lambdas from ECR") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def deploySteps = lambdaFunctionNamesList.collect { functionName ->
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"
-                                ["Deploy ${functionName} image": {
-                                    sh """
-                                        aws lambda update-function-code \\
-                                        --region ${AWS_REGION} \\
-                                        --function-name ${functionName} \\
-                                        --image-uri ${dockerImageUri}
-                                    """
-                                }]
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
+                            def deploySteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                deploySteps["Deploy ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh """
+                                            aws lambda update-function-code \\
+                                            --region ${AWS_REGION} \\
+                                            --function-name ${functionName} \\
+                                            --image-uri ${REPOSITORY_URI}:${dockerImageTag}
+                                        """
+                                    }
+                                }
                             }
                             parallel(deploySteps)
                         }

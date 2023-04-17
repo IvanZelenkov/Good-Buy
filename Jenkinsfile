@@ -61,12 +61,12 @@ pipeline {
             }
         }
         stage("Merge branch into 'main'") {
-//             when {
-//                 expression {
-//                     def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-//                     return isMergeCommit.startsWith("Merge pull request #")
-//                 }
-//             }
+            when {
+                expression {
+                    def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                    return isMergeCommit.startsWith("Merge pull request #")
+                }
+            }
             stages {
                 stage("Authenticate Docker client to ECR") {
                     steps {

@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    options {
-        timestamps()
-    }
     environment {
         AWS_ACCOUNT_ID = "981684844178"
         AWS_REGION = "us-east-1"
@@ -16,12 +13,15 @@ pipeline {
                                 "good-buy-email-subscriber-handler," +
                                 "good-buy-email-notifier-handler"
     }
+    options {
+        timestamps()
+    }
     stages {
-        stage ("Pre-deployment stage") {
+        stage("Pre-deployment stage") {
             agent {
                 docker {
                     image "python:3.9"
-                    args "-u 0:0"
+                    args '-u 0:0'
                 }
             }
             steps {
@@ -32,31 +32,23 @@ pipeline {
                         python -m venv env
                         . env/bin/activate
                         python3 -m pip install --upgrade pip
-                        pip3 install -r requirements.txt
+                        pip3 install --upgrade -r requirements.txt
                     """
                     parallel {
                         stage("Unit tests") {
-                            steps {
-                                sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
-                            }
+                            sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
                         }
                         stage("Security tests") {
-                            steps {
-                                sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
-                            }
+                            sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
                         }
                         stage("Linting tests") {
-                            steps {
-                                sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
-                            }
+                            sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
                         }
                         stage("Coverage") {
-                            steps {
-                                sh """
-                                    python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}
-                                    python3 -m coverage report
-                                """
-                            }
+                            sh """
+                                python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}
+                                python3 -m coverage report
+                            """
                         }
                     }
                 }

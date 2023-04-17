@@ -147,7 +147,7 @@ pipeline {
                                             aws lambda update-function-code \\
                                             --region ${AWS_REGION} \\
                                             --function-name ${functionName} \\
-                                            --image-uri ${REPOSITORY_URI}:${dockerImageTag}"
+                                            --image-uri ${REPOSITORY_URI}:${dockerImageTag}
                                         """
                                     }
                                 }

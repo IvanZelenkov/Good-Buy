@@ -3,6 +3,8 @@ Lambda_function script, handles lambdas
 This docstring is needed because we love pylint <3
 """
 import json
+
+
 def lambda_handler(event, context):
     """
     This is a module docstring

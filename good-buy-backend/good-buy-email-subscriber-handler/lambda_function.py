@@ -4,6 +4,8 @@ Handle Lambdas
 does nothing currently
 """
 import json
+
+
 def lambda_handler(event, context):
     """
     Prints, event and context, adds text to a json file

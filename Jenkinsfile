@@ -34,15 +34,21 @@ pipeline {
                         python3 -m pip install --upgrade pip
                         pip3 install -r requirements.txt
                     """
-                    parallel (
+                    parallel {
                         stage("Unit tests") {
-                            sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                            steps {
+                                sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                            }
                         }
                         stage("Security tests") {
-                            sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
+                            steps {
+                                sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
+                            }
                         }
                         stage("Linting tests") {
-                            sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
+                            steps {
+                                sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
+                            }
                         }
                         stage("Coverage") {
                             steps {
@@ -52,7 +58,7 @@ pipeline {
                                 """
                             }
                         }
-                    )
+                    }
                 }
             }
         }

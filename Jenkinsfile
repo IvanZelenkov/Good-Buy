@@ -86,7 +86,7 @@ pipeline {
                             def buildSteps = [:]
                             lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
-                                def dockerImageTag = "${REPOSITORY_URI}:${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
                                 buildSteps["Build ${functionName} image"] = {
                                     dir(handlerPath) {
                                         sh "docker build -t ${dockerImageTag} ."

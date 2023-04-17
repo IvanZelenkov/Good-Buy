@@ -125,7 +125,7 @@ pipeline {
                                 def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
                                 pushSteps["Push ${functionName} image"] = {
                                     dir(handlerPath) {
-                                        sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                        sh "docker push ${REPOSITORY_URI}:${dockerImageTag}"
                                     }
                                 }
                             }

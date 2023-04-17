@@ -1,63 +1,64 @@
 pipeline {
     agent any
+    options {
+        timestamps()
+    }
     environment {
         AWS_ACCOUNT_ID = "981684844178"
         AWS_REGION = "us-east-1"
         ECR_NAME = "good-buy-ecr"
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         BACKEND_FOLDER_NAME = "good-buy-backend"
-        LAMBDA_FUNCTION_NAME_1 = "good-buy-dynamodb-handler"
-        LAMBDA_FUNCTION_NAME_2 = "good-buy-google-maps-api-handler"
-        LAMBDA_FUNCTION_NAME_3 = "good-buy-store-apis-handler"
-        LAMBDA_FUNCTION_NAME_4 = "good-buy-sns-email-subscriber-handler"
-        LAMBDA_FUNCTION_NAME_5 = "good-buy-sns-email-notifier-handler"
-        DYNAMO_DB_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/${LAMBDA_FUNCTION_NAME_1}"
-        GOOGLE_MAPS_API_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/${LAMBDA_FUNCTION_NAME_2}"
-        STORE_APIS_HANDLER_PATH = "${BACKEND_FOLDER_NAME}/${LAMBDA_FUNCTION_NAME_3}"
-        SNS_EMAIL_SUBSCRIBER_HANDLER_PATH="${BACKEND_FOLDER_NAME}/${LAMBDA_FUNCTION_NAME_4}"
-        SNS_EMAIL_NOTIFIER_HANDLER_PATH="${BACKEND_FOLDER_NAME}/${LAMBDA_FUNCTION_NAME_5}"
-        DOCKER_IMAGE_TAG_1 = "${LAMBDA_FUNCTION_NAME_1}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_2 = "${LAMBDA_FUNCTION_NAME_2}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_3 = "${LAMBDA_FUNCTION_NAME_3}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_4 = "${LAMBDA_FUNCTION_NAME_4}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-        DOCKER_IMAGE_TAG_5 = "${LAMBDA_FUNCTION_NAME_5}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
-    }
-    options {
-        timestamps()
+        LAMBDA_FUNCTION_NAMES = [
+            "good-buy-dynamodb-handler",
+            "good-buy-google-maps-api-handler",
+            "good-buy-get-products-handler",
+            "good-buy-filter-products-handler",
+            "good-buy-email-subscriber-handler",
+            "good-buy-email-notifier-handler"
+        ]
+        LAMBDA_FUNCTION_NAMES.each { name ->
+            env."${name}_path" = "${BACKEND_FOLDER_NAME}/${name}"
+        }
+        DOCKER_IMAGE_TAGS = LAMBDA_FUNCTION_NAMES.collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
     }
     stages {
         stage ("Pre-deployment stage") {
             agent {
                 docker {
                     image "python:3.9"
-                    args '-u 0:0'
+                    args "-u 0:0"
                 }
             }
-            stages {
-                stage ("Install python packages") {
-                    steps {
-                        sh "python3 -m pip install --upgrade pip"
-                        sh "pip3 install -r requirements.txt"
-                    }
-                }
-                stage ("Unit tests") {
-                    steps {
-                        sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
-                    }
-                }
-                stage ("Security tests") {
-                    steps {
-                        sh "python3 -m bandit --exclude data-scripts,tests -r ${BACKEND_FOLDER_NAME}"
-                    }
-                }
-                stage ("Linting tests") {
-                    steps {
-                        sh "python3 -m pylint --rcfile=${BACKEND_FOLDER_NAME}/.pylintrc --ignore=data-scripts,tests -r y ${BACKEND_FOLDER_NAME}"
+            steps {
+                script {
+                    def exclude_dirs = "data-scripts,tests"
+                    def pylint_rcfile = "${BACKEND_FOLDER_NAME}/.pylintrc"
+                    sh """
+                        python3 -m pip install --upgrade pip
+                        pip3 install -r requirements.txt
+                    """
+                    parallel {
+                        stage("Unit tests") {
+                            sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                        }
+                        stage("Security tests") {
+                            sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
+                        }
+                        stage("Linting tests") {
+                            sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
+                        }
+                        stage("Coverage") {
+                            steps {
+                                sh "python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}"
+                                sh "python3 -m coverage report"
+                            }
+                        }
                     }
                 }
             }
         }
-        stage("Merge branch into main") {
+        stage("Merge branch into 'main'") {
             when {
                 expression {
                     def isMergeCommit = sh(script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
@@ -65,161 +66,89 @@ pipeline {
                 }
             }
             stages {
-                stage ("Authenticate docker client to ECR") {
+                stage("Authenticate Docker client to ECR") {
                     steps {
                         sh '''
-                            aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                            aws ecr get-login-password \
+                            --region ${AWS_REGION} \
+                            | docker login \
+                            --username AWS \
+                            --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                         '''
                     }
                 }
-                stage ("Build docker images") {
+                stage("Build Docker images") {
                     steps {
                         script {
                             parallel (
-                                "Build ${LAMBDA_FUNCTION_NAME_1} image": {
-                                    dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                                        sh "docker build -t ${DOCKER_IMAGE_TAG_1} ."
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_2} image": {
-                                    dir ("${GOOGLE_MAPS_API_HANDLER_PATH}") {
-                                        sh "docker build -t ${DOCKER_IMAGE_TAG_2} ."
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_3} image": {
-                                    dir ("${STORE_APIS_HANDLER_PATH}") {
-                                        sh "docker build -t ${DOCKER_IMAGE_TAG_3} ."
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_4} image": {
-                                    dir ("${SNS_EMAIL_SUBSCRIBER_HANDLER_PATH}") {
-                                        sh "docker build -t ${DOCKER_IMAGE_TAG_4} ."
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_5} image": {
-                                    dir ("${SNS_EMAIL_NOTIFIER_HANDLER_PATH}") {
-                                        sh "docker build -t ${DOCKER_IMAGE_TAG_5} ."
-                                    }
+                                LAMBDA_FUNCTION_NAMES.collectEntries { functionName ->
+                                    def handlerPath = env."${functionName}_path"
+                                    def dockerImageTag = DOCKER_IMAGE_TAGS[LAMBDA_FUNCTION_NAMES.indexOf(functionName)]
+                                    ["Build ${functionName} image": {
+                                        dir(handlerPath) {
+                                            sh "docker build -t ${dockerImageTag} ."
+                                        }
+                                    }]
                                 }
                             )
                         }
                     }
                 }
-                stage ("Tag docker images") {
+                stage("Tag Docker images") {
                     steps {
                         script {
                             parallel (
-                                "Tag ${LAMBDA_FUNCTION_NAME_1} image": {
-                                    dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                                        sh "docker tag ${DOCKER_IMAGE_TAG_1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-                                    }
-                                },
-                                "Tag ${LAMBDA_FUNCTION_NAME_2} image": {
-                                    dir ("${GOOGLE_MAPS_API_HANDLER_PATH}") {
-                                        sh "docker tag ${DOCKER_IMAGE_TAG_2} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-                                    }
-                                },
-                                "Tag ${LAMBDA_FUNCTION_NAME_3} image": {
-                                    dir ("${STORE_APIS_HANDLER_PATH}") {
-                                        sh "docker tag ${DOCKER_IMAGE_TAG_3} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_4} image": {
-                                    dir ("${SNS_EMAIL_SUBSCRIBER_HANDLER_PATH}") {
-                                        sh "docker tag ${DOCKER_IMAGE_TAG_4} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_4}"
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_5} image": {
-                                    dir ("${SNS_EMAIL_NOTIFIER_HANDLER_PATH}") {
-                                        sh "docker tag ${DOCKER_IMAGE_TAG_5} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_5}"
-                                    }
+                                LAMBDA_FUNCTION_NAMES.collectEntries { functionName ->
+                                    def handlerPath = env."${functionName}_path"
+                                    def dockerImageTag = DOCKER_IMAGE_TAGS[LAMBDA_FUNCTION_NAMES.indexOf(functionName)]
+                                    ["Tag ${functionName} image": {
+                                        dir(handlerPath) {
+                                            sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                        }
+                                    }]
                                 }
                             )
                         }
                     }
                 }
-                stage ("Push docker images to ECR") {
+                stage("Push Docker images to ECR") {
                     steps {
                         script {
                             parallel (
-                                "Push ${LAMBDA_FUNCTION_NAME_1} image": {
-                                    dir ("${DYNAMO_DB_HANDLER_PATH}") {
-                                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}"
-                                    }
-                                },
-                                "Push ${LAMBDA_FUNCTION_NAME_2} image": {
-                                    dir ("${GOOGLE_MAPS_API_HANDLER_PATH}") {
-                                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}"
-                                    }
-                                },
-                                "Push ${LAMBDA_FUNCTION_NAME_3} image": {
-                                    dir ("${STORE_APIS_HANDLER_PATH}") {
-                                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}"
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_4} image": {
-                                    dir ("${SNS_EMAIL_SUBSCRIBER_HANDLER_PATH}") {
-                                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_4}"
-                                    }
-                                },
-                                "Build ${LAMBDA_FUNCTION_NAME_5} image": {
-                                    dir ("${SNS_EMAIL_NOTIFIER_HANDLER_PATH}") {
-                                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_5}"
-                                    }
+                                LAMBDA_FUNCTION_NAMES.collectEntries { functionName ->
+                                    def handlerPath = env."${functionName}_path"
+                                    def dockerImageTag = DOCKER_IMAGE_TAGS[LAMBDA_FUNCTION_NAMES.indexOf(functionName)]
+                                    ["Push ${functionName} image": {
+                                        dir(handlerPath) {
+                                            sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                        }
+                                    }]
                                 }
                             )
                         }
                     }
                 }
-                stage ("Deploy images to Lambdas from ECR") {
+                stage("Deploy Docker images to Lambdas from ECR") {
                     steps {
                         script {
                             parallel (
-                                "Deploy ${LAMBDA_FUNCTION_NAME_1} image": {
-                                    sh '''
-                                        aws lambda update-function-code \
-                                        --region ${AWS_REGION} \
-                                        --function-name ${LAMBDA_FUNCTION_NAME_1} \
-                                        --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_1}
-                                    '''
-                                },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_2} image": {
-                                    sh '''
-                                        aws lambda update-function-code \
-                                        --region ${AWS_REGION} \
-                                        --function-name ${LAMBDA_FUNCTION_NAME_2} \
-                                        --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_2}
-                                    '''
-                                },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_3} image": {
-                                    sh '''
-                                        aws lambda update-function-code \
-                                        --region ${AWS_REGION} \
-                                        --function-name ${LAMBDA_FUNCTION_NAME_3} \
-                                        --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_3}
-                                    '''
-                                },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_4} image": {
-                                    sh '''
-                                        aws lambda update-function-code \
-                                        --region ${AWS_REGION} \
-                                        --function-name ${LAMBDA_FUNCTION_NAME_4} \
-                                        --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_4}
-                                    '''
-                                },
-                                "Deploy ${LAMBDA_FUNCTION_NAME_5} image": {
-                                    sh '''
-                                        aws lambda update-function-code \
-                                        --region ${AWS_REGION} \
-                                        --function-name ${LAMBDA_FUNCTION_NAME_5} \
-                                        --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${DOCKER_IMAGE_TAG_5}
-                                    '''
+                                LAMBDA_FUNCTION_NAMES.collectEntries { functionName ->
+                                    def dockerImageTag = DOCKER_IMAGE_TAGS[LAMBDA_FUNCTION_NAMES.indexOf(functionName)]
+                                    def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"
+                                    ["Deploy ${functionName} image": {
+                                        sh """
+                                            aws lambda update-function-code \\
+                                            --region ${AWS_REGION} \\
+                                            --function-name ${functionName} \\
+                                            --image-uri ${dockerImageUri}
+                                        """
+                                    }]
                                 }
                             )
                         }
                     }
                 }
-                stage ("Prune images, containers, networks, and volumes") {
+                stage ("Prune Docker resources") {
                     steps {
                         sh "docker system prune -af --volumes"
                     }

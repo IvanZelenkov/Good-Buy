@@ -1,8 +1,4 @@
-awscli
-bandit
 boto3
-coverage
-pip
 pytest
 pylint
 requests

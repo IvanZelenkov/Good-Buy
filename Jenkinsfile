@@ -32,7 +32,7 @@ pipeline {
                         python -m venv env
                         . env/bin/activate
                         python3 -m pip install --upgrade pip
-                        pip3 install --upgrade -r requirements.txt
+                        pip3 install -r requirements.txt
                     """
                     parallel(
                         "Unit tests": {

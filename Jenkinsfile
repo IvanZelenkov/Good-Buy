@@ -84,15 +84,15 @@ pipeline {
                         script {
                             def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
                             dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def buildSteps = lambdaFunctionNamesList.collect { functionName ->
+                            def buildSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
                                 def handlerPath = env."${functionName}_path"
                                 def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return [name: "Build ${functionName} image",
-                                        body: {
-                                            dir(handlerPath) {
-                                                sh "docker build -t ${dockerImageTag} ."
-                                            }
-                                        }]
+                                buildSteps["Build ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker build -t ${dockerImageTag} ."
+                                    }
+                                }
                             }
                             parallel(buildSteps)
                         }

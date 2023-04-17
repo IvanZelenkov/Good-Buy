@@ -100,36 +100,34 @@ pipeline {
                 stage("Tag Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def tagSteps = lambdaFunctionNamesList.collect { functionName ->
-                                def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return [name: "Tag ${functionName} image",
-                                        body: {
-                                            dir(handlerPath) {
-                                                sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
-                                            }
-                                        }]
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def tagSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                tagSteps["Tag ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker tag ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                    }
+                                }
                             }
                             parallel(tagSteps)
                         }
                     }
                 }
-                stage("Push Docker images to ECR") {
+                stage("Push Docker images") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def pushSteps = lambdaFunctionNamesList.collect { functionName ->
-                                def handlerPath = env."${functionName}_path"
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                return [name: "Push ${functionName} image",
-                                        body: {
-                                            dir(handlerPath) {
-                                                sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
-                                            }
-                                        }]
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def pushSteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                pushSteps["Push ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker push ${dockerImageTag} ${REPOSITORY_URI}:${dockerImageTag}"
+                                    }
+                                }
                             }
                             parallel(pushSteps)
                         }
@@ -138,20 +136,21 @@ pipeline {
                 stage("Deploy Docker images to Lambdas from ECR") {
                     steps {
                         script {
-                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.split(",").toList()
-                            dockerImageTagsList = LAMBDA_FUNCTION_NAMES.split(",").toList().collect { "${it}-${env.GIT_BRANCH}-${env.GIT_COMMIT}" }
-                            def deploySteps = lambdaFunctionNamesList.collect { functionName ->
-                                def dockerImageTag = dockerImageTagsList[lambdaFunctionNamesList.indexOf(functionName)]
-                                def dockerImageUri = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_NAME}:${dockerImageTag}"
-                                return [name: "Deploy ${functionName} image",
-                                        body: {
-                                            sh """
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(',')
+                            def deploySteps = [:]
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                                deploySteps["Deploy ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh """
                                                 aws lambda update-function-code \\
                                                 --region ${AWS_REGION} \\
                                                 --function-name ${functionName} \\
-                                                --image-uri ${dockerImageUri}
+                                                --image-uri ${REPOSITORY_URI}:${functionName}
                                             """
-                                        }]
+                                    }
+                                }
                             }
                             parallel(deploySteps)
                         }

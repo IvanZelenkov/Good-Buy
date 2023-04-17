@@ -82,40 +82,44 @@ pipeline {
                     }
                 }
                 stage("Start processing Docker images") {
-                    def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
-                    def dockerStepsMap = [:]
+                    steps {
+                        script {
+                            def lambdaFunctionNamesList = LAMBDA_FUNCTION_NAMES.tokenize(",")
+                            def dockerStepsMap = [:]
 
-                    lambdaFunctionNamesList.each { functionName ->
-                        def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
-                        def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
+                            lambdaFunctionNamesList.each { functionName ->
+                                def handlerPath = "${BACKEND_FOLDER_NAME}/${functionName}"
+                                def dockerImageTag = "${functionName}-${env.GIT_BRANCH}-${env.GIT_COMMIT}"
 
-                        dockerStepsMap["Build ${functionName} image"] = {
-                            dir(handlerPath) {
-                                sh "docker build -t ${REPOSITORY_URI}:${functionName} ."
+                                dockerStepsMap["Build ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker build -t ${REPOSITORY_URI}:${functionName} ."
+                                    }
+                                }
+                                dockerStepsMap["Tag ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker tag ${REPOSITORY_URI}:${functionName} ${REPOSITORY_URI}:${dockerImageTag}"
+                                    }
+                                }
+                                dockerStepsMap["Push ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh "docker push ${REPOSITORY_URI}:${dockerImageTag}"
+                                    }
+                                }
+                                dockerStepsMap["Deploy ${functionName} image"] = {
+                                    dir(handlerPath) {
+                                        sh """
+                                            aws lambda update-function-code \\
+                                            --region ${AWS_REGION} \\
+                                            --function-name ${functionName} \\
+                                            --image-uri ${REPOSITORY_URI}:${dockerImageTag}
+                                        """
+                                    }
+                                }
                             }
-                        }
-                        dockerStepsMap["Tag ${functionName} image"] = {
-                            dir(handlerPath) {
-                                sh "docker tag ${REPOSITORY_URI}:${functionName} ${REPOSITORY_URI}:${dockerImageTag}"
-                            }
-                        }
-                        dockerStepsMap["Push ${functionName} image"] = {
-                            dir(handlerPath) {
-                                sh "docker push ${REPOSITORY_URI}:${dockerImageTag}"
-                            }
-                        }
-                        dockerStepsMap["Deploy ${functionName} image"] = {
-                            dir(handlerPath) {
-                                sh """
-                                    aws lambda update-function-code \\
-                                    --region ${AWS_REGION} \\
-                                    --function-name ${functionName} \\
-                                    --image-uri ${REPOSITORY_URI}:${dockerImageTag}
-                                """
-                            }
+                            parallel(dockerStepsMap)
                         }
                     }
-                    parallel(dockerStepsMap)
                 }
                 stage ("Prune Docker resources") {
                     steps {

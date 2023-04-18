@@ -2,8 +2,7 @@
 This module provides an implementation of a filter strategy to filter products by customer rating.
 """
 
-import json
-from typing import List, Dict
+from typing import Dict, Any, List
 from FilterStrategyInterface import FilterStrategyInterface
 
 
@@ -12,19 +11,26 @@ class CustomerRatingStrategy(FilterStrategyInterface):
     This class implements the FilterStrategyInterface to filter products by customer rating.
     """
 
-    def filter(self, s3_service, params: Dict) -> List:
+    def filter(self, products: List[Dict[str, Any]], params: Dict[str, Any]) \
+            -> List[Dict[str, Any]]:
         """
-        Filters products by customer rating.
+        Filters products by clearance.
 
         Args:
-            s3_service: An instance of the S3Service class is used to connect to the S3 service.
-            params: A dictionary containing the filter parameters.
+            products (List[Dict[str, Any]]): A list of products to be filtered.
+            params (Dict[str, Any]): A dictionary containing parameter "rating": "[0-5]"
 
         Returns:
-            TODO
+            (List[Dict[str, Any]]): A list of products that match the customer rating criteria.
         """
-        # TODO
+        param_rating = params.get("rating")
+        if not param_rating:
+            return products
+
         try:
-            return json.loads(s3_service.get_s3_object(params.get("store_name")))
-        except json.JSONDecodeError as error:
-            raise ValueError(f"Invalid JSON data: {error}") from error
+            min_rating = float(param_rating)
+            filtered_products = [product for product in products
+                                 if float(product.get("rating", 0)) >= min_rating]
+            return filtered_products
+        except ValueError as error:
+            raise ValueError(f"Invalid input parameter: {error}") from error

@@ -21,6 +21,7 @@ sys.path.append(service_dir)
 sys.path.append(factory_dir)
 sys.path.append(strategy_dir)
 
+from IdenticalProductsFromStoresStrategy import IdenticalProductsFromStoresStrategy
 from StoreNameStrategy import StoreNameStrategy
 from CustomerRatingStrategy import CustomerRatingStrategy
 from PriceRangeStrategy import PriceRangeStrategy
@@ -33,6 +34,7 @@ from ProductService import ProductService
 from S3Service import S3Service
 
 FILTER_STRATEGY_MAP = {
+    "identicalProducts": IdenticalProductsFromStoresStrategy,
     "storeName": StoreNameStrategy,
     "customerRating": CustomerRatingStrategy,
     "priceRange": PriceRangeStrategy,
@@ -73,16 +75,19 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
 
     s3_service = S3Service(s3_resource)
     params = event["queryStringParameters"]
-
-    filter_strategies = []
-    for param_name, strategy_class in FILTER_STRATEGY_MAP.items():
-        param_value = params.get(param_name)
-        if param_value:
-            strategy = strategy_class(param_value)
-            filter_strategies.append(strategy)
-
     product_service = ProductService(s3_service)
-    filtered_products = product_service.filter(filter_strategies)
+
+    if not params:
+        body = product_service.get_all_products()
+    else:
+        filter_strategies = []
+        for param_name, strategy_class in FILTER_STRATEGY_MAP.items():
+            param_value = params.get(param_name)
+            if param_value:
+                strategy = strategy_class(param_value)
+                filter_strategies.append(strategy)
+
+        body = product_service.filter(filter_strategies)
 
     return {
         "isBase64Encoded": True,
@@ -92,5 +97,5 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS, GET"
         },
-        "body": json.dumps(filtered_products)
+        "body": json.dumps(body)
     }

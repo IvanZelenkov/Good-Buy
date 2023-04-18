@@ -4,7 +4,7 @@ info:
   description: "Good Buy REST API handles all the tasks associated with receiving\
     \ and processing concurrent API calls, including traffic management, CORS support,\
     \ authorization and access control, throttling, monitoring, and API version management."
-  version: "2023-04-18T17:35:58Z"
+  version: "2023-04-18T21:11:40Z"
 servers:
 - url: "https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
@@ -70,60 +70,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Empty"
-  /store-apis/get-products/get-identical-products-from-stores:
-    get:
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-            Access-Control-Allow-Methods:
-              schema:
-                type: "string"
-            Access-Control-Allow-Headers:
-              schema:
-                type: "string"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
-  /store-apis/get-products/get-product-by-id-and-store-name:
-    get:
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-            Access-Control-Allow-Methods:
-              schema:
-                type: "string"
-            Access-Control-Allow-Headers:
-              schema:
-                type: "string"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
   /google-maps:
     get:
       responses:
@@ -138,33 +84,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Empty"
     post:
-      responses:
-        "200":
-          description: "200 response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
-    options:
-      responses:
-        "200":
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-            Access-Control-Allow-Methods:
-              schema:
-                type: "string"
-            Access-Control-Allow-Headers:
-              schema:
-                type: "string"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
-  /store-apis/get-products/get-all-products:
-    get:
       responses:
         "200":
           description: "200 response"

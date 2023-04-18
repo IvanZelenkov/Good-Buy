@@ -20,16 +20,14 @@ class ProductService(StoreApiInterface):
 
     STORE_NAMES = ["rouses", "walmart", "winn_dixie"]
 
-    def __init__(self, s3_service: S3Service, params: dict):
+    def __init__(self, s3_service: S3Service):
         """
         Constructs a new ProductService instance.
 
         Args:
             s3_service (S3Service): An instance of a class that provides S3-related functionality.
-            params (dict): A dictionary of parameters for the ProductService instance.
         """
         self.s3_service = s3_service
-        self.params = params
 
     def get_all_products(self) -> list:
         """

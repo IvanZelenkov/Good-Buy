@@ -31,14 +31,14 @@ from ProductService import ProductService
 from S3Service import S3Service
 
 FILTER_STRATEGY_MAP = {
-    "/products/filter/byStoreName": StoreNameStrategy,
-    "/products/filter/byCustomerRating": CustomerRatingStrategy,
-    "/products/filter/byPriceRange": PriceRangeStrategy,
-    "/products/filter/byMinPrice": MinPriceStrategy,
-    "/products/filter/byMaxPrice": MaxPriceStrategy,
-    "/products/filter/byOnSale": OnSaleStrategy,
-    "/products/filter/byClearance": ClearanceStrategy,
-    "/products/filter/byAvailability": AvailabilityStrategy
+    "/filter-products/by-store-name": StoreNameStrategy,
+    "/filter-products/by-customer-rating": CustomerRatingStrategy,
+    "/filter-products/by-price-range": PriceRangeStrategy,
+    "/filter-products/by-min-price": MinPriceStrategy,
+    "/filter-products/by-max-price": MaxPriceStrategy,
+    "/filter-products/by-sale": OnSaleStrategy,
+    "/filter-products/by-clearance": ClearanceStrategy,
+    "/filter-products/by-availability": AvailabilityStrategy
 }
 
 

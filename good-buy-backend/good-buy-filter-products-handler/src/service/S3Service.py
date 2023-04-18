@@ -14,8 +14,8 @@ class S3Service:
     def __init__(self, s3):
         """Initialize the S3Service with an S3 client and environment variables."""
         self.s3 = s3
-        self.bucket_name = os.getenv('S3_BUCKET_NAME')
-        self.folder_name = os.getenv('S3_JSON_FOLDER_NAME')
+        self.bucket_name = os.getenv("S3_BUCKET_NAME")
+        self.folder_name = os.getenv("S3_JSON_FOLDER_NAME")
 
     def get_s3_object(self, store_name: str) -> str:
         """

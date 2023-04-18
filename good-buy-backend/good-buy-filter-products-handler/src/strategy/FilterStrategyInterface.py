@@ -3,24 +3,24 @@ This module defines the abstract base class FilterStrategyInterface.
 """
 
 from abc import ABCMeta, abstractmethod
-from S3Service import S3Service
+from typing import Dict, Any, List
 
 
 class FilterStrategyInterface(metaclass=ABCMeta):
     """
-    Abstract base class for filtering S3 objects based on a given strategy.
+    Abstract base class for filtering products based on a given strategy.
     """
 
     @abstractmethod
-    def filter(self, s3_service: S3Service, params: dict) -> list:
+    def filter(self, products: list, params: dict) -> List[Dict[str, Any]]:
         """
-        Filters S3 objects based on a given strategy.
+        Filters products based on a given strategy.
 
         Args:
-            s3_service: An instance of the S3Service class.
-            params: A dictionary of parameters used to filter the S3 objects.
+            products (list): A list of products to be filtered.
+            params (dict): A dictionary of parameters used to filter the products.
 
         Returns:
-            A list of filtered S3 objects.
+            (List[Dict[str, Any]]): A list of filtered products.
         """
         pass

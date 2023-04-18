@@ -8,10 +8,10 @@ whenever they need to shop!
 
 ### Solution Architecture
 
-![Good-Buy-Solution-Architecture](https://user-images.githubusercontent.com/64171964/232643216-fae92a82-9a7c-4397-8fd2-3f9eaf9c95d7.png)
+![Good-Buy-Solution-Architecture](https://user-images.githubusercontent.com/64171964/232841769-cd9c6edf-13dc-4522-8563-2673724cd5bd.png)
 
 ### Jenkins Pipeline
 ![Good-Buy-Jenkins-Pipeline](https://user-images.githubusercontent.com/64171964/232631820-b06a9fad-c29b-4eca-b9b4-a85a74807ac5.png)
 
 ### OpenAPI UI
-![Good-Buy-Rest-Api-Development-oas30](https://user-images.githubusercontent.com/64171964/232635154-5d586aca-5d0f-4369-b93c-fd56f44b0dfc.png)
+![Good-Buy-Rest-Api-Development-oas30](https://user-images.githubusercontent.com/64171964/232859130-6265c1a4-20d1-4156-80b4-2bb08da65c1d.png)

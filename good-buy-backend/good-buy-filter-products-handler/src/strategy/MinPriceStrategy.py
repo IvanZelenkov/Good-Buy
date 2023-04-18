@@ -1,30 +1,37 @@
 """
-This module provides an implementation of a filter strategy to filter products by min price.
+This module provides an implementation of a filter strategy to sort
+products from lowest to highest price.
 """
 
-import json
-from typing import List, Dict
+from typing import Dict, Any, List
 from FilterStrategyInterface import FilterStrategyInterface
 
 
 class MinPriceStrategy(FilterStrategyInterface):
     """
-    This class implements the FilterStrategyInterface to filter products by min price.
+    This class implements the FilterStrategyInterface to sort products from lowest to highest price.
     """
 
-    def filter(self, s3_service, params: Dict) -> List:
+    def filter(self, products: List[Dict[str, Any]], params: Dict[str, Any]) \
+            -> List[Dict[str, Any]]:
         """
-        Filters products by min price.
+        Sorts products from lowest to highest price.
 
         Args:
-            s3_service: An instance of the S3Service class is used to connect to the S3 service.
-            params: A dictionary containing the filter parameters.
+            products (List[Dict[str, Any]]): A list of products to be filtered.
+            params (Dict[str, Any]): A dictionary containing parameter "minPrice": "true"
 
         Returns:
-            TODO
+            (List[Dict[str, Any]]): A list of products sorted from lowest to highest price.
         """
-        # TODO
+        if "minPrice" not in params or params["minPrice"] != "true":
+            return products
+
         try:
-            return json.loads(s3_service.get_s3_object(params.get("store_name")))
-        except json.JSONDecodeError as error:
-            raise ValueError(f"Invalid JSON data: {error}") from error
+            # By default, sorted function sorts the elements in ascending order.
+            # sorted function takes an element x from the products list and returns its price,
+            # which is then used as the sorting key for sorted().
+            sorted_products = sorted(products, key=lambda x: x["price"])
+            return sorted_products
+        except ValueError as error:
+            raise ValueError(f"Invalid input parameter: {error}") from error

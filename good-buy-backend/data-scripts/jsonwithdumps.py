@@ -16,8 +16,8 @@ import random
 storelist = ["Walmart", "Rouses", "Winn-Dixie"]
 namelist = ["Hersheys kiss", "Skittles", "MnMs", "Tootsie-Roll",
 					"Candy Cane", "Twix", "Snickers", "Kit Kat", "Three Musketeers",
-					"Ring Pop"]	
-winndixxie_addresses = ["5400 Tchoupitoulas St, New Orleans", 
+					"Ring Pop"]
+winndixxie_addresses = ["5400 Tchoupitoulas St, New Orleans",
 						"3008 Holiday Dr, New Orleans" 
 						"211 Veterans Memorial Blcd Metairie"
 						"9701 Chef Menteur Hwy, New Orleans"]
@@ -46,7 +46,7 @@ imagelist = ["hersheys.jfif",
             "kitkat.jfif",
             "threemusket.jfif",
             "ringpop.jfif"]
-	
+
 
 brandlist = ["HERSHEYS", "Skittles (MARS)", "M&Ms (MARS)", "Tootsie-Roll Industries",
 					"Brach", "TWIX", "Snickers (MARS)", "Kit-Kat (HERSHEYS)", "Three Musketeers (MARS)",
@@ -63,16 +63,17 @@ brandlist = ["HERSHEYS", "Skittles (MARS)", "M&Ms (MARS)", "Tootsie-Roll Industr
 jsonlist = []
 for i in range(3):
 	store = storelist[i]
-	
+
 	for j in range(30):
 		randomID = random.randint(0,99999999)
-		randomnumberindex = random.randint(0, len(imagelist)-1)       
+		randomnumberindex = random.randint(0, len(imagelist)-1)
 		randomname = namelist[randomnumberindex]
 		productimage = imagelist[randomnumberindex]
 		randomprice = random.randint(1,4)
 		randomrating = round(random.uniform(0,5),1)
-		instock = bool(random.getrandbits(1))
+		availability = bool(random.getrandbits(1))
 		clearance = bool(random.getrandbits(1))
+		onsale = bool(random.getrandbits(1))
 		brand = brandlist[randomnumberindex]
 		url = ""
 		address = ""
@@ -92,8 +93,9 @@ for i in range(3):
 		my_dict["Name"] = randomname
 		my_dict["image_url"] = productimage
 		my_dict["category"] = "Candy"
-		my_dict["out_of_stock"] = instock
+		my_dict["availability"] = availability
 		my_dict["on_clearance"] = clearance
+		my_dict["on_sale"] = onsale
 		my_dict["brand"] = brand
 		my_dict["store_name"] = storelist[i]
 		my_dict["price"] = str(randomprice)
@@ -107,7 +109,7 @@ for i in range(3):
 	#Now that one array of jsons are done, do one file:
 	jsonString = json.dumps(jsonlist, indent = 4)
 	jsonlist = []#Make sure to do this, so the list is empty for the next cycle
-	
+
 	filename = "myNewJson" + str(i) + ".json"
 
 	with open(filename, "w") as outfile:

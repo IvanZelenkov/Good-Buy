@@ -8,6 +8,10 @@ whenever they need to shop!
 
 ### Solution Architecture
 
-![SolutionArchitecture](https://user-images.githubusercontent.com/64171964/226515014-b4b7cdc6-50fe-40db-9cc9-cb75d1161a04.png)
-### Swagger UI
-![SwaggerUI](https://user-images.githubusercontent.com/64171964/229841043-9d904e73-054a-45c2-9798-3e97b0bf6992.png)
+![Good-Buy-Solution-Architecture](https://user-images.githubusercontent.com/64171964/232643216-fae92a82-9a7c-4397-8fd2-3f9eaf9c95d7.png)
+
+### Jenkins Pipeline
+![Good-Buy-Jenkins-Pipeline](https://user-images.githubusercontent.com/64171964/232631820-b06a9fad-c29b-4eca-b9b4-a85a74807ac5.png)
+
+### OpenAPI UI
+![Good-Buy-Rest-Api-Development-oas30](https://user-images.githubusercontent.com/64171964/232635154-5d586aca-5d0f-4369-b93c-fd56f44b0dfc.png)

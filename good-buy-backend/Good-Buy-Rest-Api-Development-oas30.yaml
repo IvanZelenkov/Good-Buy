@@ -1,346 +1,571 @@
----
-swagger: "2.0"
+openapi: "3.0.1"
 info:
+  title: "Good-Buy-Rest-Api"
   description: "Good Buy REST API handles all the tasks associated with receiving\
     \ and processing concurrent API calls, including traffic management, CORS support,\
     \ authorization and access control, throttling, monitoring, and API version management."
-  version: "2023-04-06T01:38:25Z"
-  title: "Good-Buy-Rest-Api"
-host: "faa4mfet0g.execute-api.us-east-1.amazonaws.com"
-basePath: "/Development"
-schemes:
-- "https"
+  version: "2023-04-17T23:49:07Z"
+servers:
+- url: "https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "Development"
 paths:
-  /database/shopping-cart:
+  /store-apis/filter-products/by-price-range:
     get:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    post:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    put:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     options:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Methods:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Headers:
-              type: "string"
-    patch:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-  /database/user-account:
-    get:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    post:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    put:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    delete:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-    options:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-    patch:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
   /database/user-activity:
     get:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-    post:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     put:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     delete:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     options:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Methods:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Headers:
-              type: "string"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     patch:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-sale:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/get-products/get-all-products:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-max-price:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /database/shopping-cart:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    put:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    delete:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    patch:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-customer-rating:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-store-name:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-min-price:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/get-products/get-identical-products-from-stores:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/get-products/get-product-by-id-and-store-name:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-availability:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
   /google-maps:
     get:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     post:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     options:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Methods:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Headers:
-              type: "string"
-  /store-apis/get-all-products:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /store-apis/filter-products/by-clearance:
     get:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
     options:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Methods:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Headers:
-              type: "string"
-  /store-apis/get-identical-products-from-stores:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /database/user-account:
     get:
-      produces:
-      - "application/json"
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-    options:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /store-apis/get-product-by-id-and-store-name:
-    get:
-      produces:
-      - "application/json"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    put:
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-    options:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-  /store-apis/get-products-by-store-name:
-    get:
-      produces:
-      - "application/json"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    post:
       responses:
         "200":
           description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-    options:
-      produces:
-      - "application/json"
-      responses:
-        "200":
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
           headers:
             Access-Control-Allow-Origin:
-              type: "string"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    delete:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
             Access-Control-Allow-Methods:
-              type: "string"
+              schema:
+                type: "string"
             Access-Control-Allow-Headers:
-              type: "string"
-definitions:
-  Empty:
-    type: "object"
-    title: "Empty Schema"
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+    patch:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"

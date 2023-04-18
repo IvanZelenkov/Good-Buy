@@ -8,7 +8,6 @@ pipeline {
         BACKEND_FOLDER_NAME = "good-buy-backend"
         LAMBDA_FUNCTION_NAMES = "good-buy-dynamodb-handler," +
                                 "good-buy-google-maps-api-handler," +
-                                "good-buy-get-products-handler," +
                                 "good-buy-filter-products-handler," +
                                 "good-buy-email-subscriber-handler," +
                                 "good-buy-email-notifier-handler"

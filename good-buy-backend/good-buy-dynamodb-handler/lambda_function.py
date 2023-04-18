@@ -41,8 +41,8 @@ def lambda_handler(event,context):
     '''
     # When using this path and method, must provide ID of the shopping
     # cart you want to retrieve as a query parameter.
-    print(context)
-    print(event)
+    # print(context)
+    print('Event: ' + event + 'Context: ' + context)
     if event['body']:
         decoded_event = json.loads(event['body'])
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':

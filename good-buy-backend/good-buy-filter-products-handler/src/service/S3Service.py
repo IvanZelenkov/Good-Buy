@@ -9,7 +9,9 @@ from botocore.exceptions import ClientError
 
 
 class S3Service:
-    """A service class for interacting with S3."""
+    """
+    A service class for interacting with S3.
+    """
 
     def __init__(self, s3_client):
         """

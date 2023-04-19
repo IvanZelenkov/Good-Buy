@@ -3,7 +3,7 @@ This module provides an implementation of a filter strategy to sort
 products from lowest to highest price.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, List
 from FilterStrategyInterface import FilterStrategyInterface
 
 
@@ -21,24 +21,28 @@ class LowestToHighestPriceStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def filter(self, products: List[List[Dict[str, str]]]) -> List[Dict[str, str]]:
         """
         Sorts products from lowest to highest price.
 
         Args:
-            products (List[Dict[str, Any]]): A list of products to be filtered.
+            products (List[List[Dict[str, str]]]): A nested list of dictionaries
+                                                   representing products to be filtered.
 
         Returns:
-            (List[Dict[str, Any]]): A list of products sorted from lowest to highest price.
+            List[Dict[str, str]]: A list of products sorted from lowest to highest price.
         """
-        if not self.param_value:
-            return products
-
         try:
+            filtered_products = []
+            for store_products in products:
+                for product in store_products:
+                    filtered_products.append(product)
+
             # By default, sorted function sorts the elements in ascending order.
             # sorted function takes an element x from the products list and returns its price,
             # which is then used as the sorting key for sorted().
-            sorted_products = sorted(products, key=lambda x: x["price"])
+            sorted_products = sorted(filtered_products, key=lambda x: x["price"])
+
             return sorted_products
         except ValueError as error:
             raise ValueError(f"Invalid input parameter: {error}") from error

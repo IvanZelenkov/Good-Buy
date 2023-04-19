@@ -3,7 +3,7 @@ This module provides an implementation of a filter strategy to filter
 products by price range.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, List
 from FilterStrategyInterface import FilterStrategyInterface
 
 
@@ -21,19 +21,17 @@ class PriceRangeStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def filter(self, products: List[List[Dict[str, str]]]) -> List[Dict[str, str]]:
         """
-        Sorts products from lowest to highest price.
+        Filters products by price range.
 
         Args:
-            products (List[Dict[str, Any]]): A list of products to be filtered.
+            products (List[List[Dict[str, str]]]): A nested list of dictionaries
+                                                   representing products to be filtered.
 
         Returns:
-            (List[Dict[str, Any]]): A list of products that match the price range.
+            List[Dict[str, str]]: A list of products that match the price range.
         """
-        if not self.param_value:
-            return products
-
         try:
             # Split the price range string using "-" separator.
             # Extracting the lower and upper bounds of the price range.
@@ -48,12 +46,13 @@ class PriceRangeStrategy(FilterStrategyInterface):
             # Filtering the products based on their price,
             # keeping only those within the price range.
             filtered_products = []
-            for product in products:
-                price = product.get("price")
-                if price is None:
-                    continue
-                if lower_bound <= price <= upper_bound:
-                    filtered_products.append(product)
+            for store_products in products:
+                for product in store_products:
+                    price = int(product.get("price"))
+                    if price is None:
+                        continue
+                    if lower_bound <= price <= upper_bound:
+                        filtered_products.append(product)
 
             return filtered_products
         except (ValueError, TypeError) as error:

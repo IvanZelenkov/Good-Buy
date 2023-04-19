@@ -44,8 +44,9 @@ class ProductService(StoreApiInterface):
         Filters products based on the specified filter strategies.
 
         Args:
-            filter_strategies (List[FilterStrategyInterface]): A list of instances of strategy classes
-            that provide filtering functionality.
+            filter_strategies (List[FilterStrategyInterface]): A list of instances of strategy
+                                                               classes that provide filtering
+                                                               functionality.
 
         Returns:
             List[Dict[str, str]]: A list of filtered products.

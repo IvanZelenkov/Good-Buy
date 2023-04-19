@@ -29,15 +29,19 @@ class ProductService(StoreApiInterface):
         """
         self.s3_service = s3_service
 
-    def get_all_products(self) -> List[List[Dict[str, str]]]:
+    def get_all_products(self) -> List[Dict[str, str]]:
         """
         Gets all products from all stores.
 
         Returns:
-            List[List[Dict[str, str]]]: A list of dictionaries representing the products.
+            List[Dict[str, str]]:: A list of dictionaries representing the products.
         """
-        return [json.loads(self.s3_service.get_s3_object(store_name))
-                for store_name in self.STORE_NAMES]
+        products = []
+        for store_name in self.STORE_NAMES:
+            store_products = json.loads(self.s3_service.get_s3_object(store_name))
+            products.extend(store_products)
+
+        return products
 
     def filter(self, filter_strategies: List[FilterStrategyInterface]) -> List[Dict[str, str]]:
         """

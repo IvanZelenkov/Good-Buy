@@ -22,23 +22,20 @@ class IdenticalProductsFromStoresStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[List[Dict[str, str]]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """
         Filters products by product name.
 
         Args:
-            products (List[List[Dict[str, str]]]): A nested list of dictionaries
-                                                   representing products to be filtered.
+            products (List[Dict[str, str]]): A list of dictionaries
+                                             representing products to be filtered.
 
         Returns:
             List[Dict[str, str]]: A list of products whose names match.
         """
         try:
-            filtered_products = []
-            for store_products in products:
-                for product in store_products:
-                    if product["Name"] == self.param_value:
-                        filtered_products.append(product)
+            filtered_products = [product for product in products
+                                 if product.get("Name") == self.param_value]
 
             return filtered_products
         except ValueError as error:

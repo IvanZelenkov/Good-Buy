@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup, IconButton, ImageList, ImageListItem, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
+import {
+	Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup,
+	IconButton, ImageList, ImageListItem, InputBase, List, ListItem,
+	Pagination, Typography, useTheme
+} from "@mui/material";
 import { motion } from "framer-motion";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
@@ -16,46 +20,50 @@ const Products = () => {
 	const [productsData, setProductsData] = useState([]);
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState([]);
-	const [sort, setSort] = useState(null);
 	const topBarHeight = 65;
 	const productsPerPage = 25;
 	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
+	useEffect(() => {
+		console.log(filters)
+		const getUserData = async () => {
+			try {
+				const filterPairs = {};
+				filters.forEach((filter) => {
+					filterPairs[filter.key] = filter.value;
+				});
+
+				const productsDataResponse = await axios.get(
+					"https://" +
+					process.env.REACT_APP_REST_API_ID +
+					".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
+					{
+						params: filterPairs,
+					}
+				);
+				setProductsData(productsDataResponse.data);
+				setInfoLoaded(true);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getUserData();
+	}, [filters]);
+
 	const handleFilter = (filter) => {
-		if (filters.includes(filter)) {
-			setFilters(filters.filter((f) => f !== filter));
+		const index = filters.findIndex((f) => f.key === filter.key);
+		if (index !== -1) {
+			const updatedFilters = [...filters];
+			updatedFilters.splice(index, 1);
+			setFilters(updatedFilters);
 		} else {
 			setFilters([...filters, filter]);
 		}
 	};
 
-	const handleSort = (type) => {
-		setSort(type);
-	};
-
 	const handleChange = (event, value) => {
 		setPage(value);
 	};
-
-	const getUserData = async () => {
-		try {
-			const productsDataResponse = await axios.get(
-				"https://" +
-				process.env.REACT_APP_REST_API_ID +
-				".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
-				{ params: {} }
-			);
-			console.log(productsDataResponse.data)
-			setProductsData(productsDataResponse.data);
-			setInfoLoaded(true);
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	useEffect(() => {
-		getUserData();
-	}, []);
 
 	if (infoLoaded === false || productsData === []) {
 		return (
@@ -124,8 +132,8 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("availability")}
-												onChange={() => handleFilter("availability")}
+												checked={filters.some(filter => filter.key === "availability")}
+												onChange={() => handleFilter({ key: "availability", value: "true" })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
@@ -155,8 +163,8 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("Rouses")}
-												onChange={() => handleFilter("Rouses")}
+												checked={filters.some(filter => filter.key === "storeName" && filter.value === "rouses")}
+												onChange={() => handleFilter({ key: "storeName", value: "rouses" })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
@@ -166,8 +174,8 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("Walmart")}
-												onChange={() => handleFilter("Walmart")}
+												checked={filters.some(filter => filter.key === "storeName" && filter.value === "walmart")}
+												onChange={() => handleFilter({ key: "storeName", value: "walmart" })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
@@ -177,8 +185,8 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("Winn-Dixie")}
-												onChange={() => handleFilter("Winn-Dixie")}
+												checked={filters.some(filter => filter.key === "storeName" && filter.value === "winn_dixie")}
+												onChange={() => handleFilter({ key: "storeName", value: "winn_dixie" })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
@@ -208,8 +216,8 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("priceAsc")}
-												onChange={() => handleFilter("priceAsc")}
+												checked={filters.some(filter => filter.key === "minPrice")}
+												onChange={() => handleFilter({ key: "minPrice", value: true })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
@@ -219,25 +227,25 @@ const Products = () => {
 									<FormControlLabel
 										control={
 											<Checkbox
-												checked={filters.includes("priceDesc")}
-												onChange={() => handleFilter("priceDesc")}
+												checked={filters.some(filter => filter.key === "maxPrice")}
+												onChange={() => handleFilter({ key: "maxPrice", value: true })}
 												sx={{ color: colors.customColors[5] }}
 											/>
 										}
 										label="Price: High to Low"
 										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
 									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.includes("ratingDesc")}
-												onChange={() => handleFilter("ratingDesc")}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Rating: High to Low"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
-									/>
+									{/*<FormControlLabel*/}
+									{/*	control={*/}
+									{/*		<Checkbox*/}
+									{/*			checked={filters.includes("ratingDesc")}*/}
+									{/*			onChange={() => handleFilter("ratingDesc")}*/}
+									{/*			sx={{ color: colors.customColors[5] }}*/}
+									{/*		/>*/}
+									{/*	}*/}
+									{/*	label="Rating: High to Low"*/}
+									{/*	sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}*/}
+									{/*/>*/}
 								</FormGroup>
 							</FormControl>
 						</ListItem>

@@ -25,8 +25,8 @@ from IdenticalProductsFromStoresStrategy import IdenticalProductsFromStoresStrat
 from StoreNameStrategy import StoreNameStrategy
 from CustomerRatingStrategy import CustomerRatingStrategy
 from PriceRangeStrategy import PriceRangeStrategy
-from MaxPriceStrategy import MaxPriceStrategy
-from MinPriceStrategy import MinPriceStrategy
+from LowestToHighestPriceStrategy import LowestToHighestPriceStrategy
+from HighestToLowestPriceStrategy import HighestToLowestPriceStrategy
 from OnSaleStrategy import OnSaleStrategy
 from ClearanceStrategy import ClearanceStrategy
 from AvailabilityStrategy import AvailabilityStrategy
@@ -34,12 +34,12 @@ from ProductService import ProductService
 from S3Service import S3Service
 
 FILTER_STRATEGY_MAP = {
-    "identicalProducts": IdenticalProductsFromStoresStrategy,
+    "productName": IdenticalProductsFromStoresStrategy,
     "storeName": StoreNameStrategy,
     "customerRating": CustomerRatingStrategy,
     "priceRange": PriceRangeStrategy,
-    "minPrice": MinPriceStrategy,
-    "maxPrice": MaxPriceStrategy,
+    "minPrice": LowestToHighestPriceStrategy,
+    "maxPrice": HighestToLowestPriceStrategy,
     "onSale": OnSaleStrategy,
     "onClearance": ClearanceStrategy,
     "availability": AvailabilityStrategy
@@ -62,7 +62,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             - body (str): JSON-encoded string containing the filtered products.
     """
     try:
-        s3_resource = boto3.resource(
+        s3_client = boto3.resource(
             "s3",
             aws_access_key_id=os.getenv("ACCESS_KEY"),
             aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY")
@@ -73,7 +73,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             "body": f"An error occurred while authenticating with AWS: {str(error)}"
         }
 
-    s3_service = S3Service(s3_resource)
+    s3_service = S3Service(s3_client)
     params = event["queryStringParameters"]
     product_service = ProductService(s3_service)
 

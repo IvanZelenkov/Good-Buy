@@ -11,24 +11,30 @@ class CustomerRatingStrategy(FilterStrategyInterface):
     This class implements the FilterStrategyInterface to filter products by customer rating.
     """
 
-    def filter(self, products: List[Dict[str, Any]], params: Dict[str, Any]) \
-            -> List[Dict[str, Any]]:
+    def __init__(self, param_value: str):
+        """
+        Initializes the CustomerRatingStrategy with the given param value.
+
+        Args:
+            param_value (str): A string containing the value of the "rating" key "[0-5]".
+        """
+        self.param_value = param_value
+
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters products by clearance.
 
         Args:
             products (List[Dict[str, Any]]): A list of products to be filtered.
-            params (Dict[str, Any]): A dictionary containing parameter "rating": "[0-5]"
 
         Returns:
             (List[Dict[str, Any]]): A list of products that match the customer rating criteria.
         """
-        param_rating = params.get("rating")
-        if not param_rating:
+        if not self.param_value:
             return products
 
         try:
-            min_rating = float(param_rating)
+            min_rating = float(self.param_value)
             filtered_products = [product for product in products
                                  if float(product.get("rating", 0)) >= min_rating]
             return filtered_products

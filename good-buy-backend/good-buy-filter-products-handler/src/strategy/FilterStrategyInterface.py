@@ -12,13 +12,12 @@ class FilterStrategyInterface(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def filter(self, products: list, params: dict) -> List[Dict[str, Any]]:
+    def filter(self, products: list) -> List[Dict[str, Any]]:
         """
         Filters products based on a given strategy.
 
         Args:
             products (list): A list of products to be filtered.
-            params (dict): A dictionary of parameters used to filter the products.
 
         Returns:
             (List[Dict[str, Any]]): A list of filtered products.

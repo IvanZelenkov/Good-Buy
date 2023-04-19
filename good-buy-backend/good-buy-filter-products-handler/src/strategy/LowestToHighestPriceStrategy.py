@@ -7,24 +7,31 @@ from typing import Dict, Any, List
 from FilterStrategyInterface import FilterStrategyInterface
 
 
-class MinPriceStrategy(FilterStrategyInterface):
+class LowestToHighestPriceStrategy(FilterStrategyInterface):
     """
     This class implements the FilterStrategyInterface to sort products from lowest to highest price.
     """
 
-    def filter(self, products: List[Dict[str, Any]], params: Dict[str, Any]) \
-            -> List[Dict[str, Any]]:
+    def __init__(self, param_value: str):
+        """
+        Initializes the LowestToHighestPriceStrategy with the given param value.
+
+        Args:
+            param_value (str): A string containing the value of the "minPrice" key "true".
+        """
+        self.param_value = param_value
+
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Sorts products from lowest to highest price.
 
         Args:
             products (List[Dict[str, Any]]): A list of products to be filtered.
-            params (Dict[str, Any]): A dictionary containing parameter "minPrice": "true"
 
         Returns:
             (List[Dict[str, Any]]): A list of products sorted from lowest to highest price.
         """
-        if "minPrice" not in params or params["minPrice"] != "true":
+        if not self.param_value:
             return products
 
         try:

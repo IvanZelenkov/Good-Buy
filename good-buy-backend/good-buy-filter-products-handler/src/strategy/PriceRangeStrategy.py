@@ -21,13 +21,13 @@ class PriceRangeStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[List[Dict[str, str]]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """
         Filters products by price range.
 
         Args:
-            products (List[List[Dict[str, str]]]): A nested list of dictionaries
-                                                   representing products to be filtered.
+            products (List[Dict[str, str]]): A list of dictionaries
+                                             representing products to be filtered.
 
         Returns:
             List[Dict[str, str]]: A list of products that match the price range.
@@ -46,13 +46,12 @@ class PriceRangeStrategy(FilterStrategyInterface):
             # Filtering the products based on their price,
             # keeping only those within the price range.
             filtered_products = []
-            for store_products in products:
-                for product in store_products:
-                    price = int(product.get("price"))
-                    if price is None:
-                        continue
-                    if lower_bound <= price <= upper_bound:
-                        filtered_products.append(product)
+            for product in products:
+                price = int(product.get("price"))
+                if price is None:
+                    continue
+                if lower_bound <= price <= upper_bound:
+                    filtered_products.append(product)
 
             return filtered_products
         except (ValueError, TypeError) as error:

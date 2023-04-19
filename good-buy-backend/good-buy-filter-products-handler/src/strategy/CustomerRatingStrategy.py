@@ -20,25 +20,21 @@ class CustomerRatingStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[List[Dict[str, str]]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """
         Filters products by customer rating.
 
         Args:
-            products (List[List[Dict[str, str]]]): A nested list of dictionaries
-                                                   representing products to be filtered.
+            products (List[Dict[str, str]]): A nested list of dictionaries
+                                             representing products to be filtered.
 
         Returns:
             List[Dict[str, str]]: A list of products that match the customer rating criteria.
         """
         try:
             min_rating = float(self.param_value)
-
-            filtered_products = []
-            for store_products in products:
-                for product in store_products:
-                    if float(product.get("rating", 0)) >= min_rating:
-                        filtered_products.append(product)
+            filtered_products = [product for product in products
+                                 if float(product.get("rating", 0)) >= min_rating]
 
             return filtered_products
         except ValueError as error:

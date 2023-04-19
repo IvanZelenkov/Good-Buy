@@ -38,9 +38,7 @@ const Products = () => {
 					process.env.REACT_APP_REST_API_ID +
 					".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
 					{
-						params: {
-							"storeName": "walmart"
-						}
+						params: filterPairs
 					}
 				);
 				setProductsData(productsDataResponse.data);

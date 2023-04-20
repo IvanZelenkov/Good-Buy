@@ -1,12 +1,12 @@
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 
-const FilterCheckbox = ({ filters, title, handleFilter, k, v, customColors }) => {
+const FilterCheckbox = ({ title, filters, setFilters, handleFilter, k, v, customColors }) => {
 	return (
 		<FormControlLabel
 			control={
 				<Checkbox
 					checked={filters.some((filter) => filter.key === k && filter.value === v)}
-					onChange={() => handleFilter({ key: k, value: v })}
+					onChange={() => handleFilter({ key: k, value: v }, filters, setFilters)}
 					sx={{ color: customColors[5] }}
 				/>
 			}

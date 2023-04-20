@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Box, List, useTheme } from "@mui/material";
 import CalculateRouteButton from "../../components/google-maps/CalculateRouteButton";
 import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStoreCategory";
-import Loader from "../../components/Loader";
+import Loader from "../../components/others/Loader";
 import Map from "../../components/google-maps/Map";
 import { calculateRoute, getCurrentLocation, getDirection } from "../../utils/google-maps/utils";
 import { stores, tokens } from "../../theme";

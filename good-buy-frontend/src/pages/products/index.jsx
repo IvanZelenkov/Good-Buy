@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import {
-	Box, Checkbox, Divider, FormControl, FormControlLabel, FormGroup,
-	IconButton, ImageList, ImageListItem, InputBase, List, ListItem,
-	Pagination, Typography, useTheme
-} from "@mui/material";
+import { Box, Divider, FormControl, FormGroup, IconButton, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
-import RatingStars from "../../components/RatingStars";
+import RatingStars from "../../components/others/RatingStars";
 import { tokens, muiPaginationCSS } from "../../theme";
-import Loader from "../../components/Loader";
+import Loader from "../../components/others/Loader";
 import FilterCategoryTitle from "../../components/products/FilterCategoryTitle";
 import FilterCheckbox from "../../components/products/FilterCheckbox";
-
+import { handleFilter, getUserData, handleChange } from "../../utils/products/utils";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 const Products = () => {
 	const theme = useTheme();
@@ -26,65 +23,37 @@ const Products = () => {
 	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
-		const getUserData = async () => {
-			const filterPairs = {};
-			filters.forEach((filter) => {
-				filterPairs[filter.key] = filter.value;
-			});
-
-			try {
-				const productsDataResponse = await axios.get(
-					"https://" +
-					process.env.REACT_APP_REST_API_ID +
-					".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
-					{ params: filterPairs }
-				);
-				setProductsData(productsDataResponse.data);
-				setInfoLoaded(true);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		getUserData();
+		getUserData(filters, setProductsData, setInfoLoaded);
 	}, [filters]);
-
-	const handleFilter = (filter) => {
-		const newFilters = filters.filter((f) => !(f.key === filter.key && f.value === filter.value));
-		if (newFilters.length < filters.length) {
-			// If the filter already exists, remove it from the list.
-			setFilters(newFilters);
-		} else {
-			// If the filter doesn't exist yet, add it to the list.
-			setFilters((prevState) => [...prevState, filter]);
-		}
-	};
-
-	const handleChange = (event, value) => {
-		setPage(value);
-	};
 
 	if (infoLoaded === false || productsData === [])
 		return <Loader colors={colors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
-				<Box sx={{
+				{/* SIDEBAR */}
+				<Box
+					sx={{
 						width: 360,
 						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 						backgroundColor: `${colors.customColors[1]}`,
 						borderRadius: "10px",
 						padding: "15px"
 					}}>
-					<Box sx={{
+					{/* SEARCH BAR */}
+					<Box
+						sx={{
 						display: "flex",
 						flexDirection: "row"
 					}}>
-						<Box sx={{
-							display: "flex",
-							backgroundColor: "custom.customColorE",
-							borderRadius: "10px",
-							width: "100%"
-						}}>
+						<Box
+							sx={{
+								display: "flex",
+								backgroundColor: "custom.customColorE",
+								borderRadius: "10px",
+								width: "100%"
+							}}
+						>
 							<InputBase
 								sx={{ marginLeft: 2, flex: 1, color: "custom.customColorA" }}
 								placeholder="Search"
@@ -92,10 +61,7 @@ const Products = () => {
 								inputProps={{ style: { fontFamily: "Montserrat" }}}
 								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 							/>
-							<IconButton
-								type="button"
-								sx={{ padding: 1, color: "custom.customColorA" }}
-							>
+							<IconButton type="button" sx={{ padding: 1, color: "custom.customColorA" }}>
 								<SearchIcon/>
 							</IconButton>
 						</Box>
@@ -103,14 +69,18 @@ const Products = () => {
 
 					<Divider sx={{ margin: "1vh 0" }}/>
 
+					{/* LIST OF FILTER SECTIONS */}
 					<List sx={{ height: `calc(100% - ${topBarHeight}px)`, overflowY: "auto" }}>
+
+						{/* AVAILABILITY FILTER */}
 						<FilterCategoryTitle title={"Availability"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
 									<FilterCheckbox
-										filters={filters}
 										title={"Exclude Out of Stock Items"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"availability"}
 										v={true}
@@ -122,29 +92,33 @@ const Products = () => {
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
+						{/* STORE NAME FILTER */}
 						<FilterCategoryTitle title={"Store Name"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
 									<FilterCheckbox
-										filters={filters}
 										title={"Rouses"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"storeName"}
 										v={"Rouses"}
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
+										title={"Rouses"}
 										filters={filters}
-										title={"Walmart"}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"storeName"}
 										v={"Walmart"}
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
+										title={"Rouses"}
 										filters={filters}
-										title={"Winn-Dixie"}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"storeName"}
 										v={"Winn-Dixie"}
@@ -156,21 +130,24 @@ const Products = () => {
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
+						{/* PRICE FILTER */}
 						<FilterCategoryTitle title={"Price"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
 									<FilterCheckbox
-										filters={filters}
 										title={"Price: Low to High"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"minPrice"}
 										v={true}
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
-										filters={filters}
 										title={"Price: High to Low"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										key={"maxPrice"}
 										v={true}
@@ -182,21 +159,24 @@ const Products = () => {
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
+						{/* CURRENT DEALS FILTER */}
 						<FilterCategoryTitle title={"Current Deals"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
 									<FilterCheckbox
-										filters={filters}
 										title={"On Sale"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"onSale"}
 										v={true}
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
-										filters={filters}
 										title={"Clearance"}
+										filters={filters}
+										setFilters={setFilters}
 										handleFilter={handleFilter}
 										k={"onClearance"}
 										v={true}
@@ -207,6 +187,8 @@ const Products = () => {
 						</ListItem>
 					</List>
 				</Box>
+
+				{/* PRODUCT LIST */}
 				<Box sx={{
 					display: "flex",
 					flexDirection: "column",
@@ -294,7 +276,9 @@ const Products = () => {
 					<Pagination
 						count={totalPages}
 						page={page}
-						onChange={handleChange}
+						onChange={(event, value) => {
+							handleChange(event, value, setPage)
+						}}
 						sx={muiPaginationCSS}
 					/>
 				</Box>

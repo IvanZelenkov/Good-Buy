@@ -14,7 +14,7 @@ import {
 	useTheme,
 } from "@mui/material";
 import { muiTextFieldCSS, tokens } from "../../../theme";
-import Copyright from "../../../components/Copyright";
+import Copyright from "../../../components/authentication/Copyright";
 
 const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, invalidPasswordMessage }) => {
 	const theme = useTheme();

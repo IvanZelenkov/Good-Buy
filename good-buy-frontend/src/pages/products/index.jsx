@@ -6,11 +6,12 @@ import {
 	Pagination, Typography, useTheme
 } from "@mui/material";
 import { motion } from "framer-motion";
-import UseAnimations from "react-useanimations";
-import loading from "react-useanimations/lib/loading";
 import SearchIcon from "@mui/icons-material/Search";
 import RatingStars from "../../components/RatingStars";
 import { tokens, muiPaginationCSS } from "../../theme";
+import Loader from "../../components/Loader";
+import FilterCategoryTitle from "../../components/products/FilterCategoryTitle";
+import FilterCheckbox from "../../components/products/FilterCheckbox";
 
 
 const Products = () => {
@@ -25,21 +26,18 @@ const Products = () => {
 	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
-		console.log(filters)
 		const getUserData = async () => {
-			try {
-				const filterPairs = {};
-				filters.forEach((filter) => {
-					filterPairs[filter.key] = filter.value;
-				});
+			const filterPairs = {};
+			filters.forEach((filter) => {
+				filterPairs[filter.key] = filter.value;
+			});
 
+			try {
 				const productsDataResponse = await axios.get(
 					"https://" +
 					process.env.REACT_APP_REST_API_ID +
 					".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
-					{
-						params: filterPairs
-					}
+					{ params: filterPairs }
 				);
 				setProductsData(productsDataResponse.data);
 				setInfoLoaded(true);
@@ -51,13 +49,13 @@ const Products = () => {
 	}, [filters]);
 
 	const handleFilter = (filter) => {
-		const index = filters.findIndex((f) => f.key === filter.key);
-		if (index !== -1) {
-			const updatedFilters = [...filters];
-			updatedFilters.splice(index, 1);
-			setFilters(updatedFilters);
+		const newFilters = filters.filter((f) => !(f.key === filter.key && f.value === filter.value));
+		if (newFilters.length < filters.length) {
+			// If the filter already exists, remove it from the list.
+			setFilters(newFilters);
 		} else {
-			setFilters([...filters, filter]);
+			// If the filter doesn't exist yet, add it to the list.
+			setFilters((prevState) => [...prevState, filter]);
 		}
 	};
 
@@ -65,17 +63,8 @@ const Products = () => {
 		setPage(value);
 	};
 
-	if (infoLoaded === false || productsData === []) {
-		return (
-			<motion.div exit={{ opacity: 0 }}>
-				<Box margin="1.5vh">
-					<Box sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-						<UseAnimations animation={loading} size={50} fillColor={colors.customColors[1]} strokeColor={colors.customColors[1]}/>
-					</Box>
-				</Box>
-			</motion.div>
-		);
-	}
+	if (infoLoaded === false || productsData === [])
+		return <Loader colors={colors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">
@@ -111,145 +100,111 @@ const Products = () => {
 							</IconButton>
 						</Box>
 					</Box>
+
 					<Divider sx={{ margin: "1vh 0" }}/>
+
 					<List sx={{ height: `calc(100% - ${topBarHeight}px)`, overflowY: "auto" }}>
-						<Box sx={{ display: "flex" }}>
-							<Typography
-								sx={{
-									fontFamily: "Montserrat",
-									color: colors.customColors[5],
-									fontSize: "1.2vh",
-									float: "left",
-									fontWeight: "900"
-								}}
-							>
-								Availability
-							</Typography>
-						</Box>
+						<FilterCategoryTitle title={"Availability"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "availability")}
-												onChange={() => handleFilter({ key: "availability", value: "true" })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Exclude Out of Stock Items"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Exclude Out of Stock Items"}
+										handleFilter={handleFilter}
+										k={"availability"}
+										v={true}
+										customColors={colors.customColors}
 									/>
 								</FormGroup>
 							</FormControl>
 						</ListItem>
+
 						<Divider sx={{ margin: "1vh 0" }}/>
-						<Box sx={{ display: "flex" }}>
-							<Typography
-								sx={{
-									fontFamily: "Montserrat",
-									color: colors.customColors[5],
-									fontSize: "1.2vh",
-									float: "left",
-									fontWeight: "900"
-								}}
-							>
-								Store Name
-							</Typography>
-						</Box>
+
+						<FilterCategoryTitle title={"Store Name"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "storeName" && filter.value === "rouses")}
-												onChange={() => handleFilter({ key: "storeName", value: "rouses" })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Rouses"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Rouses"}
+										handleFilter={handleFilter}
+										k={"storeName"}
+										v={"Rouses"}
+										customColors={colors.customColors}
 									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "storeName" && filter.value === "walmart")}
-												onChange={() => handleFilter({ key: "storeName", value: "walmart" })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Walmart"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Walmart"}
+										handleFilter={handleFilter}
+										k={"storeName"}
+										v={"Walmart"}
+										customColors={colors.customColors}
 									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "storeName" && filter.value === "winn_dixie")}
-												onChange={() => handleFilter({ key: "storeName", value: "winn_dixie" })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Winn-Dixie"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Winn-Dixie"}
+										handleFilter={handleFilter}
+										k={"storeName"}
+										v={"Winn-Dixie"}
+										customColors={colors.customColors}
 									/>
 								</FormGroup>
 							</FormControl>
 						</ListItem>
+
 						<Divider sx={{ margin: "1vh 0" }}/>
-						<Box sx={{ display: "flex" }}>
-							<Typography
-								sx={{
-									fontFamily: "Montserrat",
-									color: colors.customColors[5],
-									fontSize: "1.2vh",
-									float: "left",
-									fontWeight: "900"
-								}}
-							>
-								Price
-							</Typography>
-						</Box>
+
+						<FilterCategoryTitle title={"Price"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
 								<FormGroup>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "minPrice")}
-												onChange={() => handleFilter({ key: "minPrice", value: true })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Price: Low to High"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Price: Low to High"}
+										handleFilter={handleFilter}
+										k={"minPrice"}
+										v={true}
+										customColors={colors.customColors}
 									/>
-									<FormControlLabel
-										control={
-											<Checkbox
-												checked={filters.some(filter => filter.key === "maxPrice")}
-												onChange={() => handleFilter({ key: "maxPrice", value: true })}
-												sx={{ color: colors.customColors[5] }}
-											/>
-										}
-										label="Price: High to Low"
-										sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
+									<FilterCheckbox
+										filters={filters}
+										title={"Price: High to Low"}
+										handleFilter={handleFilter}
+										key={"maxPrice"}
+										v={true}
+										customColors={colors.customColors}
 									/>
-									{/*<FormControlLabel*/}
-									{/*	control={*/}
-									{/*		<Checkbox*/}
-									{/*			checked={filters.includes("ratingDesc")}*/}
-									{/*			onChange={() => handleFilter("ratingDesc")}*/}
-									{/*			sx={{ color: colors.customColors[5] }}*/}
-									{/*		/>*/}
-									{/*	}*/}
-									{/*	label="Rating: High to Low"*/}
-									{/*	sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}*/}
-									{/*/>*/}
 								</FormGroup>
 							</FormControl>
 						</ListItem>
+
 						<Divider sx={{ margin: "1vh 0" }}/>
+
+						<FilterCategoryTitle title={"Current Deals"} customColors={colors.customColors}/>
+						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
+							<FormControl sx={{ mt: 1, float: "left" }}>
+								<FormGroup>
+									<FilterCheckbox
+										filters={filters}
+										title={"On Sale"}
+										handleFilter={handleFilter}
+										k={"onSale"}
+										v={true}
+										customColors={colors.customColors}
+									/>
+									<FilterCheckbox
+										filters={filters}
+										title={"Clearance"}
+										handleFilter={handleFilter}
+										k={"onClearance"}
+										v={true}
+										customColors={colors.customColors}
+									/>
+								</FormGroup>
+							</FormControl>
+						</ListItem>
 					</List>
 				</Box>
 				<Box sx={{
@@ -265,8 +220,7 @@ const Products = () => {
 						gap={50}
 						sx={{ width: "95%", marginLeft: "5vh" }}
 					>
-						{productsData?.flat()
-							.sort(() => Math.random() - 0.5)
+						{productsData?.sort(() => Math.random() - 0.5)
 							.slice((page - 1) * productsPerPage, page * productsPerPage)
 							.map((product) => (
 								<ImageListItem

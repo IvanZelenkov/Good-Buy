@@ -1,26 +1,16 @@
 import { Auth } from "aws-amplify";
-import UseAnimations from "react-useanimations";
-import loading from "react-useanimations/lib/loading";
 import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { tokens } from "../../theme";
+import Loader from "../../components/Loader";
 
 const UserProfile = ({ user }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const avatarUrl = "https://static.toiimg.com/thumb/msid-76682135,width-400,resizemode-4/76682135.jpg";
 
-	if (user === null) {
-		return (
-			<motion.div exit={{ opacity: 0 }}>
-				<Box margin="1.5vh">
-					<Box sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-						<UseAnimations animation={loading} size={50} fillColor={"#e92a2a"} strokeColor={"#e92a2a"}/>
-					</Box>
-				</Box>
-			</motion.div>
-		);
-	}
+	if (user === null)
+		return <Loader colors={colors}/>;
 	return (
 		<motion.div exit={{ opacity: 0 }}>
 			<Container

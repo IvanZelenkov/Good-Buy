@@ -74,7 +74,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
 
     s3_service = S3Service(s3_client)
-    params = event["queryStringParameters"]
+    params = event.get("queryStringParameters")
     product_service = ProductService(s3_service)
 
     if not params:

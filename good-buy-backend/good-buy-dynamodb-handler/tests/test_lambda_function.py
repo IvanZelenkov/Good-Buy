@@ -59,9 +59,9 @@ class TestDBLambda(unittest.TestCase):
     def test_lambda_get_user(self):
         '''Testing a get request for 
         path: /database/user-account'''
-        boto3.setup_default_session()
+        # boto3.setup_default_session()
         # client = boto3.client("dynamodb", region_name = "us-east-1")
-        dynamodb = boto3.resource("dynamodb")
+        dynamodb = boto3.resource("dynamodb", region_name = "us-east-1")
         dynamodb.create_table(
             TableName="TEST_Users",
             KeySchema = [{"AttributeName": "ID", "KeyType": "HASH"}],

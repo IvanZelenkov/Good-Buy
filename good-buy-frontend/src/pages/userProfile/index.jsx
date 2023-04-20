@@ -2,7 +2,7 @@ import { Auth } from "aws-amplify";
 import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { tokens } from "../../theme";
-import Loader from "../../components/Loader";
+import Loader from "../../components/others/Loader";
 
 const UserProfile = ({ user }) => {
 	const theme = useTheme();

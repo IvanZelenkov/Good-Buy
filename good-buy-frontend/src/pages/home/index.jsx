@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Box, IconButton, InputBase, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
-import SubscribePopup from "../../components/SubscribePopup";
+import SubscribePopup from "../../components/others/SubscribePopup";
 import { tokens } from "../../theme";
 
 const Home = ({ user, showPopup, handlePopupClose, productFound }) => {

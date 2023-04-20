@@ -8,7 +8,7 @@ import unittest
 # from unittest import TestCase
 import boto3
 from moto import mock_dynamodb
-# , PostAction, PutAction, DeleteAction
+# , PutAction, DeleteAction
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current_dir)
@@ -16,7 +16,7 @@ print(current_dir)
 print(parent)
 # test_dir = os.path.join(current_dir, "./good")
 sys.path.append(parent)
-from lambda_function import GetAction
+from lambda_function import GetAction, PostAction
 
 test_get_event ={
     "queryStringParameters":{"ID":"2"},
@@ -81,3 +81,43 @@ class TestDBLambda(unittest.TestCase):
         get_action.set_action()
         response = get_action.action()
         self.assertEqual(test_get_response["Item"], response['Item'])
+
+    def test_lambda_post_user(self):
+        dynamodb = boto3.resource("dynamodb", region_name = "us-east-1")
+        dynamodb.create_table(
+            TableName="TEST_Users",
+            KeySchema = [{"AttributeName": "ID", "KeyType": "HASH"}],
+            AttributeDefinitions =[
+                {"AttributeName": "ID", "AttributeType": "N"},
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 1,
+                'WriteCapacityUnits': 1
+            }
+        )
+        table = dynamodb.Table("TEST_Users")
+        test_post_event = {
+            "body": {
+                "ID": 5,
+                "email": "johny@gmail.com",
+                "password": "1234",
+                "phone": "5040000000",
+                "username": "Johny"
+            }
+        }
+        test_item = {
+            "ID": 5,
+            "email": "johny@gmail.com",
+            "password": "1234",
+            "phone": "5040000000",
+            "username": "Johny"
+        }
+        post_action = PostAction(test_post_event, table, test_item)
+        post_action.set_action()
+        response = post_action.action()
+        test_response = table.get_item(
+            Key={
+                'ID': 5
+            }
+        )
+        self.assertEqual(test_response['Item'], test_item)

@@ -5,3 +5,4 @@ pytest
 pylint
 requests
 boto3
+moto

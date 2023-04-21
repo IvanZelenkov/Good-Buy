@@ -99,7 +99,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-	const [mode, setMode] = useState("dark");
+	const [mode, setMode] = useState("light");
 
 	// Setting local storage for theme mode
 	useEffect(() => {

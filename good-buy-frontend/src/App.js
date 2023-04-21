@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider, Box } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Topbar from "./pages/global/Topbar";

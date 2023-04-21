@@ -11,15 +11,17 @@ class StoreNameStrategy(FilterStrategyInterface):
     This class implements the FilterStrategyInterface to filter products by store name.
     """
 
-    def __init__(self, param_values: List[str]):
+    def __init__(self, param_value: str):
         """
         Initializes the StoreNameStrategy with the given param value.
 
         Args:
-            param_values: (List[str]): A list of strings containing the values of the
-                                       "storeName" key "rouses|walmart|winn_dixie".
+            param_value: (str): A string containing the values of the  "storeName"
+                                key "rouses|walmart|winn_dixie". If comma-separated
+                                values are received that means that multiple parameter
+                                values have been passed.
         """
-        self.param_values = param_values
+        self.param_value = param_value
 
     def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """
@@ -34,7 +36,7 @@ class StoreNameStrategy(FilterStrategyInterface):
         """
         try:
             filtered_products = [product for product in products
-                                 if product.get("store_name") in self.param_values]
+                                 if product.get("store_name") in self.param_value]
 
             return filtered_products
         except ValueError as error:

@@ -16,8 +16,7 @@ class OnSaleStrategy(FilterStrategyInterface):
         Initializes the OnSaleStrategy with the given param value.
 
         Args:
-            param_value (str):
-                A string containing the value of the "onSale" key "true".
+            param_value (str): A string containing the value of the "onSale" key "true".
         """
         self.param_value = param_value
 

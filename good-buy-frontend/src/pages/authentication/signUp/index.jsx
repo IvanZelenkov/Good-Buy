@@ -22,10 +22,10 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 			<Container
 				maxWidth="xs"
 				sx={{
-					position: 'absolute',
-					left: '50%',
-					top: '50%',
-					transform: 'translate(-50%, -50%)'
+					position: "absolute",
+					left: "50%",
+					top: "50%",
+					transform: "translate(-50%, -50%)"
 				}}
 			>
 				<Box
@@ -36,14 +36,14 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: "custom.customColorA"
+							color: colors.customColors[6]
 						}}
 					>
 						Sign Up
@@ -60,7 +60,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -74,7 +74,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidUsernameMessage !== ""}
 							helperText={invalidUsernameMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -88,7 +88,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							error={invalidPasswordMessage !== ""}
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -97,10 +97,17 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							variant="contained"
 							onClick={signUp}
 							sx={{
+								fontFamily: "Montserrat",
+								fontWeight: "600",
+								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								color: "custom.customColorE",
-								backgroundColor: "custom.customColorA"
+								backgroundColor: colors.customColors[6],
+								color: colors.customColors[1],
+								":hover": {
+									backgroundColor: colors.customColors[5],
+									color: colors.customColors[1]
+								}
 							}}
 						>
 							Sign Up
@@ -110,8 +117,9 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 								onClick={signInInstead}
 								variant="body2"
 								sx={{
-									color: "custom.customColorA",
-									textDecorationColor: colors.customColors[1],
+									color: colors.customColors[6],
+									textDecorationColor: colors.customColors[6],
+									fontFamily: "Montserrat",
 									cursor: "pointer"
 								}}
 							>

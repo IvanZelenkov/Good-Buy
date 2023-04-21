@@ -39,14 +39,14 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: "custom.customColorA"
+							color: colors.customColors[6]
 						}}
 					>
 						Sign In
@@ -63,7 +63,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -77,26 +77,26 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							error={invalidPasswordMessage !== ""}
 							helperText={invalidPasswordMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<FormControlLabel
 							control={<Checkbox
 								value="remember"
-								sx={{ color: "custom.customColorA" }}
-								checkedIcon={<CheckBoxIcon sx={{ color: "custom.customColorA" }}/>}
+								style={{ color: colors.customColors[6] }}
+								checkedIcon={<CheckBoxIcon sx={{ color: colors.customColors[6] }}/>}
 							/>}
 							label={
 								<Typography style={{
-									color: "custom.customColorA",
+									color: colors.customColors[6],
 									fontFamily: "Montserrat",
 									fontWeight: "600"
 								}}>
 									Remember me
 								</Typography>
 							}
-							sx={{ color: "custom.customColorA" }}
+							sx={{ color: colors.customColors[6] }}
 						/>
 						<Button
 							type="submit"
@@ -104,10 +104,17 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							variant="contained"
 							onClick={signIn}
 							sx={{
+								fontFamily: "Montserrat",
+								fontWeight: "600",
+								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								color: "custom.customColorE",
-								backgroundColor: "custom.customColorA"
+								backgroundColor: colors.customColors[6],
+								color: colors.customColors[1],
+								":hover": {
+									backgroundColor: colors.customColors[5],
+									color: colors.customColors[1]
+								}
 							}}
 						>
 							Sign In
@@ -117,7 +124,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 								<Link
 									variant="body2"
 									sx={{
-										color: "custom.customColorA",
+										color: colors.customColors[6],
 										textDecorationColor: colors.customColors[1],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
@@ -131,7 +138,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									onClick={signUpInstead}
 									variant="body2"
 									sx={{
-										color: "custom.customColorA",
+										color: colors.customColors[6],
 										textDecorationColor: colors.customColors[1],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
@@ -143,7 +150,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						</Grid>
 					</Box>
 				</Box>
-				<Copyright textdecorationcolor={colors.customColors[1]}/>
+				<Copyright textdecorationcolor={colors.customColors[6]}/>
 			</Container>
 		</Box>
 	);

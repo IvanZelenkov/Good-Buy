@@ -8,12 +8,12 @@ const CalculateRouteButton = ({ calculateRoute,  customColors }) => {
 				onClick={calculateRoute}
 				sx={{
 					marginBottom: "5vh",
-					backgroundColor: customColors[1],
-					color: customColors[5],
+					backgroundColor: customColors[6],
+					color: customColors[1],
 					fontFamily: "Montserrat",
 					fontSize: "1.2vh",
 					"&:hover": {
-						backgroundColor: "#AAAAAA",
+						backgroundColor: customColors[5],
 						color: customColors[1]
 					}
 				}}

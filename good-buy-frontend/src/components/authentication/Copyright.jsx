@@ -6,12 +6,20 @@ const Copyright = (props) => {
 			variant="body2"
 			align="center" {...props}
 			sx={{
-				color: "custom.customColorA",
+				color: props.textdecorationcolor,
+				fontFamily: "Montserrat",
 				marginTop: 4
 			}}
 		>
 			{"Copyright © "}
-			<Link sx={{ color: "custom.customColorA", textDecorationColor: props.textdecorationcolor }} href="https://main.d1ch79678kx2mg.amplifyapp.com/">
+			<Link
+				sx={{
+					color: props.textdecorationcolor,
+					textDecorationColor: props.textdecorationcolor,
+					fontFamily: "Montserrat"
+				}}
+				href="https://main.d1ch79678kx2mg.amplifyapp.com/"
+			>
 				Good Buy
 			</Link>{" "}
 			{new Date().getFullYear()}

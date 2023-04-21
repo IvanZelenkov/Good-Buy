@@ -18,7 +18,7 @@ import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import { tokens } from "../../theme";
+import {muiTextFieldCSS, tokens} from "../../theme";
 
 const ShoppingList = () => {
 	const { palette: { mode } } = useTheme();
@@ -61,36 +61,47 @@ const ShoppingList = () => {
 				height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 				display: "flex",
 				justifyContent: "center",
-				alignItems: "center"
+				alignItems: "center",
+				flexDirection: "column"
 			}}
 		>
-			<TableContainer
-				component={Paper}
+			<Paper
 				sx={{
-					maxWidth: "35vw",
-					margin: "auto",
-					borderRadius: "10px",
-					overflow: "hidden",
+					width: "40vw",
 					boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
-					backgroundColor: colors.customColors[1],
-					maxHeight: "60vh",
+					backgroundColor: colors.customColors[6],
+					height: "50vh",
+					overflowX: "auto",
 					overflowY: "auto"
 				}}
 			>
 				<Table aria-label="Shopping List">
-					<TableHead sx={{ backgroundColor: colors.customColors[7], position: "sticky", top: 0, zIndex: "1" }}>
+					<TableHead
+						sx={{
+							backgroundColor: colors.customColors[3],
+							position: "sticky",
+							top: 0,
+							zIndex: "1"
+						}}
+					>
 						<TableRow>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }}>Item</TableCell>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }} align="center">Complete</TableCell>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Product Name</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Complete</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody sx={{ height: "calc(60vh - 2.2rem)", overflowY: "auto", zIndex: "0" }}>
+					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
 						{items.map((item) => (
-							<TableRow key={item.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-								<TableCell sx={{ fontSize: "1.2vh", fontFamily: "Montserrat" }}>{item.name}</TableCell>
+							<TableRow key={item.id} sx={{ height: "40px" }}>
+								<TableCell sx={{ fontSize: "1.4vh", fontFamily: "Montserrat", color: colors.customColors[1] }}>
+									{item.name}
+								</TableCell>
 								<TableCell align="center">
-									<Checkbox checked={item.checked} onChange={() => handleCheck(item.id)} />
+									<Checkbox
+										checked={item.checked}
+										onChange={() => handleCheck(item.id)}
+										style={{ color: colors.customColors[1] }}
+									/>
 								</TableCell>
 								<TableCell align="center">
 									<IconButton onClick={() => handleRemove(item.id)}>
@@ -100,27 +111,42 @@ const ShoppingList = () => {
 							</TableRow>
 						))}
 					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TableCell colSpan={3} sx={{ position: "sticky", bottom: 0, backgroundColor: colors.customColors[1] }}>
-								<form onSubmit={handleAdd} style={{ display: "flex" }}>
-									<TextField
-										value={newItem}
-										onChange={(event) => setNewItem(event.target.value)}
-										placeholder="Add a new product"
-										sx={{ width: "100%" }}
-									/>
-									<Button variant="contained" type="submit" sx={{ marginLeft: 2, color: colors.customColors[1] }}>
-										<AddIcon sx={{ fontSize: "2vh", color: colors.customColors[1] }}/>
-									</Button>
-								</form>
-							</TableCell>
-						</TableRow>
-					</TableFooter>
 				</Table>
-			</TableContainer>
+			</Paper>
+			<TableCell colSpan={3} sx={{ position: "sticky", bottom: 0, width: "40vw", backgroundColor: colors.customColors[3] }}>
+				<form onSubmit={handleAdd} style={{ display: "flex" }}>
+					<TextField
+						value={newItem}
+						onChange={(event) => setNewItem(event.target.value)}
+						placeholder="Add a new product"
+						fullWidth={"100%"}
+						sx={muiTextFieldCSS(colors.customColors[6])}
+						inputProps={{
+							style: {
+								fontFamily: "Montserrat",
+								fontSize: "1.2vh"
+							}
+						}}
+						inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+					/>
+					<Button
+						variant="contained"
+						type="submit"
+						sx={{
+							marginLeft: 2,
+							backgroundColor: colors.customColors[6],
+							color: colors.customColors[1],
+							":hover": {
+								backgroundColor: colors.customColors[5],
+								color: colors.customColors[1]
+							}
+						}}
+					>
+						<AddIcon sx={{ fontSize: "2vh" }}/>
+					</Button>
+				</form>
+			</TableCell>
 		</Box>
-
 	);
 };
 

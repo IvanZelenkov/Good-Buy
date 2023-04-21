@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Box, IconButton, InputBase, Typography, useTheme } from "@mui/material";
+import { Box, InputBase, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/others/SubscribePopup";
@@ -40,20 +40,17 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 							justifyContent: "center",
 							alignItems: "center",
 							marginBottom: "2vh",
-							backgroundColor: "custom.customColorF",
+							backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[3],
 							padding: "1.5vh",
 							borderRadius: "10px",
-							width: "40vw"
+							width: "35vw"
 						}}
 					>
 						<Box
 							component="img"
 							src={require('../../images/appLogo.png')}
 							sx={{
-								display: {
-									xs: "none",
-									md: "flex",
-								},
+								display: { xs: "none", md: "flex" },
 								mr: 1,
 								color: "black",
 								width: "8vw"
@@ -65,10 +62,9 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 							component="a"
 							sx={{
 								mr: 2,
-								display: { xs: "none", md: "flex" },
 								fontWeight: 700,
 								letterSpacing: "0.3rem",
-								color: "black",
+								color: colors.customColors[1],
 								textDecoration: "none",
 								fontSize: "2vw",
 								fontFamily: "Montserrat"
@@ -78,33 +74,36 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 						</Typography>
 					</Box>
 
-					<Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-						{/* SEARCH BAR */}
-						<Box
-							display="flex"
-							backgroundColor="custom.customColorA"
-							borderRadius="10px"
-							width="40vw"
-						>
-							<InputBase
-								sx={{ marginLeft: 2, flex: 1 }}
-								placeholder="Search"
-								onChange={(productName) => searchProductByName(productName)}
-								error={!isValid}
-								required={true}
-								onKeyDown={handleKeyDown}
-								inputProps={{ style: { fontFamily: "Montserrat" }}}
-								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-							/>
-							<IconButton
-								type="button"
-								disabled={!isValid}
-								onClick={() => productFound("found", inputProductName)}
-								sx={{ padding: 1, color: colors.customColors[5] }}
-							>
-								<SearchIcon />
-							</IconButton>
-						</Box>
+					<Box sx={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "center",
+						alignItems: "center",
+						padding: "10px",
+						backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[3],
+						borderRadius: "10px",
+						width: "35vw"
+					}}>
+						<SearchIcon sx={{fontSize: "2.5vh", color: colors.customColors[1]}}/>
+						<InputBase
+							sx={{
+								marginLeft: 2,
+								flex: 1,
+								fontFamily: "Montserrat",
+								fontSize: "1.3vh",
+								color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
+								"&::placeholder": {
+									color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
+									opacity: "0.6"
+								}
+							}}
+							placeholder="Search for products"
+							onChange={(productName) => searchProductByName(productName)}
+							error={!isValid}
+							required={true}
+							onKeyDown={handleKeyDown}
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+						/>
 					</Box>
 				</Box>
 			</Box>

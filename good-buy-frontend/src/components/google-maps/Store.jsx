@@ -17,9 +17,9 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 				primary={
 					<Typography
 						sx={{
-							color: customColors[1],
-							fontSize: '1.1vh',
-							fontFamily: 'Montserrat',
+							color: customColors[6],
+							fontSize: "1.1vh",
+							fontFamily: "Montserrat",
 							fontWeight: 600
 						}}
 					>
@@ -29,9 +29,9 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 				secondary={
 					<Typography
 						sx={{
-							color: customColors[1],
-							fontSize: '0.9vh',
-							fontFamily: 'Montserrat'
+							color: customColors[6],
+							fontSize: "0.9vh",
+							fontFamily: "Montserrat"
 						}}
 					>
 						{address}
@@ -40,9 +40,9 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 			/>
 			<Typography
 				sx={{
-					color: customColors[1],
-					fontSize: '1.1vh',
-					fontFamily: 'Montserrat'
+					color: customColors[6],
+					fontSize: "0.9vh",
+					fontFamily: "Montserrat"
 				}}
 			>
 				{distance}

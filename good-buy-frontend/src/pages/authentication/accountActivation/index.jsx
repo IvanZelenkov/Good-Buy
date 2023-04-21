@@ -36,14 +36,14 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: "custom.customColorA" }}>
+					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: "custom.customColorA"
+							color: colors.customColors[6]
 						}}
 					>
 						Account Activation
@@ -60,7 +60,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							error={invalidEmailMessage !== ""}
 							helperText={invalidEmailMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -73,7 +73,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							error={invalidAuthCodeMessage !== ""}
 							helperText={invalidAuthCodeMessage}
 							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[1])}
+							sx={muiTextFieldCSS(colors.customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -83,10 +83,17 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							variant="contained"
 							onClick={confirmSignUp}
 							sx={{
+								fontFamily: "Montserrat",
+								fontWeight: "600",
+								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								color: "custom.customColorE",
-								backgroundColor: "custom.customColorA"
+								backgroundColor: colors.customColors[6],
+								color: colors.customColors[1],
+								":hover": {
+									backgroundColor: colors.customColors[5],
+									color: colors.customColors[1]
+								}
 							}}
 						>
 							Activate
@@ -95,7 +102,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							<Link
 								variant="body2"
 								sx={{
-									color: "custom.customColorA",
+									color: colors.customColors[6],
 									textDecorationColor: colors.customColors[1],
 									cursor: "pointer"
 								}}

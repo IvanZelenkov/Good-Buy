@@ -5,10 +5,8 @@ and database interactivity.
 import os
 import sys
 import unittest
-# from unittest import TestCase
 import boto3
 from moto import mock_dynamodb
-#, DeleteAction
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current_dir)
@@ -16,7 +14,7 @@ print(current_dir)
 print(parent)
 # test_dir = os.path.join(current_dir, "./good")
 sys.path.append(parent)
-from lambda_function import GetAction, PostAction , PutAction
+from lambda_function import GetAction, PostAction , PutAction, DeleteAction
 
 
 
@@ -179,3 +177,49 @@ class TestDBLambda(unittest.TestCase):
             }
         )
         self.assertEqual(test_response['Item'], expected_item)
+
+    def test_lambda_delete_user(self):
+        '''Testing a delete request for 
+        DynamoDB Users table
+        path: /database/user-account'''
+        dynamodb = boto3.resource("dynamodb", region_name = "us-east-1")
+        dynamodb.create_table(
+            TableName="TEST_Users",
+            KeySchema = [{"AttributeName": "ID", "KeyType": "HASH"}],
+            AttributeDefinitions =[
+                {"AttributeName": "ID", "AttributeType": "N"},
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 1,
+                'WriteCapacityUnits': 1
+            }
+        )
+        table = dynamodb.Table("TEST_Users")
+        test_item = {
+            'ID': 5,
+            'email': "johny@gmail.com",
+            'password': "1234",
+            'phone': "5040000000",
+            'username': "Johny"
+        }
+        table.put_item(
+            Item = test_item
+        )
+        response = table.get_item(
+            Key={
+                'ID': 5
+            }
+        )
+        test_event = {
+            "queryStringParameters":{"ID":"5"},
+        }
+        self.assertEqual(response['Item'],test_item)
+        delete_action = DeleteAction(test_event, table)
+        delete_action.set_action()
+        delete_action.action()
+        response2 = table.get_item(
+            Key={
+                'ID': 5
+            }
+        )
+        self.assertNotIn('Item', response2, 'Item is not in response')

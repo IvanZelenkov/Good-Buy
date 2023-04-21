@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Auth } from "aws-amplify";
 import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
@@ -5,8 +6,8 @@ import { tokens } from "../../theme";
 import Loader from "../../components/others/Loader";
 
 const UserProfile = ({ user }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
+	const { palette: { mode } } = useTheme();
+	const colors = useMemo(() => tokens(mode), [mode]);
 	const avatarUrl = "https://static.toiimg.com/thumb/msid-76682135,width-400,resizemode-4/76682135.jpg";
 
 	if (user === null)
@@ -28,53 +29,60 @@ const UserProfile = ({ user }) => {
 					alignItems: "center",
 					gap: 2,
 					padding: 4,
-					backgroundColor: colors.customColors[1],
-					color: colors.customColors[4],
+					backgroundColor: colors.customColors[6],
+					color: colors.customColors[1],
 					borderRadius: "5px",
-					boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
 					transform: "scale(1)",
 					transition: "transform 0.5s ease-out",
 					"&:hover": {
-						transform: "scale(1.05)",
+						transform: "scale(1.025)",
 					}
 				}}>
 					<Avatar
 						alt="user-profile-image"
 						src={avatarUrl}
 						sx={{
-							width: "10vh",
-							height: "10vh",
+							width: "12vh",
+							height: "12vh",
 							borderRadius: "50%",
 							boxShadow: "0px 20px 15px rgba(0, 0, 0, 0.5)"
 						}}
 					/>
 					<Typography
 						sx={{
+							fontFamily: "Montserrat",
+							fontWeight: "600",
+							letterSpacing: "1px",
 							fontSize: "2vh",
-							fontWeight: "bold",
 							textAlign: "center",
 							marginTop: "2vh",
-							color: colors.customColors[5]
+							color: colors.customColors[1]
 						}}
 					>
 						{user.attributes.name}
 					</Typography>
 					<Typography
 						sx={{
+							fontFamily: "Montserrat",
+							fontWeight: "600",
+							letterSpacing: "1px",
 							fontSize: "1.5vh",
 							textAlign: "center",
 							marginTop: "1vh",
-							color: colors.customColors[5]
+							color: colors.customColors[1]
 						}}
 					>
 						{user.attributes.email}
 					</Typography>
 					<Typography
 						sx={{
+							fontFamily: "Montserrat",
+							fontWeight: "600",
+							letterSpacing: "1px",
 							fontSize: "1.5vh",
 							textAlign: "center",
 							marginTop: "1vh",
-							color: colors.customColors[5]
+							color: colors.customColors[1]
 						}}
 					>
 						701 Baronne St, New Orleans
@@ -88,20 +96,17 @@ const UserProfile = ({ user }) => {
 						Auth.signOut();
 					}}
 					sx={{
+						fontFamily: "Montserrat",
+						fontWeight: "600",
+						letterSpacing: "1px",
 						marginTop: 3,
 						marginBottom: 2,
-						backgroundColor: colors.customColors[1],
-						color: colors.customColors[5],
+						backgroundColor: colors.customColors[6],
+						color: colors.customColors[1],
 						borderRadius: "5px",
-						boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
-						transform: "scale(1)",
-						transition: "transform 0.5s ease-out",
 						"&:hover": {
-							backgroundColor: colors.customColors[1],
-							color: colors.customColors[5],
-							boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
-							transform: "scale(1.05)",
-							transition: "transform 0.5s ease-out",
+							backgroundColor: colors.customColors[5],
+							color: colors.customColors[1]
 						}
 					}}
 				>

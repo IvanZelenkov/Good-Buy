@@ -11,8 +11,8 @@ const Deal = ({ colors: { customColors }}) => {
 					<UseAnimations
 						animation={loading}
 						size={50}
-						fillColor={customColors[1]}
-						strokeColor={customColors[1]}
+						fillColor={customColors[6]}
+						strokeColor={customColors[6]}
 					/>
 				</Box>
 			</Box>

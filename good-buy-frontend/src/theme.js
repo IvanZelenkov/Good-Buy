@@ -5,69 +5,23 @@ import { createTheme } from "@mui/material/styles";
 export const tokens = (mode) => ({
 	...(mode === "dark"
 		? {
-			grey: {
-				100: "#e0e0e0",
-				200: "#c2c2c2",
-				300: "#a3a3a3",
-				400: "#858585",
-				500: "#666666",
-				600: "#525252",
-				700: "#3d3d3d",
-				800: "#292929",
-				900: "#141414"
-			},
-			primary: {
-				100: "#d0d1d5",
-				200: "#a1a4ab",
-				300: "#727681",
-				400: "#1F2A40",
-				500: "#141b2d",
-				600: "#101624",
-				700: "#0c101b",
-				800: "#080b12",
-				900: "#040509"
-			},
 			customColors: {
 				1: "#1C2A33",
-				2: "#1b2838",
+				2: "#2c3b50",
 				3: "#96ABB7",
-				4: "#DBE2E7",
-				5: "#FFFFFF",
-				6: "#ACBAC3",
-				7: "#FFFFFF"
+				4: "#ACBAC3",
+				5: "#DBE2E7",
+				6: "#FFFFFF"
 			}
 		}
 		: {
-			grey: {
-				100: "#1E1E1E",
-				200: "#292929",
-				300: "#3d3d3d",
-				400: "#525252",
-				500: "#666666",
-				600: "#858585",
-				700: "#a3a3a3",
-				800: "#c2c2c2",
-				900: "#e0e0e0"
-			},
-			primary: {
-				100: "#040509",
-				200: "#080b12",
-				300: "#0c101b",
-				400: "#f2f0f0",
-				500: "#141b2d",
-				600: "#1F2A40",
-				700: "#727681",
-				800: "#a1a4ab",
-				900: "#d0d1d5"
-			},
 			customColors: {
 				1: "#FFFFFF",
-				2: "#1b2838",
-				3: "#96ABB7",
-				4: "#FFFFFF",
-				5: "#2a475e",
-				6: "#ACBAC3",
-				7: "#000000"
+				2: "#DBE2E7",
+				3: "#ACBAC3",
+				4: "#96ABB7",
+				5: "#2c3b50",
+				6: "#1C2A33"
 			}
 		})
 });
@@ -81,44 +35,30 @@ export const themeSettings = (mode) => {
 			...(mode === "dark"
 				? {
 					// palette values for dark mode
-					primary: {
-						main: colors.grey[100]
-					},
-					secondary: {
-						main: colors.grey[900]
-					},
 					custom: {
 						customColorA: colors.customColors[1],
 						customColorB: colors.customColors[2],
 						customColorC: colors.customColors[3],
 						customColorD: colors.customColors[4],
 						customColorE: colors.customColors[5],
-						customColorF: colors.customColors[6],
-						customColorG: colors.customColors[7]
+						customColorF: colors.customColors[6]
 					},
 					background: {
-						default: "#DBE2E7"
+						default: colors.customColors[1]
 					}
 				}
 				: {
 					// palette values for light mode
-					primary: {
-						main: colors.grey[100]
-					},
-					secondary: {
-						main: colors.grey[900]
-					},
 					custom: {
-						customColorA: colors.customColors[4],
-						customColorB: colors.customColors[4],
+						customColorA: colors.customColors[6],
+						customColorB: colors.customColors[5],
 						customColorC: colors.customColors[4],
-						customColorD: colors.customColors[2],
-						customColorE: colors.customColors[5],
-						customColorF: colors.customColors[6],
-						customColorG: colors.customColors[7]
+						customColorD: colors.customColors[3],
+						customColorE: colors.customColors[2],
+						customColorF: colors.customColors[1]
 					},
 					background: {
-						default: colors.customColors[5]
+						default: colors.customColors[1]
 					}
 				})
 		},
@@ -215,36 +155,38 @@ export function muiTextFieldCSS(themeColor) {
 	}
 }
 
-export const muiPaginationCSS = {
-	"& .MuiPaginationItem-root": {
-		color: "#1C2A33",
-		marginRight: "2vw",
-		'&:hover, &:focus': {
-			backgroundColor: '#1C2A33',
-			color: '#DBE2E7'
-		}
-	},
-	"& .Mui-selected": {
-		color: "#DBE2E7",
-		backgroundColor: "#1C2A33",
-		"&:hover &:focus": {
-			backgroundColor: "#1C2A33",
-			filter: "brightness(0.75)"
-		}
-	},
-	"& .MuiPaginationItem-page:not(.Mui-selected)": {
-		backgroundColor: "#FFFFFF",
-		"&:hover": {
-			color: "#DBE2E7",
-			backgroundColor: "#1C2A33"
-		}
-	},
-	'& .Mui-selected:not(:focus)': {
-		backgroundColor: '#1C2A33',
-		color: '#FFFFFF',
-		"&:hover": {
-			backgroundColor: "#1C2A33",
-			filter: "brightness(0.75)"
+export function muiPaginationCSS(themeColor1, themeColor2) {
+	return {
+		"& .MuiPaginationItem-root": {
+			color: themeColor1,
+			marginRight: "2vw",
+			'&:hover, &:focus': {
+				backgroundColor: themeColor1,
+				color: themeColor2
+			}
+		},
+		"& .Mui-selected": {
+			color: themeColor2,
+			backgroundColor: themeColor1,
+			"&:hover &:focus": {
+				backgroundColor: themeColor1,
+				filter: "brightness(0.75)"
+			}
+		},
+		"& .MuiPaginationItem-page:not(.Mui-selected)": {
+			backgroundColor: themeColor2,
+			"&:hover": {
+				color: themeColor2,
+				backgroundColor: themeColor1
+			}
+		},
+		'& .Mui-selected:not(:focus)': {
+			backgroundColor: themeColor1,
+			color: themeColor2,
+			"&:hover": {
+				backgroundColor: themeColor1,
+				filter: "brightness(0.75)"
+			}
 		}
 	}
 }
@@ -291,43 +233,6 @@ export const itemData = [
 	{
 		img: "https://image.api.playstation.com/vulcan/ap/rnd/202303/0712/7719871c99576b38d737dacbcd513359a2f7c187b370e424.png?w=440&thumb=false"
 	}
-];
-
-
-export const itemData1 = [
-	{
-		img: "https://image.api.playstation.com/vulcan/ap/rnd/202302/1623/430628d4872bbaef36b5458880a609af5094ff976778252b.png?w=440&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/156/127/e98c4015-3c83-4363-9af5-a757fad811e1.png?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/156/131/b5bb550a-43da-4561-976d-0791045c928c.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
-	}
-];
-
-export const itemData2 = [
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/vulcan/ap/rnd/202211/3017/Oo1B84A7BLCT157YFSxjtwG0.png?w=440&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/141/335/e36c6aff-a702-4cdb-a9d3-9218bacfffcd.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/150/222/1d799854-0029-4fc4-a47b-0aea17de4662.jpg?w=620&thumb=false"
-	},
-	{
-		img: "https://image.api.playstation.com/pr/bam-art/142/225/b8c9c8a9-ce45-4ec5-bdc0-0ee27ee951b9.jpg?w=620&thumb=false"
-	},
 ];
 
 export const stores = {

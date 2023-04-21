@@ -35,7 +35,7 @@ const GoogleMaps = () => {
 						width: 400,
 						height: `calc(100vh - ${topBarHeight}px)`,
 						padding: "1.5vh",
-						backgroundColor: `${colors.customColors[5]}`,
+						backgroundColor: `${colors.customColors[1]}`,
 						justifyContent: "space-between",
 						flexDirection: "column",
 						alignItems: "center"

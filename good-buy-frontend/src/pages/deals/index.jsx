@@ -11,57 +11,66 @@ const Deals = () => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box sx={{ display: "flex", flexDirection: "column" }}>
-				<Box sx={{
-					display: "flex",
-					height: "5vh",
-				}}/>
+				<Box sx={{ display: "flex", height: "5vh" }}/>
 				<Box sx={{ position: "relative" }}>
-					<Box sx={{
-						display: "flex",
-						height: `calc(100vh - ${65}px - 50vh)`,
-						backgroundImage: `url(${mainImage})`,
-						backgroundSize: "cover",
-						backgroundPosition: "center",
-						backgroundRepeat: "no-repeat",
-						backgroundAttachment: "fixed",
-						boxShadow: "inset 0px 0px 30px 10px rgba(0.5, 0, 0, 0.5)",
-						position: "relative",
-						zIndex: "1"
-					}}/>
-					<Box sx={{
-						position: "absolute",
-						top: "20%",
-						left: "20%",
-						width: "25vh",
-						height: "25vh",
-						zIndex: "2",
-						backgroundImage: `url(${saleImage})`,
-						backgroundSize: "cover",
-						backgroundPosition: "center",
-						backgroundRepeat: "no-repeat",
-					}}/>
+					<Box
+						sx={{
+							display: "flex",
+							height: `calc(100vh - ${65}px - 50vh)`,
+							backgroundImage: `url(${mainImage})`,
+							backgroundSize: "cover",
+							backgroundPosition: "center",
+							backgroundRepeat: "no-repeat",
+							backgroundAttachment: "fixed",
+							boxShadow: "inset 0px 0px 30px 10px rgba(0.5, 0, 0, 0.5)",
+							position: "relative",
+							zIndex: "1"
+						}}
+					/>
+					<Box
+						sx={{
+							position: "absolute",
+							top: "20%",
+							left: "20%",
+							width: "25vh",
+							height: "25vh",
+							zIndex: "2",
+							backgroundImage: `url(${saleImage})`,
+							backgroundSize: "cover",
+							backgroundPosition: "center",
+							backgroundRepeat: "no-repeat"
+						}}
+					/>
 				</Box>
-				<Box sx={{
-					display: "flex",
-					height: "10vh",
-					justifyContent: "space-between",
-					alignItems: "center",
-					padding: "0 2rem",
-					boxShadow: "0px 10px 30px 0px rgba(0, 0, 0, 0.5)",
-				}}>
+				<Box
+					sx={{
+						display: "flex",
+						height: "10vh",
+						justifyContent: "space-between",
+						alignItems: "center",
+						padding: "0 2rem",
+						boxShadow: "0px 10px 30px 0px rgba(0, 0, 0, 0.5)"
+					}}
+				>
 					<Container maxWidth="xl" sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<Box>
-							<Typography variant="h4" sx={{ color: colors.customColors[1], fontFamily: "Montserrat", }}>Spring Sale</Typography>
-							<Typography variant="subtitle1" sx={{ color: colors.customColors[1], fontFamily: "Montserrat" }}>
+							<Typography variant="h4" sx={{ color: colors.customColors[6], fontFamily: "Montserrat", }}>Spring Sale</Typography>
+							<Typography variant="subtitle1" sx={{ color: colors.customColors[6], fontFamily: "Montserrat" }}>
 								Don’t miss deals on thousands of games and add-ons.
 							</Typography>
 						</Box>
 						<Button
-							variant="contained"
 							sx={{
-								backgroundColor: colors.customColors[1],
-								color: colors.customColors[5],
-								fontFamily: "Montserrat"
+								backgroundColor: colors.customColors[6],
+								color: colors.customColors[1],
+								fontFamily: "Montserrat",
+								fontWeight: "900",
+								letterSpacing: "1px",
+								px: "1vw",
+								":hover": {
+									backgroundColor: colors.customColors[5],
+									color: colors.customColors[1]
+								}
 							}}
 						>
 							Save Now

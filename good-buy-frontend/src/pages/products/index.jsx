@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Box, Divider, FormControl, FormGroup, IconButton, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
+import { useState, useEffect, useMemo } from "react";
+import { Box, Divider, FormControl, FormGroup, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import RatingStars from "../../components/others/RatingStars";
@@ -12,8 +12,8 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
 const Products = () => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
+	const { palette: { mode } } = useTheme();
+	const colors = useMemo(() => tokens(mode), [mode]);
 	const [infoLoaded, setInfoLoaded] = useState(false);
 	const [productsData, setProductsData] = useState([]);
 	const [page, setPage] = useState(1);
@@ -36,35 +36,36 @@ const Products = () => {
 					sx={{
 						width: 360,
 						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
-						backgroundColor: `${colors.customColors[1]}`,
+						backgroundColor: `${colors.customColors[3]}`,
 						borderRadius: "10px",
 						padding: "15px"
 					}}>
 					{/* SEARCH BAR */}
-					<Box
-						sx={{
+					<Box sx={{
 						display: "flex",
-						flexDirection: "row"
+						flexDirection: "row",
+						justifyContent: "center",
+						alignItems: "center",
+						padding: "10px",
+						backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[6],
+						borderRadius: "10px"
 					}}>
-						<Box
+						<SearchIcon sx={{fontSize: "2.2vh", color: colors.customColors[1]}}/>
+						<InputBase
 							sx={{
-								display: "flex",
-								backgroundColor: "custom.customColorE",
-								borderRadius: "10px",
-								width: "100%"
+								marginLeft: 2,
+								flex: 1,
+								fontFamily: "Montserrat",
+								fontSize: "1vh",
+								color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
+								"&::placeholder": {
+									color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
+									opacity: "0.6"
+								}
 							}}
-						>
-							<InputBase
-								sx={{ marginLeft: 2, flex: 1, color: "custom.customColorA" }}
-								placeholder="Search"
-								required={true}
-								inputProps={{ style: { fontFamily: "Montserrat" }}}
-								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-							/>
-							<IconButton type="button" sx={{ padding: 1, color: "custom.customColorA" }}>
-								<SearchIcon/>
-							</IconButton>
-						</Box>
+							placeholder="Search for products"
+							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+						/>
 					</Box>
 
 					<Divider sx={{ margin: "1vh 0" }}/>
@@ -107,7 +108,7 @@ const Products = () => {
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
-										title={"Rouses"}
+										title={"Walmart"}
 										filters={filters}
 										setFilters={setFilters}
 										handleFilter={handleFilter}
@@ -116,7 +117,7 @@ const Products = () => {
 										customColors={colors.customColors}
 									/>
 									<FilterCheckbox
-										title={"Rouses"}
+										title={"Winn-Dixie"}
 										filters={filters}
 										setFilters={setFilters}
 										handleFilter={handleFilter}
@@ -225,7 +226,7 @@ const Products = () => {
 										}}
 									/>
 									<Box sx={{
-										backgroundColor: theme.palette.mode === "dark" ? colors.customColors[1] : "#1C2A33",
+										backgroundColor: mode === "dark" ? colors.customColors[2] : "#1C2A33",
 										borderBottomLeftRadius: "10px",
 										borderBottomRightRadius: "10px",
 										borderTop: "2px solid white"
@@ -249,7 +250,9 @@ const Products = () => {
 											/>
 											<Typography sx={{
 												padding: "0.5vh",
-												fontSize: "1.5vh",
+												fontSize: "1.1vh",
+												fontFamily: "Montserrat",
+												fontWeight: "900",
 												color: "white"
 											}}>
 												{product.Name}
@@ -263,7 +266,9 @@ const Products = () => {
 										}}>
 											<RatingStars rating={product.rating} starColor={"gold"}/>
 											<Typography sx={{
-												fontSize: "2vh",
+												fontSize: "1.7vh",
+												fontFamily: "Montserrat",
+												fontWeight: "900",
 												color: "white"
 											}}>
 												${product.price}
@@ -279,7 +284,7 @@ const Products = () => {
 						onChange={(event, value) => {
 							handleChange(event, value, setPage)
 						}}
-						sx={muiPaginationCSS}
+						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[2])}
 					/>
 				</Box>
 			</Box>

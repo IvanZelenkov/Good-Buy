@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
 import { AccountCircle as AccountCircleIcon, Menu as MenuIcon, SettingsOutlined as SettingsOutlinedIcon } from "@mui/icons-material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -18,7 +18,7 @@ const pages = [
 	{ "pageName": "Shopping Cart", "route": "/shopping-cart" }
 ];
 
-function Topbar() {
+const Topbar = () => {
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
 	const colors = tokens(theme.palette.mode);
@@ -35,7 +35,7 @@ function Topbar() {
 	};
 
 	return (
-		<AppBar position="sticky" sx={{ backgroundColor: "custom.customColorA" }}>
+		<AppBar position="sticky" sx={{ backgroundColor: colors.customColors[6] }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Typography
@@ -46,7 +46,7 @@ function Topbar() {
 							fontSize: "1.5vh",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "custom.customColorD",
+							color: colors.customColors[1],
 							textDecoration: "none",
 							fontFamily: "Montserrat",
 							cursor: "pointer"
@@ -56,34 +56,31 @@ function Topbar() {
 						GOOD BUY
 					</Typography>
 
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 						<IconButton
 							size="large"
 							aria-label="account of current user"
 							aria-controls="menu-appbar"
 							aria-haspopup="true"
 							onClick={handleOpenNavMenu}
-							color="inherit"
+							sx={{
+								color: colors.customColors[1],
+								":hover": {
+									color: colors.customColors[2]
+								}
+							}}
 						>
 							<MenuIcon/>
 						</IconButton>
 						<Menu
 							id="menu-appbar"
 							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
+							anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'left',
-							}}
+							transformOrigin={{ vertical: "top", horizontal: "left" }}
 							open={Boolean(anchorElNav)}
 							onClose={handleCloseNavMenu}
-							sx={{
-								display: { xs: 'block', md: 'none' },
-							}}
+							sx={{ display: { xs: "block", md: "none" }}}
 						>
 							{pages.map((page, id) => (
 								<MenuItem
@@ -92,10 +89,7 @@ function Topbar() {
 									component={Link}
 									to={page.route}
 								>
-									<Typography sx={{
-										textAlign: "center",
-										fontFamily: "Montserrat"
-									}}>
+									<Typography sx={{ textAlign: "center", fontFamily: "Montserrat"}}>
 										{page.pageName}
 									</Typography>
 								</MenuItem>
@@ -104,7 +98,6 @@ function Topbar() {
 					</Box>
 					
 					<Typography
-						variant="h5"
 						noWrap
 						component="a"
 						href=""
@@ -114,14 +107,14 @@ function Topbar() {
 							flexGrow: 1,
 							fontFamily: "Montserrat",
 							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none",
+							color: colors.customColors[1],
+							letterSpacing: "0.3rem",
+							textDecoration: "none"
 						}}
 					>
 						GOOD BUY
 					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 						{pages.map((page, id) => (
 							<Button
 								component={Link}
@@ -130,15 +123,16 @@ function Topbar() {
 								onClick={handleCloseNavMenu}
 								sx={{
 									my: 2,
-									color: "custom.customColorD",
-									":hover": {
-										color: "custom.customColorE",
-									},
-									display: 'flex',
+									display: "flex",
 									justifyContent: "center",
 									alignItems: "center",
 									fontWeight: "900",
-									fontFamily: "Montserrat"
+									fontFamily: "Montserrat",
+									color: colors.customColors[1],
+									letterSpacing: "1px",
+									":hover": {
+										color: colors.customColors[2]
+									}
 								}}
 							>
 								{page.pageName}
@@ -148,54 +142,67 @@ function Topbar() {
 
 					<Box sx={{ display: "flex", flexGrow: 0, flexDirection: "row" }}>
 						<motion.div whileHover={{ scale: 1.2 }}>
-							<IconButton
-								onClick={colorMode.toggleColorMode}
-								sx={{ marginRight: "1vw" }}
-							>
-								{theme.palette.mode === "dark" ? (
-									<DarkModeOutlinedIcon sx={{
-										color: "custom.customColorD",
-										":hover": {
-											color: "custom.customColorE",
-										}
-									}}/>
-								) : (
-									<LightModeOutlinedIcon sx={{
-										color: "custom.customColorD",
-										":hover": {
-											color: "custom.customColorE"
-										}
-									}}/>
-								)}
-							</IconButton>
+							{theme.palette.mode === "dark" ? (
+								<Tooltip title="Light Theme" placement="bottom">
+									<IconButton
+										onClick={colorMode.toggleColorMode}
+										sx={{ marginRight: "1vw" }}
+									>
+										<LightModeOutlinedIcon sx={{
+											color: colors.customColors[1],
+											":hover": {
+												color: colors.customColors[2]
+											}
+										}}/>
+									</IconButton>
+								</Tooltip>
+							) : (
+								<Tooltip title="Dark Theme" placement="bottom">
+									<IconButton
+										onClick={colorMode.toggleColorMode}
+										sx={{ marginRight: "1vw" }}
+									>
+										<DarkModeOutlinedIcon sx={{
+											color: colors.customColors[1],
+											":hover": {
+												color: colors.customColors[2]
+											}
+										}}/>
+									</IconButton>
+								</Tooltip>
+							)}
 						</motion.div>
 						<motion.div whileHover={{ scale: 1.2 }}>
-							<IconButton component={Link} to="/settings" sx={{ marginRight: "1vw" }}>
-								<SettingsOutlinedIcon
-									sx={{
-										color: "custom.customColorD",
-										":hover": {
-											color: "custom.customColorE",
-										}
-									}}
-								/>
-							</IconButton>
+							<Tooltip title="Settings" placement="bottom">
+								<IconButton component={Link} to="/settings" sx={{ marginRight: "1vw" }}>
+									<SettingsOutlinedIcon
+										sx={{
+											color: colors.customColors[1],
+											":hover": {
+												color: colors.customColors[2]
+											}
+										}}
+									/>
+								</IconButton>
+							</Tooltip>
 						</motion.div>
 						<motion.div whileHover={{ scale: 1.2 }}>
-							<IconButton
-								component={Link}
-								to="/authentication"
-								sx={{ marginRight: "1vw" }}
-							>
-								<AccountCircleIcon
-									sx={{
-										color: "custom.customColorD",
-										":hover": {
-											color: "custom.customColorE",
-										}
-									}}
-								/>
-							</IconButton>
+							<Tooltip title="Profile" placement="bottom">
+								<IconButton
+									component={Link}
+									to="/authentication"
+									sx={{ marginRight: "1vw" }}
+								>
+									<AccountCircleIcon
+										sx={{
+											color: colors.customColors[1],
+											":hover": {
+												color: colors.customColors[2]
+											}
+										}}
+									/>
+								</IconButton>
+							</Tooltip>
 						</motion.div>
 					</Box>
 				</Toolbar>

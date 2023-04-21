@@ -3,7 +3,7 @@ import {
 	Box,
 	Button,
 	Checkbox,
-	IconButton,
+	IconButton, InputBase,
 	Paper,
 	Table,
 	TableBody,
@@ -12,17 +12,18 @@ import {
 	TableFooter,
 	TableHead,
 	TableRow,
-	TextField
+	TextField, Typography
 } from "@mui/material";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import { tokens } from "../../theme";
+import {muiTextFieldCSS, tokens} from "../../theme";
 import {ProductCard} from "./CartProduct";
 import { CartContext } from "./CartContext";
 import { getProductData } from "./productStore";
 import { productArray } from "./productStore";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ShoppingCart = (props) => {
 	const { palette: { mode } } = useTheme();
@@ -32,13 +33,15 @@ const ShoppingCart = (props) => {
 	const id = props.id;
 	const quantity = props.quantity;
 	const productData = getProductData(id);
+	const [inputProductName, setInputProductName] = useState("");
+	const [isValid, setIsValid] = useState(false);
 	
 	const [items, setItems] = useState([
-		{ id: 1, name: "Three Musketeers" },
-		{ id: 2, name: "Candy Cane" },
-		{ id: 3, name: "Kit Kat" },
-		{ id: 4, name: "Skittles" },
-		{ id: 5, name: "Twix" }
+		{ id: 1, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$64" },
+		{ id: 2, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$2" },
+		{ id: 3, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$23" },
+		{ id: 4, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$12" },
+		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72" }
 	]);
 	const [newItem, setNewItem] = useState("");
     
@@ -61,9 +64,11 @@ const ShoppingCart = (props) => {
 		setItems([...items, newItemObj]);
 		setNewItem("");
 	};
-    const [inputProductName, setInputProductName] = useState("");
-	const [isValid, setIsValid] = useState(false);
 
+	const totalPrice = items.reduce((accumulator, current) => {
+		const price = Number(current.price.slice(1));
+		return accumulator + price;
+	}, 0);
 
 	return (
 		<Box
@@ -73,37 +78,65 @@ const ShoppingCart = (props) => {
 				height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 				display: "flex",
 				justifyContent: "center",
-				alignItems: "center",
-                flexDirection: "column"
+				alignItems: "center"
 			}}
 		>
-			<TableContainer
-				component={Paper}
+			<Paper
 				sx={{
-					maxWidth: "35vw",
-					borderRadius: "10px",
-					overflow: "hidden",
+					width: "40vw",
 					boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
-					backgroundColor: colors.customColors[1],
-					maxHeight: "60vh",
+					backgroundColor: colors.customColors[6],
+					height: "50vh",
+					overflowX: "auto",
 					overflowY: "auto",
-					marginBottom: "5vh"
+					borderRadius: "5px"
 				}}
 			>
-				<Table aria-label="Shopping List">
-					<TableHead sx={{ backgroundColor: colors.customColors[7], position: "sticky", top: 0, zIndex: "1" }}>
+				<Table aria-label="Shopping Cart">
+					<TableHead
+						sx={{
+							backgroundColor: colors.customColors[3],
+							position: "sticky",
+							top: 0,
+							zIndex: "1"
+						}}
+					>
 						<TableRow>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }}>Item</TableCell>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }} align="center">Complete</TableCell>
-							<TableCell sx={{ color: colors.customColors[1], fontSize: "1.2vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Image</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Name</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Price</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody sx={{ height: "calc(60vh - 2.2rem)", overflowY: "auto", zIndex: "0" }}>
+					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
 						{items.map((item) => (
-							<TableRow key={item.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-								<TableCell sx={{ fontSize: "1.2vh", fontFamily: "Montserrat" }}>{item.name}</TableCell>
+							<TableRow key={item.id} sx={{ height: "40px" }}>
+								<TableCell
+									sx={{
+										fontSize: "1.4vh",
+										fontFamily: "Montserrat",
+										color: colors.customColors[1]
+									}}
+								>
+									{item.image}
+								</TableCell>
+								<TableCell
+									sx={{
+										fontSize: "1.4vh",
+										fontFamily: "Montserrat",
+										color: colors.customColors[1]
+									}}
+								>
+									{item.name}
+								</TableCell>
 								<TableCell align="center">
-									<Checkbox checked={item.checked} onChange={() => handleCheck(item.id)} />
+									<Typography sx={{
+										fontSize: "1.4vh",
+										fontFamily: "Montserrat",
+										color: colors.customColors[1]
+									}}>
+										{item.price}
+									</Typography>
 								</TableCell>
 								<TableCell align="center">
 									<IconButton onClick={() => handleRemove(item.id)}>
@@ -113,42 +146,33 @@ const ShoppingCart = (props) => {
 							</TableRow>
 						))}
 					</TableBody>
-					<TableFooter>
-						<TableRow>
-							<TableCell colSpan={3} sx={{ position: "sticky", bottom: 0, backgroundColor: colors.customColors[1] }}>
-								<form onSubmit={handleAdd} style={{ display: "flex" }}>
-									<TextField
-										value={newItem}
-										onChange={(event) => setNewItem(event.target.value)}
-										placeholder="Add a new product"
-										sx={{ width: "100%" }}
-									/>
-									<Button variant="contained" type="submit" sx={{ marginLeft: 2, color: colors.customColors[1] }}>
-										<AddIcon sx={{ fontSize: "2vh", color: colors.customColors[1] }}/>
-									</Button>
-								</form>
-							</TableCell>
-						</TableRow>
-					</TableFooter>
 				</Table>
-			</TableContainer>
-            
-            
-            <Box sx={{
-                display: "flex",
-                height: "10vh",
-                width: "50vh",
-				alignItems: "center",
-				justifyContent : "center",
-                backgroundColor: colors.customColors[1],
-				borderRadius:"10px"
-            }}>
-            <h2>totall box</h2>
-
-            </Box>
-           
+			</Paper>
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					backgroundColor: `${colors.customColors[3]}`,
+					width: "20vw",
+					height: "50vh",
+					marginLeft: "2vh",
+					borderRadius: "5px",
+					padding: "15px"
+				}}
+			>
+				<Typography
+					sx={{
+						fontFamily: "Montserrat",
+						fontSize: "2.5vh",
+						textAlign: "center",
+						color: mode === "dark" ? colors.customColors[6] : colors.customColors[6]
+					}}
+				>
+					Total: ${totalPrice}
+				</Typography>
+			</Box>
 		</Box>
-
 	);
 };
 

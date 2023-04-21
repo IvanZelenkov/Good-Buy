@@ -6,7 +6,7 @@ const FilterCategoryTitle = ({ title,  customColors }) => {
 			<Typography
 				sx={{
 					fontFamily: "Montserrat",
-					color: customColors[5],
+					color: customColors[6],
 					fontSize: "1.2vh",
 					float: "left",
 					fontWeight: "900"

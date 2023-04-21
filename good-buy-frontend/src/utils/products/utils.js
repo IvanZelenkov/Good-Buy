@@ -5,45 +5,50 @@ export const handleChange = (event, value, setPage) => {
 };
 
 export const handleFilter = (filter, filters, setFilters) => {
-	const existingFilterIndex = filters.findIndex(f => f.key === filter.key && f.key === "storeName");
+	const existingFilterIndex = filters.findIndex((f) => f.key === filter.key);
 
-	if (existingFilterIndex > -1) {
+	if (existingFilterIndex !== -1) {
+		// If a filter with the same key already exists, remove it from the list or update its values
 		const existingFilter = filters[existingFilterIndex];
-		const updatedValues = existingFilter.values.includes(filter.value)
-			? existingFilter.values.filter(v => v !== filter.value)
-			: [...existingFilter.values, filter.value];
-
-		const updatedFilters = [
-			...filters.slice(0, existingFilterIndex),
-			{ key: existingFilter.key, values: updatedValues },
-			...filters.slice(existingFilterIndex + 1)
-		];
-
-		setFilters(updatedFilters);
+		const updatedValues = filter.values || [filter.value];
+		const newValues = existingFilter.value.includes(filter.value)
+			? existingFilter.value.filter((v) => v !== filter.value)
+			: [...existingFilter.value, ...updatedValues];
+		if (newValues.length) {
+			const updatedFilter = {
+				...existingFilter,
+				value: newValues,
+			};
+			const updatedFilters = [...filters];
+			updatedFilters[existingFilterIndex] = updatedFilter;
+			setFilters(updatedFilters);
+		} else {
+			const updatedFilters = filters.filter((f, index) => index !== existingFilterIndex);
+			setFilters(updatedFilters);
+		}
 	} else {
+		// If the filter doesn't exist yet, add it to the list with all its values
+		const allValues = filter.values || [filter.value];
 		const newFilter = {
-			key: filter.key, ...(filter.key === "storeName" ? { values: [filter.value] } : { value: filter.value })
+			key: filter.key,
+			value: allValues,
 		};
-
-		setFilters(prevState => [...prevState, newFilter]);
+		setFilters((prevState) => [...prevState, newFilter]);
 	}
 };
 
 export const getUserData = async (filters, setProductsData, setInfoLoaded) => {
 	const filterPairs = {};
-
 	filters.forEach((filter) => {
-		const { key, value, values } = filter;
-		if (key === "storeName") {
-			// If the key is storeName, use the values array
-			filterPairs[key] = values;
+		if (Array.isArray(filter.value)) {
+			// If the value is an array, join the elements with a comma
+			filterPairs[filter.key] = filter.value.join(",");
 		} else {
-			// If the key is not storeName, use the value directly
-			filterPairs[key] = value;
+			filterPairs[filter.key] = filter.value;
 		}
 	});
 
-	console.log(filterPairs)
+	console.log(filterPairs);
 
 	try {
 		const productsDataResponse = await axios.get(

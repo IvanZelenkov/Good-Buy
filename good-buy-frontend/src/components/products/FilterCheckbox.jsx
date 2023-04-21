@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 
 const FilterCheckbox = ({ title, filters, setFilters, handleFilter, k, v, customColors }) => {
 	const isChecked = filters.some((filter) => {
-		return filter.key === k && (filter.key === "storeName" ? filter.values.includes(v) : filter.value === v);
+		return filter.key === k && filter.value.includes(v);
 	});
 
 	return (

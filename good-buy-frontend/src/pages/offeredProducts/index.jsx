@@ -10,7 +10,7 @@ const OfferedProducts = () => {
 	const walmartLaptops = ["laptop-1"];
 
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box sx={{ display: "flex", flexDirection: "column", margin: "1.5vh 1.5vh 1.5vh 3vh" }}>
 				<ImageList sx={{ display: "flex", flexDirection: "column", width: "100%", height: "85vh" }}>
 					<Box sx={{ display: "flex", flexDirection: "column", marginBottom: "5vh" }}>
@@ -75,7 +75,7 @@ const OfferedProducts = () => {
 					</Box>
 				</ImageList>
 			</Box>
-		</motion.div>
+		</Box>
 	);
 };
 

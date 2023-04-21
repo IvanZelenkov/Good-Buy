@@ -8,8 +8,6 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableContainer,
-	TableFooter,
 	TableHead,
 	TableRow,
 	TextField
@@ -113,7 +111,17 @@ const ShoppingList = () => {
 					</TableBody>
 				</Table>
 			</Paper>
-			<TableCell colSpan={3} sx={{ position: "sticky", bottom: 0, width: "40vw", backgroundColor: colors.customColors[3] }}>
+			<TableCell
+				colSpan={3}
+				sx={{
+					position: "sticky",
+					bottom: 0,
+					width: "40vw",
+					backgroundColor: colors.customColors[3],
+					borderBottomLeftRadius: "5px",
+					borderBottomRightRadius: "5px"
+				}}
+			>
 				<form onSubmit={handleAdd} style={{ display: "flex" }}>
 					<TextField
 						value={newItem}

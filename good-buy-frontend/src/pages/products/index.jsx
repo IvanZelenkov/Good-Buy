@@ -150,7 +150,7 @@ const Products = () => {
 										filters={filters}
 										setFilters={setFilters}
 										handleFilter={handleFilter}
-										key={"maxPrice"}
+										k={"maxPrice"}
 										v={true}
 										customColors={colors.customColors}
 									/>

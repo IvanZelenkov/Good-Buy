@@ -13,7 +13,7 @@ const UserProfile = ({ user }) => {
 	if (user === null)
 		return <Loader colors={colors}/>;
 	return (
-		<motion.div exit={{ opacity: 0 }}>
+		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
 				maxWidth="xs"
 				sx={{
@@ -113,7 +113,7 @@ const UserProfile = ({ user }) => {
 					Sign Out
 				</Button>
 			</Container>
-		</motion.div>
+		</Box>
 	);
 }
 

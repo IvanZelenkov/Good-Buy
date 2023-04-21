@@ -30,7 +30,7 @@ function getProductData(id){
     let productData = productArray.find(product=> product.id === id)
     //this helper get id from above array
 
-    if (productData ==undefined){
+    if (productData === undefined){
         console.log("product does not exist for id:" +id);
         return undefined;
     }

@@ -30,12 +30,13 @@ class PriceStrategy(FilterStrategyInterface):
                                              representing products to be filtered.
 
         Returns:
-            List[Dict[str, str]]: A list of products sorted from lowest to highest or highest to lowest.
+            List[Dict[str, str]]: A list of products sorted from
+                                  lowest to highest or highest to lowest.
         """
         try:
             # reverse=True argument is used to sort in reverse order.
             # reverse=False argument is used to sort by default in ascending order.
-            reverse = True if str(self.param_value).lower() == "true" else False
+            reverse = str(self.param_value).lower() == "true"
 
             # By default, sorted function sorts the elements in ascending order.
             # sorted function takes an element x from the products list and returns its price,

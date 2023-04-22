@@ -33,7 +33,7 @@ class ClearanceStrategy(FilterStrategyInterface):
         """
         try:
             filtered_products = [product for product in products
-                                 if product.get("on_clearance") == self.param_value]
+                                 if product.get("on_clearance") == bool(self.param_value)]
 
             return filtered_products
         except ValueError as error:

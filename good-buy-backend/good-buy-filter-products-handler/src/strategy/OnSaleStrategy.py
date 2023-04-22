@@ -33,7 +33,7 @@ class OnSaleStrategy(FilterStrategyInterface):
         """
         try:
             filtered_products = [product for product in products
-                                 if product.get("on_sale") == self.param_value]
+                                 if product.get("on_sale") == bool(self.param_value)]
 
             return filtered_products
         except ValueError as error:

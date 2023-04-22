@@ -25,8 +25,7 @@ from IdenticalProductsFromStoresStrategy import IdenticalProductsFromStoresStrat
 from StoreNameStrategy import StoreNameStrategy
 from CustomerRatingStrategy import CustomerRatingStrategy
 from PriceRangeStrategy import PriceRangeStrategy
-from LowestToHighestPriceStrategy import LowestToHighestPriceStrategy
-from HighestToLowestPriceStrategy import HighestToLowestPriceStrategy
+from PriceStrategy import PriceStrategy
 from OnSaleStrategy import OnSaleStrategy
 from ClearanceStrategy import ClearanceStrategy
 from AvailabilityStrategy import AvailabilityStrategy
@@ -38,8 +37,7 @@ FILTER_STRATEGY_MAP = {
     "storeName": StoreNameStrategy,
     "customerRating": CustomerRatingStrategy,
     "priceRange": PriceRangeStrategy,
-    "minPrice": LowestToHighestPriceStrategy,
-    "maxPrice": HighestToLowestPriceStrategy,
+    "reverse": PriceStrategy,
     "onSale": OnSaleStrategy,
     "onClearance": ClearanceStrategy,
     "availability": AvailabilityStrategy

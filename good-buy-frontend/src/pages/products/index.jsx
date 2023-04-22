@@ -1,15 +1,32 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box, Divider, FormControl, FormGroup, InputBase, List, ListItem, Pagination, Typography, useTheme } from "@mui/material";
+import {
+	Box,
+	Divider,
+	FormControl,
+	FormGroup, Grid,
+	List,
+	ListItem,
+	Pagination, TextField,
+	Typography,
+	IconButton,
+	useTheme
+} from "@mui/material";
 import { motion } from "framer-motion";
-import SearchIcon from "@mui/icons-material/Search";
-import RatingStars from "../../components/others/RatingStars";
-import { tokens, muiPaginationCSS } from "../../theme";
+import {tokens, muiPaginationCSS, muiTextFieldCSS} from "../../theme";
 import Loader from "../../components/others/Loader";
 import FilterCategoryTitle from "../../components/products/FilterCategoryTitle";
 import FilterCheckbox from "../../components/products/FilterCheckbox";
-import { handleFilter, getUserData, handleChange } from "../../utils/products/utils";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+import {
+	filterProducts,
+	handleFilter,
+	handleChange,
+	handlePriceFromChange,
+	handlePriceToChange, getProductsInPriceRange
+} from "../../utils/products/utils";
+import ProductList from "../../components/products/ProductList";
+import TopBar from "../../components/products/TopBar";
+import SearchBar from "../../components/products/SearchBar";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const Products = () => {
 	const { palette: { mode } } = useTheme();
@@ -18,12 +35,14 @@ const Products = () => {
 	const [productsData, setProductsData] = useState([]);
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState([]);
+	const [priceFrom, setPriceFrom] = useState("");
+	const [priceTo, setPriceTo] = useState("");
 	const topBarHeight = 65;
 	const productsPerPage = 25;
 	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
-		getUserData(filters, setProductsData, setInfoLoaded);
+		filterProducts(filters, setProductsData, setInfoLoaded);
 	}, [filters]);
 
 	if (infoLoaded === false || productsData === [])
@@ -38,35 +57,11 @@ const Products = () => {
 						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 						backgroundColor: `${colors.customColors[3]}`,
 						borderRadius: "10px",
-						padding: "15px"
+						padding: "15px",
+						marginRight: "3vh"
 					}}>
 					{/* SEARCH BAR */}
-					<Box sx={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "center",
-						alignItems: "center",
-						padding: "10px",
-						backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[6],
-						borderRadius: "10px"
-					}}>
-						<SearchIcon sx={{fontSize: "2.2vh", color: colors.customColors[1]}}/>
-						<InputBase
-							sx={{
-								marginLeft: 2,
-								flex: 1,
-								fontFamily: "Montserrat",
-								fontSize: "1vh",
-								color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
-								"&::placeholder": {
-									color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
-									opacity: "0.6"
-								}
-							}}
-							placeholder="Search for products"
-							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-						/>
-					</Box>
+					<SearchBar mode={mode} colors={colors}/>
 
 					<Divider sx={{ margin: "1vh 0" }}/>
 
@@ -135,26 +130,42 @@ const Products = () => {
 						<FilterCategoryTitle title={"Price"} customColors={colors.customColors}/>
 						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 							<FormControl sx={{ mt: 1, float: "left" }}>
-								<FormGroup>
-									<FilterCheckbox
-										title={"Price: Low to High"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"minPrice"}
-										v={true}
-										customColors={colors.customColors}
-									/>
-									<FilterCheckbox
-										title={"Price: High to Low"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"maxPrice"}
-										v={true}
-										customColors={colors.customColors}
-									/>
-								</FormGroup>
+								<Grid container spacing={2} sx={{ alignItems: "center" }}>
+									<Grid item xs={4}>
+										<TextField
+											label="min"
+											variant="outlined"
+											value={priceFrom}
+											onChange={(event) => setPriceFrom(event.target.value)}
+											sx={muiTextFieldCSS(colors.customColors[6])}
+											inputProps={{ style: { fontFamily: "Montserrat" }}}
+											inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+										/>
+									</Grid>
+									<Grid item xs={1}>
+										<Typography>to</Typography>
+									</Grid>
+									<Grid item xs={4}>
+										<TextField
+											label="max"
+											variant="outlined"
+											value={priceTo}
+											onChange={(event) => setPriceTo(event.target.value)}
+											sx={muiTextFieldCSS(colors.customColors[6])}
+											inputProps={{ style: { fontFamily: "Montserrat" }}}
+											inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+										/>
+									</Grid>
+									<Grid item xs={1}>
+										<IconButton onClick={() => getProductsInPriceRange(
+											{ key: "priceRange", value: priceFrom + "-" + priceTo  },
+											setProductsData,
+											setInfoLoaded)}
+										>
+											<ArrowForwardIosIcon/>
+										</IconButton>
+									</Grid>
+								</Grid>
 							</FormControl>
 						</ListItem>
 
@@ -189,102 +200,41 @@ const Products = () => {
 					</List>
 				</Box>
 
-				{/* PRODUCT LIST */}
-				<Box sx={{
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "space-between",
-					alignItems: "center",
-					height: `calc(100vh - ${topBarHeight}px - 3vh)`,
-					overflowY: "auto"
-				}}>
-					<ImageList
-						cols={5}
-						gap={50}
-						sx={{ width: "95%", marginLeft: "5vh" }}
-					>
-						{productsData?.sort(() => Math.random() - 0.5)
-							.slice((page - 1) * productsPerPage, page * productsPerPage)
-							.map((product) => (
-								<ImageListItem
-									key={product.ID}
-									style={{
-										marginRight: "0.5vw",
-										textAlign: "center"
-									}}
-								>
-									<img
-										className={"product-image"}
-										src={require("../../images/product_sample.png")}
-										alt=""
-										loading="lazy"
-										onClick={() => window.open(product.store_link, "_blank")}
-										style={{
-											backgroundColor: `${colors.customColors[3]}`,
-											borderTopLeftRadius: "10px",
-											borderTopRightRadius: "10px"
-										}}
-									/>
-									<Box sx={{
-										backgroundColor: mode === "dark" ? colors.customColors[2] : "#1C2A33",
-										borderBottomLeftRadius: "10px",
-										borderBottomRightRadius: "10px",
-										borderTop: "2px solid white"
-									}}>
-										<Box sx={{
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "space-between",
-											padding: "0.5vh",
-										}}>
-											<Box
-												component="img"
-												alt="store-logo"
-												src={require("../../images/stores/" + product.store_name.toString().toLowerCase() + "-logo.png")}
-												sx={{
-													marginRight: "1vh",
-													width: "4vh",
-													height: "2.2vh",
-													borderRadius: "5px"
-												}}
-											/>
-											<Typography sx={{
-												padding: "0.5vh",
-												fontSize: "1.1vh",
-												fontFamily: "Montserrat",
-												fontWeight: "900",
-												color: "white"
-											}}>
-												{product.Name}
-											</Typography>
-										</Box>
-										<Box sx={{
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "space-between",
-											padding: "0.5vh"
-										}}>
-											<RatingStars rating={product.rating} starColor={"gold"}/>
-											<Typography sx={{
-												fontSize: "1.7vh",
-												fontFamily: "Montserrat",
-												fontWeight: "900",
-												color: "white"
-											}}>
-												${product.price}
-											</Typography>
-										</Box>
-									</Box>
-								</ImageListItem>
-							))}
-					</ImageList>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "space-between",
+						alignItems: "center",
+						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
+						overflowY: "auto"
+					}}
+				>
+
+					{/* TOP BAR */}
+					<TopBar
+						productsData={productsData}
+						setProductsData={setProductsData}
+						setInfoLoaded={setInfoLoaded}
+						colors={colors}
+					/>
+
+					{/* PRODUCT LIST */}
+					<ProductList
+						productsData={productsData}
+						page={page}
+						productsPerPage={productsPerPage}
+						colors={colors}
+						mode={mode}
+					/>
+
 					<Pagination
 						count={totalPages}
 						page={page}
 						onChange={(event, value) => {
 							handleChange(event, value, setPage)
 						}}
-						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[2])}
+						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[1])}
 					/>
 				</Box>
 			</Box>

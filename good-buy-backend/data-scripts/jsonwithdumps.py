@@ -36,16 +36,16 @@ rouses_addresses = ["6600 Franklin Ave, New Orleans",
 
 
 
-imagelist = ["hersheys.jfif",
-            "skittles.jfif",
-            "mnms.jfif",
-            "tootsie.jfif",
-            "candycane.jfif",
-            "twix.jfif",
-            "snickers.jfif",
-            "kitkat.jfif",
-            "threemusket.jfif",
-            "ringpop.jfif"]
+imagelist = ["hersheys.png",
+            "skittles.png",
+            "mnms.png",
+            "tootsie.png",
+            "candycane.png",
+            "twix.png",
+            "snickers.png",
+            "kitkat.png",
+            "threemusket.png",
+            "ringpop.png"]
 
 
 brandlist = ["HERSHEYS", "Skittles (MARS)", "M&Ms (MARS)", "Tootsie-Roll Industries",
@@ -98,7 +98,7 @@ for i in range(3):
 		my_dict["on_sale"] = onsale
 		my_dict["brand"] = brand
 		my_dict["store_name"] = storelist[i]
-		my_dict["price"] = str(randomprice)
+		my_dict["price"] = randomprice
 		my_dict["brand"] = "N/A"
 		my_dict["store_link"] = url
 		my_dict["store_location"] = address

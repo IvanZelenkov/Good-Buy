@@ -26,14 +26,14 @@ class AvailabilityStrategy(FilterStrategyInterface):
 
         Args:
             products (List[Dict[str, str]]): A list of dictionaries
-                                                   representing products to be filtered.
+                                             representing products to be filtered.
 
         Returns:
             List[Dict[str, str]]: A list of products that match the availability criteria.
         """
         try:
             filtered_products = [product for product in products
-                                 if product.get("availability") == self.param_value]
+                                 if product.get("availability") == bool(self.param_value)]
 
             return filtered_products
         except ValueError as error:

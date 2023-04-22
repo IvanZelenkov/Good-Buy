@@ -58,7 +58,7 @@ export const themeSettings = (mode) => {
 						customColorF: colors.customColors[1]
 					},
 					background: {
-						default: colors.customColors[1]
+						default: colors.customColors[2]
 					}
 				})
 		},

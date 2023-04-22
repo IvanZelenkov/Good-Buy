@@ -16,7 +16,7 @@ class StoreNameStrategy(FilterStrategyInterface):
         Initializes the StoreNameStrategy with the given param value.
 
         Args:
-            param_value: (str): A string containing the values of the  "storeName"
+            param_value: (str): A string containing the value of the "storeName"
                                 key "rouses|walmart|winn_dixie". If comma-separated
                                 values are received that means that multiple parameter
                                 values have been passed.

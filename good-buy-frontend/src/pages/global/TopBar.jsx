@@ -18,7 +18,7 @@ const pages = [
 	{ "pageName": "Shopping Cart", "route": "/shopping-cart" }
 ];
 
-const Topbar = () => {
+const TopBar = () => {
 	const theme = useTheme();
 	const colorMode = useContext(ColorModeContext);
 	const colors = tokens(theme.palette.mode);
@@ -210,4 +210,4 @@ const Topbar = () => {
 		</AppBar>
 	);
 }
-export default Topbar;
+export default TopBar;

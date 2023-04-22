@@ -37,18 +37,17 @@ export const handleFilter = (filter, filters, setFilters) => {
 	}
 };
 
-export const getUserData = async (filters, setProductsData, setInfoLoaded) => {
+export const filterProducts = async (filters, setProductsData, setInfoLoaded) => {
 	const filterPairs = {};
 	filters.forEach((filter) => {
 		if (Array.isArray(filter.value)) {
+			console.log(filter.key)
 			// If the value is an array, join the elements with a comma
 			filterPairs[filter.key] = filter.value.join(",");
 		} else {
 			filterPairs[filter.key] = filter.value;
 		}
 	});
-
-	console.log(filterPairs);
 
 	try {
 		const productsDataResponse = await axios.get(
@@ -62,4 +61,53 @@ export const getUserData = async (filters, setProductsData, setInfoLoaded) => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+export const getProductsInPriceRange = async (filter, setProductsData, setInfoLoaded) => {
+	const filterPair = {};
+	filterPair[filter.key] = filter.value;
+
+	try {
+		const productsDataResponse = await axios.get(
+			"https://" +
+			process.env.REACT_APP_REST_API_ID +
+			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
+			{ params: filterPair }
+		);
+		setProductsData(productsDataResponse.data);
+		setInfoLoaded(true);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const sortProducts = async (sorters, setProductsData, setInfoLoaded) => {
+	const sorterPairs = {};
+	sorters.forEach((sorter) => {
+		sorterPairs[sorter.key] = sorter.value;
+	});
+
+	try {
+		const productsDataResponse = await axios.get(
+			"https://" +
+			process.env.REACT_APP_REST_API_ID +
+			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
+			{ params: sorterPairs }
+		);
+		console.log(productsDataResponse)
+		setProductsData(productsDataResponse.data);
+		setInfoLoaded(true);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const handleClick = (event, setAnchorEl) => {
+	setAnchorEl(event.currentTarget);
+};
+
+export const handleClose = (event, setAnchorEl) => {
+	event.preventDefault();
+	event.stopPropagation();
+	setAnchorEl(null);
 };

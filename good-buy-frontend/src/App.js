@@ -3,7 +3,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import Topbar from "./pages/global/Topbar";
+import TopBar from "./pages/global/TopBar";
 import OfferedProducts from "./pages/offeredProducts";
 import Home from "./pages/home";
 import Products from "./pages/products";
@@ -75,7 +75,7 @@ function App() {
                 <CssBaseline/>
                 <div className="app">
                     <main className="content">
-                        <Topbar/>
+                        <TopBar/>
                         <AnimatePresence mode="wait">
                             <Routes location={location} key={location.pathname}>
                                 <Route exact path="/" element={

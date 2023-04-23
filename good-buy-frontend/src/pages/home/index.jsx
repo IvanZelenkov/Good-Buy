@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/others/SubscribePopup";
 import { tokens } from "../../theme";
-import { handleKeyDown } from "../../utils/home/utils";
+import { filterSearch, handleKeyDown } from "../../utils/home/utils";
 
 const Home = ({ user, showPopup, handlePopupClose, state, setState, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
@@ -80,7 +80,7 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, navigate, to
 							}}
 							placeholder="Search for products"
 							onKeyDown={(event) => {
-								handleKeyDown(event, state, setState, navigate)
+								handleKeyDown(event, state, setState, navigate, filterSearch);
 							}}
 							error={state.productNotFound}
 							helpertext={state.productNotFound ? "Product not found" : ""}

@@ -11,20 +11,21 @@ import AvailabilityFilter from "../../components/products/AvailabilityFilter";
 import CurrentDealsFilter from "../../components/products/CurrentDealsFilter";
 import { tokens, muiPaginationCSS } from "../../theme";
 import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
+import { filterSearch } from "../../utils/home/utils";
 
 const Products = ({ state, setState, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const productsPerPage = 25;
-	const totalPages = Math.ceil(state.productsData.flat().length / productsPerPage);
+	const totalPages = Math.ceil( state.productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
-		if (!state.searching) {
-			filterProducts(state.filters, state, setState);
-		}
-	}, [state.filters]);
+		filterSearch(state, setState, navigate);
+	}, [state.lastSearchTerm]);
 
-	console.log(state)
+	useEffect(() => {
+		filterProducts(state.filters, state, setState);
+	}, [state.filters]);
 
 	if (state.infoLoaded === false || state.productsData === [])
 		return <Loader colors={colors}/>;

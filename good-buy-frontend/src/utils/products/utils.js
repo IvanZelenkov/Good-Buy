@@ -29,14 +29,22 @@ export const handleFilter = (filter, filters, setState) => {
 
 export const filterProducts = async (filters, state, setState) => {
 	const filterPairs = {};
-	filters.forEach((filter) => {
+
+	// Use lastSearchTerm from state to build filterPairs object
+	if (state.lastSearchTerm !== "") {
+		filterPairs.productName = state.lastSearchTerm;
+	}
+
+	// Build filterPairs object from filters array
+	filters.forEach(filter => {
 		if (Array.isArray(filter.value)) {
-			// If the value is an array, join the elements with a comma
 			filterPairs[filter.key] = filter.value.join(",");
 		} else {
 			filterPairs[filter.key] = filter.value;
 		}
 	});
+
+	console.log(filterPairs)
 
 	try {
 		const productsDataResponse = await axios.get(

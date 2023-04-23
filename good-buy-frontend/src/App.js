@@ -22,7 +22,7 @@ function App() {
     const topBarHeight = 65;
     const [state, setState] = useState({
         infoLoaded: false,
-        searching: false,
+        lastSearchTerm: "",
         productNotFound: false,
         productsData: [],
         filters: [],

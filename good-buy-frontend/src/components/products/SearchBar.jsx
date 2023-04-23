@@ -30,7 +30,7 @@ const SearchBar = ({ state, setState, navigate, mode, customColors }) => {
 				}}
 				placeholder="Search for products"
 				onKeyDown={(event) => {
-					handleKeyDown(event, state, setState, navigate);
+					handleKeyDown(event, state, setState);
 				}}
 				error={state.productNotFound}
 				helpertext={state.productNotFound ? "Product not found" : ""}

@@ -1,10 +1,6 @@
 import axios from "axios";
 
-export const handleChange = (event, value, setPage) => {
-	setPage(value);
-};
-
-export const handleFilter = (filter, filters, setFilters) => {
+export const handleFilter = (filter, filters, setState) => {
 	const existingFilterIndex = filters.findIndex((f) => f.key === filter.key);
 
 	if (existingFilterIndex !== -1) {
@@ -15,33 +11,26 @@ export const handleFilter = (filter, filters, setFilters) => {
 			? existingFilter.value.filter((v) => v !== filter.value)
 			: [...existingFilter.value, ...updatedValues];
 		if (newValues.length) {
-			const updatedFilter = {
-				...existingFilter,
-				value: newValues,
-			};
+			const updatedFilter = { ...existingFilter, value: newValues };
 			const updatedFilters = [...filters];
 			updatedFilters[existingFilterIndex] = updatedFilter;
-			setFilters(updatedFilters);
+			setState((prevState) => ({ ...prevState, filters: updatedFilters }));
 		} else {
 			const updatedFilters = filters.filter((f, index) => index !== existingFilterIndex);
-			setFilters(updatedFilters);
+			setState((prevState) => ({ ...prevState, filters: updatedFilters }));
 		}
 	} else {
 		// If the filter doesn't exist yet, add it to the list with all its values
 		const allValues = filter.values || [filter.value];
-		const newFilter = {
-			key: filter.key,
-			value: allValues,
-		};
-		setFilters((prevState) => [...prevState, newFilter]);
+		const newFilter = { key: filter.key, value: allValues };
+		setState((prevState) => ({ ...prevState, filters: [...prevState.filters, newFilter] }));
 	}
 };
 
-export const filterProducts = async (filters, setProductsData, setInfoLoaded) => {
+export const filterProducts = async (filters, setState) => {
 	const filterPairs = {};
 	filters.forEach((filter) => {
 		if (Array.isArray(filter.value)) {
-			console.log(filter.key)
 			// If the value is an array, join the elements with a comma
 			filterPairs[filter.key] = filter.value.join(",");
 		} else {
@@ -56,50 +45,25 @@ export const filterProducts = async (filters, setProductsData, setInfoLoaded) =>
 			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
 			{ params: filterPairs }
 		);
-		setProductsData(productsDataResponse.data);
-		setInfoLoaded(true);
+		setState(prevState => ({
+			...prevState,
+			productNotFound: productsDataResponse.data.length === 0,
+			productsData: productsDataResponse.data,
+			infoLoaded: true
+		}));
+		return {
+			productNotFound: productsDataResponse.data.length === 0,
+			productsData: productsDataResponse.data,
+			infoLoaded: true
+		};
 	} catch (error) {
 		console.log(error);
+		return { productNotFound: true, productsData: [], infoLoaded: true };
 	}
 };
 
-export const getProductsInPriceRange = async (filter, setProductsData, setInfoLoaded) => {
-	const filterPair = {};
-	filterPair[filter.key] = filter.value;
-
-	try {
-		const productsDataResponse = await axios.get(
-			"https://" +
-			process.env.REACT_APP_REST_API_ID +
-			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
-			{ params: filterPair }
-		);
-		setProductsData(productsDataResponse.data);
-		setInfoLoaded(true);
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-export const sortProducts = async (sorters, setProductsData, setInfoLoaded) => {
-	const sorterPairs = {};
-	sorters.forEach((sorter) => {
-		sorterPairs[sorter.key] = sorter.value;
-	});
-
-	try {
-		const productsDataResponse = await axios.get(
-			"https://" +
-			process.env.REACT_APP_REST_API_ID +
-			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
-			{ params: sorterPairs }
-		);
-		console.log(productsDataResponse)
-		setProductsData(productsDataResponse.data);
-		setInfoLoaded(true);
-	} catch (error) {
-		console.log(error);
-	}
+export const handleChange = (event, value, setState) => {
+	setState((prevState) => ({ ...prevState, page: value }));
 };
 
 export const handleClick = (event, setAnchorEl) => {

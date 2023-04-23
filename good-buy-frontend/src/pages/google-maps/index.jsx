@@ -9,13 +9,12 @@ import Map from "../../components/google-maps/Map";
 import { calculateRoute, getCurrentLocation, getDirection } from "../../utils/google-maps/utils";
 import { stores, tokens } from "../../theme";
 
-const GoogleMaps = () => {
+const GoogleMaps = ({ topBarHeight }) => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 	})
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const topBarHeight = 65;
 	const [currentLocation, setLocation] = useState({ lat: 0, lng: 0 })
 	const [directions, setDirections] = useState(null);
 	const [directionsService, setService] = useState(null);

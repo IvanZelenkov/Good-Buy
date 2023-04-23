@@ -128,7 +128,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						</Box>
 					</Box>
 				</Box>
-				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={colors.customColors[1]}/>
+				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={colors.customColors[6]}/>
 			</Container>
 		</Box>
 	);

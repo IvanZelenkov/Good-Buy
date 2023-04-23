@@ -22,7 +22,7 @@
         "react-dom": "^18.2.0",
         "react-icons": "^4.7.1",
         "react-pro-sidebar": "^0.7.1",
-        "react-router-dom": "^6.8.1",
+        "react-router-dom": "^6.10.0",
         "react-scripts": "5.0.1",
         "react-useanimations": "^2.10.0",
         "uglify-js": "^3.17.4",

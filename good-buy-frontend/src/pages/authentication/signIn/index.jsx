@@ -125,7 +125,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									variant="body2"
 									sx={{
 										color: colors.customColors[6],
-										textDecorationColor: colors.customColors[1],
+										textDecorationColor: colors.customColors[6],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}
@@ -139,7 +139,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 									variant="body2"
 									sx={{
 										color: colors.customColors[6],
-										textDecorationColor: colors.customColors[1],
+										textDecorationColor: colors.customColors[6],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}

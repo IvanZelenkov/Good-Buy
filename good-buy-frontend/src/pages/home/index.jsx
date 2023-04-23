@@ -1,32 +1,31 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, InputBase, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/others/SubscribePopup";
 import { tokens } from "../../theme";
+import { filterProducts } from "../../utils/products/utils";
 
-const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
-	const topBarHeight = 65;
+const Home = ({ user, showPopup, handlePopupClose, state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const [inputProductName, setInputProductName] = useState("");
-	const [isValid, setIsValid] = useState(false);
+	const navigate = useNavigate();
 
-	const searchProductByName = useCallback((event) => {
-		const regex = /[L|l]aptop/;
-		if (regex.test(event.target.value)) {
-			setIsValid(true);
-			setInputProductName(event.target.value);
-		} else {
-			setIsValid(false);
-		}
-	}, []);
-
-	const handleKeyDown = (event) => {
+	const handleKeyDown = async (event) => {
 		if (event.key === "Enter") {
-			productFound("found", inputProductName)
+			if (event.target.value) {
+				const filterResult = await filterProducts(
+					[{ key: "productName", value: event.target.value }],
+					setState
+				);
+
+				if (!filterResult.productNotFound) {
+					navigate(`/products?search=${event.target.value}`);
+				}
+			}
 		}
-	}
+	};
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -61,7 +60,6 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 							noWrap
 							component="a"
 							sx={{
-								mr: 2,
 								fontWeight: 700,
 								letterSpacing: "0.3rem",
 								color: colors.customColors[1],
@@ -98,10 +96,9 @@ const Home = ({ user, showPopup, handlePopupClose, productFound }) => {
 								}
 							}}
 							placeholder="Search for products"
-							onChange={(productName) => searchProductByName(productName)}
-							error={!isValid}
-							required={true}
 							onKeyDown={handleKeyDown}
+							error={state.productNotFound}
+							helpertext={state.productNotFound ? "Product not found" : ""}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 					</Box>

@@ -36,11 +36,11 @@ const ShoppingCart = (props) => {
 	const [isValid, setIsValid] = useState(false);
 	
 	const [items, setItems] = useState([
-		{ id: 1, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$64" },
-		{ id: 2, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$2" },
-		{ id: 3, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$23" },
-		{ id: 4, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$12" },
-		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72" }
+		{ id: 1, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$64.05", quantity: "1" },
+		{ id: 2, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$2.00" , quantity: "1" },
+		{ id: 3, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$23.00" ,quantity: "1" },
+		{ id: 4, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$12.00" , quantity: "1" },
+		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72.00", quantity: "1"  }
 	]);
 	const [newItem, setNewItem] = useState("");
     
@@ -65,7 +65,7 @@ const ShoppingCart = (props) => {
 	};
 
 	const totalPrice = items.reduce((accumulator, current) => {
-		const price = Number(current.price.slice(1));
+		const price = parseFloat(current.price.slice(1));
 		return accumulator + price;
 	}, 0);
 
@@ -100,11 +100,14 @@ const ShoppingCart = (props) => {
 							zIndex: "1"
 						}}
 					>
+						
 						<TableRow>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Image</TableCell>
+							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Image</TableCell> 
 							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Name</TableCell>
 							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Price</TableCell>
+							<TableCell sx ={{color: colors.customColors[6], fontSize:"1.4vh", fontFamily: "Montserrat" }}>Quantity</TableCell>
 							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
+							
 						</TableRow>
 					</TableHead>
 					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
@@ -137,6 +140,17 @@ const ShoppingCart = (props) => {
 										{item.price}
 									</Typography>
 								</TableCell>
+							
+								<TableCell align="center">
+									<Typography sx={{
+										fontSize: "1.4vh",
+										fontFamily: "Montserrat",
+										color: colors.customColors[1]
+									}}>
+										{item.quantity}
+									</Typography>
+								</TableCell>
+								
 								<TableCell align="center">
 									<IconButton onClick={() => handleRemove(item.id)}>
 										<DeleteIcon sx={{ color: "#FF2323" }} />

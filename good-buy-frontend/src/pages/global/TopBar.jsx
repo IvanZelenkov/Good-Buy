@@ -98,18 +98,18 @@ const TopBar = () => {
 					
 					<Typography
 						noWrap
-						component="a"
-						href=""
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
 							flexGrow: 1,
-							fontFamily: "Montserrat",
 							fontWeight: 700,
 							color: colors.customColors[1],
 							letterSpacing: "0.3rem",
-							textDecoration: "none"
+							textDecoration: "none",
+							fontFamily: "Montserrat",
+							cursor: "pointer"
 						}}
+						onClick={() => navigate("/")}
 					>
 						GOOD BUY
 					</Typography>

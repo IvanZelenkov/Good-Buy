@@ -1,31 +1,14 @@
 import { useMemo } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, InputBase, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import SubscribePopup from "../../components/others/SubscribePopup";
 import { tokens } from "../../theme";
-import { filterProducts } from "../../utils/products/utils";
+import { handleKeyDown } from "../../utils/home/utils";
 
-const Home = ({ user, showPopup, handlePopupClose, state, setState, topBarHeight }) => {
+const Home = ({ user, showPopup, handlePopupClose, state, setState, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const navigate = useNavigate();
-
-	const handleKeyDown = async (event) => {
-		if (event.key === "Enter") {
-			if (event.target.value) {
-				const filterResult = await filterProducts(
-					[{ key: "productName", value: event.target.value }],
-					setState
-				);
-
-				if (!filterResult.productNotFound) {
-					navigate(`/products?search=${event.target.value}`);
-				}
-			}
-		}
-	};
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -96,7 +79,9 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, topBarHeight
 								}
 							}}
 							placeholder="Search for products"
-							onKeyDown={handleKeyDown}
+							onKeyDown={(event) => {
+								handleKeyDown(event, state, setState, navigate)
+							}}
 							error={state.productNotFound}
 							helpertext={state.productNotFound ? "Product not found" : ""}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}

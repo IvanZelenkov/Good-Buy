@@ -27,7 +27,7 @@ export const handleFilter = (filter, filters, setState) => {
 	}
 };
 
-export const filterProducts = async (filters, setState) => {
+export const filterProducts = async (filters, state, setState) => {
 	const filterPairs = {};
 	filters.forEach((filter) => {
 		if (Array.isArray(filter.value)) {
@@ -45,12 +45,14 @@ export const filterProducts = async (filters, setState) => {
 			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
 			{ params: filterPairs }
 		);
+
 		setState(prevState => ({
 			...prevState,
 			productNotFound: productsDataResponse.data.length === 0,
 			productsData: productsDataResponse.data,
 			infoLoaded: true
 		}));
+
 		return {
 			productNotFound: productsDataResponse.data.length === 0,
 			productsData: productsDataResponse.data,

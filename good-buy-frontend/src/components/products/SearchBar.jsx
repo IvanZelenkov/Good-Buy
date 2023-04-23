@@ -1,7 +1,8 @@
 import { Box, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { handleKeyDown } from "../../utils/home/utils";
 
-const SearchBar = ({ mode, customColors }) => {
+const SearchBar = ({ state, setState, navigate, mode, customColors }) => {
 	return (
 		<Box
 			sx={{
@@ -28,6 +29,11 @@ const SearchBar = ({ mode, customColors }) => {
 					}
 				}}
 				placeholder="Search for products"
+				onKeyDown={(event) => {
+					handleKeyDown(event, state, setState, navigate);
+				}}
+				error={state.productNotFound}
+				helpertext={state.productNotFound ? "Product not found" : ""}
 				inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 			/>
 		</Box>

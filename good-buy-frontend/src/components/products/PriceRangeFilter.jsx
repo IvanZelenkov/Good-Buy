@@ -44,6 +44,7 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 							<IconButton onClick={() => {
 								filterProducts(
 									[{ key: "priceRange", value: state.priceFrom + "-" + state.priceTo }],
+									state,
 									setState
 								)
 							}}>

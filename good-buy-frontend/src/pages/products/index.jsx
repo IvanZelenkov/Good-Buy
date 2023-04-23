@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box, Divider, List, Pagination, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import Loader from "../../components/others/Loader";
@@ -12,21 +12,19 @@ import CurrentDealsFilter from "../../components/products/CurrentDealsFilter";
 import { tokens, muiPaginationCSS } from "../../theme";
 import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
 
-const Products = ({ state, setState, topBarHeight }) => {
+const Products = ({ state, setState, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const productsPerPage = 25;
 	const totalPages = Math.ceil(state.productsData.flat().length / productsPerPage);
 
-	const isFirstRender = useRef(true);
-
 	useEffect(() => {
-		if (!isFirstRender.current) {
-			filterProducts(state.filters, setState);
-		} else {
-			isFirstRender.current = false;
+		if (!state.searching) {
+			filterProducts(state.filters, state, setState);
 		}
 	}, [state.filters]);
+
+	console.log(state)
 
 	if (state.infoLoaded === false || state.productsData === [])
 		return <Loader colors={colors}/>;
@@ -44,7 +42,13 @@ const Products = ({ state, setState, topBarHeight }) => {
 						marginRight: "3vh"
 					}}>
 					{/* SEARCH BAR */}
-					<SearchBar mode={mode} customColors={colors.customColors}/>
+					<SearchBar
+						state={state}
+						setState={setState}
+						navigate={navigate}
+						mode={mode}
+						customColors={colors.customColors}
+					/>
 
 					<Divider sx={{ margin: "1vh 0" }}/>
 

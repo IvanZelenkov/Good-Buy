@@ -58,10 +58,22 @@ const TopBar = ({ state, setState, customColors }) => {
 					open={Boolean(anchorEl)}
 					onClose={(event) => handleClose(event, setAnchorEl)}
 				>
-					<MenuItem onClick={() => filterProducts([{ key: "reverse", value: "false" }], setState)}>
+					<MenuItem onClick={() => {
+						filterProducts(
+							[{ key: "reverse", value: "false" }],
+							state,
+							setState
+						)
+					}}>
 						Price Low to High
 					</MenuItem>
-					<MenuItem onClick={() => filterProducts([{ key: "reverse", value: "true" }], setState)}>
+					<MenuItem onClick={() => {
+						filterProducts(
+							[{ key: "reverse", value: "true" }],
+							state,
+							setState
+						)
+					}}>
 						Price High to Low
 					</MenuItem>
 				</Menu>

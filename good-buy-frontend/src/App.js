@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import TopBar from "./pages/global/TopBar";
 import Home from "./pages/home";
 import Products from "./pages/products";
@@ -18,9 +18,11 @@ function App() {
     const [user, updateUser] = useState(null);
     const [showPopup, setShowPopup] = useState(true);
     const location = useLocation();
+    const navigate = useNavigate();
     const topBarHeight = 65;
     const [state, setState] = useState({
         infoLoaded: false,
+        searching: false,
         productNotFound: false,
         productsData: [],
         filters: [],
@@ -75,6 +77,7 @@ function App() {
                                         handlePopupClose={handlePopupClose}
                                         state={state}
                                         setState={setState}
+                                        navigate={navigate}
                                         topBarHeight={topBarHeight}
                                     />}
                                 />
@@ -82,6 +85,7 @@ function App() {
                                     <Products
                                         state={state}
                                         setState={setState}
+                                        navigate={navigate}
                                         topBarHeight={topBarHeight}
                                     />}
                                 />

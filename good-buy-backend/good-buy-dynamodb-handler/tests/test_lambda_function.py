@@ -43,6 +43,7 @@ class TestDBLambda(unittest.TestCase):
         table = dynamodb.Table("TEST_Users")
         test_get_event ={
             "queryStringParameters":{"ID":"2"},
+            "path": "/database/user-account"
         }
         test_item = {
             "ID": int("2"),
@@ -144,6 +145,7 @@ class TestDBLambda(unittest.TestCase):
         table = dynamodb.Table("TEST_Users")
         test_event = {
             "queryStringParameters":{"ID":"5"},
+            "path": "/database/user-account"
         }
         update_expression = "SET password = :password, phone = :phone, username = :username"
         expression_attribute_values = {
@@ -212,6 +214,7 @@ class TestDBLambda(unittest.TestCase):
         )
         test_event = {
             "queryStringParameters":{"ID":"5"},
+            "path": "/database/user-account"
         }
         self.assertEqual(response['Item'],test_item)
         delete_action = DeleteAction(test_event, table)

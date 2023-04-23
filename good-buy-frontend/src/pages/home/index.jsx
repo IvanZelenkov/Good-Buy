@@ -1,18 +1,27 @@
-import { useMemo } from "react";
-import { Box, InputBase, Typography, useTheme } from "@mui/material";
+import { useEffect, useMemo } from "react";
+import { Box, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import SearchIcon from "@mui/icons-material/Search";
-import SubscribePopup from "../../components/others/SubscribePopup";
 import { tokens } from "../../theme";
-import { filterSearch, handleKeyDown } from "../../utils/home/utils";
+import AppLogo from "../../components/home/AppLogo";
+import AppTitle from "../../components/home/AppTitle";
+import ErrorPopup from "../../components/home/ErrorPopup";
+import SearchBar from "../../components/home/SearchBar";
+import SubscribePopup from "../../components/others/SubscribePopup";
 
-const Home = ({ user, showPopup, handlePopupClose, state, setState, navigate, topBarHeight }) => {
+const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 
+	useEffect(() => {
+		if (state.productNotFound)
+			setSearchError(true);
+		else
+			setSearchError(false);
+	}, [state.productNotFound]);
+
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
-			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
+			{!user && showPopup && <SubscribePopup onClose={handlePopupClose} />}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: `calc(100vh - ${topBarHeight}px - 3vh)` }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
 					<Box
@@ -28,64 +37,36 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, navigate, to
 							width: "35vw"
 						}}
 					>
-						<Box
-							component="img"
-							src={require('../../images/appLogo.png')}
-							sx={{
-								display: { xs: "none", md: "flex" },
-								mr: 1,
-								color: "black",
-								width: "8vw"
-							}}
-							alt=""
-						/>
-						<Typography
-							noWrap
-							component="a"
-							sx={{
-								fontWeight: 700,
-								letterSpacing: "0.3rem",
-								color: colors.customColors[1],
-								textDecoration: "none",
-								fontSize: "2vw",
-								fontFamily: "Montserrat"
-							}}
-						>
-							GOOD BUY
-						</Typography>
+						{/* APP LOGO */}
+						<AppLogo/>
+
+						{/* APP TITLE */}
+						<AppTitle title={"GOOD BUY"} customColors={colors.customColors}/>
 					</Box>
 
-					<Box sx={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "center",
-						alignItems: "center",
-						padding: "10px",
-						backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[3],
-						borderRadius: "10px",
-						width: "35vw"
-					}}>
-						<SearchIcon sx={{fontSize: "2.5vh", color: colors.customColors[1]}}/>
-						<InputBase
-							sx={{
-								marginLeft: 2,
-								flex: 1,
-								fontFamily: "Montserrat",
-								fontSize: "1.3vh",
-								color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
-								"&::placeholder": {
-									color: mode === "dark" ? colors.customColors[1] : colors.customColors[1],
-									opacity: "0.6"
-								}
-							}}
-							placeholder="Search for products"
-							onKeyDown={(event) => {
-								handleKeyDown(event, state, setState, navigate, filterSearch);
-							}}
-							error={state.productNotFound}
-							helpertext={state.productNotFound ? "Product not found" : ""}
-							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							padding: "10px",
+							backgroundColor: mode === "dark" ? colors.customColors[6] : colors.customColors[3],
+							borderRadius: "10px",
+							width: "35vw",
+							position: "relative"
+						}}
+					>
+						{/* SEARCH BAR */}
+						<SearchBar
+							state={state}
+							setState={setState}
+							navigate={navigate}
+							mode={mode}
+							customColors={colors.customColors}
 						/>
+
+						{/* ERROR POPUP */}
+						{searchError && <ErrorPopup searchHelperText={"Product not found"}/>}
 					</Box>
 				</Box>
 			</Box>

@@ -1,22 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Auth } from "aws-amplify";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import TopBar from "./pages/global/TopBar";
-import Home from "./pages/home";
-import Products from "./pages/products";
+import Authentication from "./pages/authentication";
 import Deals from "./pages/deals";
 import GoogleMaps from "./pages/google-maps";
-import ShoppingList from "./pages/shoppingList";
+import Home from "./pages/home";
+import Products from "./pages/products";
 import ShoppingCart from "./pages/shoppingCart";
-import Authentication from "./pages/authentication";
-import { Auth } from "aws-amplify";
+import ShoppingList from "./pages/shoppingList";
+import TopBar from "./pages/global/TopBar";
 
 function App() {
     const [theme, colorMode] = useMode();
     const [user, updateUser] = useState(null);
     const [showPopup, setShowPopup] = useState(true);
+    const [searchError, setSearchError] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const topBarHeight = 65;
@@ -92,6 +93,8 @@ function App() {
                                         handlePopupClose={handlePopupClose}
                                         state={state}
                                         setState={setState}
+                                        searchError={searchError}
+                                        setSearchError={setSearchError}
                                         navigate={navigate}
                                         topBarHeight={topBarHeight}
                                     />}
@@ -100,6 +103,8 @@ function App() {
                                     <Products
                                         state={state}
                                         setState={setState}
+                                        searchError={searchError}
+                                        setSearchError={setSearchError}
                                         navigate={navigate}
                                         topBarHeight={topBarHeight}
                                     />}

@@ -1,27 +1,24 @@
 import { Box, InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { handleKeyDown } from "../../utils/home/utils";
+import { filterSearch, handleKeyDown } from "../../utils/home/utils";
 
-const SearchBar = ({ state, setState, mode, customColors }) => {
+const SearchBar = ({ state, setState, navigate, mode, customColors}) => {
 	return (
 		<Box
 			sx={{
 				display: "flex",
 				flexDirection: "row",
-				justifyContent: "center",
 				alignItems: "center",
-				padding: "10px",
-				backgroundColor: mode === "dark" ? customColors[6] : customColors[6],
-				borderRadius: "10px"
+				width: "100%"
 			}}
 		>
-			<SearchIcon sx={{ fontSize: "2.2vh", color: customColors[1] }}/>
+			<SearchIcon sx={{ fontSize: "2.5vh", color: customColors[1] }} />
 			<InputBase
 				sx={{
 					marginLeft: 2,
 					flex: 1,
 					fontFamily: "Montserrat",
-					fontSize: "1vh",
+					fontSize: "1.3vh",
 					fontWeight: "900",
 					color: mode === "dark" ? customColors[1] : customColors[1],
 					"&::placeholder": {
@@ -31,7 +28,7 @@ const SearchBar = ({ state, setState, mode, customColors }) => {
 				}}
 				placeholder="Search for products"
 				onKeyDown={(event) => {
-					handleKeyDown(event, state, setState);
+					handleKeyDown(event, state, setState, navigate, filterSearch);
 				}}
 				inputlabelprops={{ style: { fontFamily: "Montserrat" } }}
 			/>

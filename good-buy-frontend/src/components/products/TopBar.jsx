@@ -3,11 +3,17 @@ import { useState } from "react";
 import { filterProducts, handleClick, handleClose } from "../../utils/products/utils";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const TopBar = ({ state, setState, customColors }) => {
+const TopBar = ({ componentReference, state, setState, customColors }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [selectedItem, setSelectedItem] = useState("Best Match");
+
+	const handleMenuItemClick = (event, label) => {
+		setSelectedItem(label);
+		handleClose();
+	};
 
 	return (
-		<Box>
+		<Box ref={componentReference}>
 			<Divider
 				sx={{
 					margin: "1vh 0",
@@ -41,6 +47,7 @@ const TopBar = ({ state, setState, customColors }) => {
 						fontFamily: "Montserrat",
 						fontWeight: "900",
 						letterSpacing: "1px",
+						textTransform: "none",
 						width: "200px",
 						":hover": {
 							backgroundColor: customColors[5],
@@ -48,8 +55,15 @@ const TopBar = ({ state, setState, customColors }) => {
 						}
 					}}
 				>
-					<Typography>
-						Best Match
+					<Typography
+						sx={{
+							fontSize: "1.1vh",
+							fontFamily: "Montserrat",
+							fontWeight: "900",
+							letterSpacing: "1px"
+						}}
+					>
+						{selectedItem}
 					</Typography>
 					<ArrowDropDownIcon/>
 				</Button>
@@ -58,23 +72,36 @@ const TopBar = ({ state, setState, customColors }) => {
 					open={Boolean(anchorEl)}
 					onClose={(event) => handleClose(event, setAnchorEl)}
 				>
-					<MenuItem onClick={() => {
+					<MenuItem onClick={(event) => {
+						filterProducts(
+							[],
+							state,
+							setState,
+							state.lastSearchTerm
+						);
+						handleMenuItemClick(event, "Price Low to High")
+					}}>
+						Best Match
+					</MenuItem>
+					<MenuItem onClick={(event) => {
 						filterProducts(
 							[{ key: "reverse", value: "false" }],
 							state,
 							setState,
 							state.lastSearchTerm
-						)
+						);
+						handleMenuItemClick(event, "Price Low to High")
 					}}>
 						Price Low to High
 					</MenuItem>
-					<MenuItem onClick={() => {
+					<MenuItem onClick={(event) => {
 						filterProducts(
 							[{ key: "reverse", value: "true" }],
 							state,
 							setState,
 							state.lastSearchTerm
-						)
+						);
+						handleMenuItemClick(event, "Price High to Low")
 					}}>
 						Price High to Low
 					</MenuItem>

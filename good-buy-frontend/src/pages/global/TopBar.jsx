@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, useTheme } from "@mui/material";
-import { AccountCircle as AccountCircleIcon, Menu as MenuIcon, SettingsOutlined as SettingsOutlinedIcon } from "@mui/icons-material";
+import { AccountCircle as AccountCircleIcon, Menu as MenuIcon } from "@mui/icons-material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion } from "framer-motion";
@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 
 const pages = [
 	{ "pageName": "Home", "route": "/" },
-	{ "pageName": "Products", "route": "/products" },
 	{ "pageName": "Deals", "route": "/deals" },
 	{ "pageName": "Google Maps", "route": "/google-maps" },
 	{ "pageName": "Shopping List", "route": "/shopping-list" },
@@ -171,20 +170,6 @@ const TopBar = () => {
 									</IconButton>
 								</Tooltip>
 							)}
-						</motion.div>
-						<motion.div whileHover={{ scale: 1.2 }}>
-							<Tooltip title="Settings" placement="bottom">
-								<IconButton component={Link} to="/settings" sx={{ marginRight: "1vw" }}>
-									<SettingsOutlinedIcon
-										sx={{
-											color: colors.customColors[1],
-											":hover": {
-												color: colors.customColors[2]
-											}
-										}}
-									/>
-								</IconButton>
-							</Tooltip>
 						</motion.div>
 						<motion.div whileHover={{ scale: 1.2 }}>
 							<Tooltip title="Profile" placement="bottom">

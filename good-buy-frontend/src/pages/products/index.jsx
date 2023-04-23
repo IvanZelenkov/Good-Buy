@@ -1,51 +1,34 @@
-import { useState, useEffect, useMemo } from "react";
-import {
-	Box,
-	Divider,
-	FormControl,
-	FormGroup, Grid,
-	List,
-	ListItem,
-	Pagination, TextField,
-	Typography,
-	IconButton,
-	useTheme
-} from "@mui/material";
+import { useEffect, useMemo, useRef } from "react";
+import { Box, Divider, List, Pagination, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import {tokens, muiPaginationCSS, muiTextFieldCSS} from "../../theme";
 import Loader from "../../components/others/Loader";
-import FilterCategoryTitle from "../../components/products/FilterCategoryTitle";
-import FilterCheckbox from "../../components/products/FilterCheckbox";
-import {
-	filterProducts,
-	handleFilter,
-	handleChange,
-	handlePriceFromChange,
-	handlePriceToChange, getProductsInPriceRange
-} from "../../utils/products/utils";
 import ProductList from "../../components/products/ProductList";
 import TopBar from "../../components/products/TopBar";
 import SearchBar from "../../components/products/SearchBar";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import StoreNameFilter from "../../components/products/StoreNameFilter";
+import PriceRangeFilter from "../../components/products/PriceRangeFilter";
+import AvailabilityFilter from "../../components/products/AvailabilityFilter";
+import CurrentDealsFilter from "../../components/products/CurrentDealsFilter";
+import { tokens, muiPaginationCSS } from "../../theme";
+import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
 
-const Products = () => {
+const Products = ({ state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const [infoLoaded, setInfoLoaded] = useState(false);
-	const [productsData, setProductsData] = useState([]);
-	const [page, setPage] = useState(1);
-	const [filters, setFilters] = useState([]);
-	const [priceFrom, setPriceFrom] = useState("");
-	const [priceTo, setPriceTo] = useState("");
-	const topBarHeight = 65;
 	const productsPerPage = 25;
-	const totalPages = Math.ceil(productsData.flat().length / productsPerPage);
+	const totalPages = Math.ceil(state.productsData.flat().length / productsPerPage);
+
+	const isFirstRender = useRef(true);
 
 	useEffect(() => {
-		filterProducts(filters, setProductsData, setInfoLoaded);
-	}, [filters]);
+		if (!isFirstRender.current) {
+			filterProducts(state.filters, setState);
+		} else {
+			isFirstRender.current = false;
+		}
+	}, [state.filters]);
 
-	if (infoLoaded === false || productsData === [])
+	if (state.infoLoaded === false || state.productsData === [])
 		return <Loader colors={colors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -61,142 +44,48 @@ const Products = () => {
 						marginRight: "3vh"
 					}}>
 					{/* SEARCH BAR */}
-					<SearchBar mode={mode} colors={colors}/>
+					<SearchBar mode={mode} customColors={colors.customColors}/>
 
 					<Divider sx={{ margin: "1vh 0" }}/>
 
-					{/* LIST OF FILTER SECTIONS */}
+					{/* LIST OF FILTERS */}
 					<List sx={{ height: `calc(100% - ${topBarHeight}px)`, overflowY: "auto" }}>
-
 						{/* AVAILABILITY FILTER */}
-						<FilterCategoryTitle title={"Availability"} customColors={colors.customColors}/>
-						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
-							<FormControl sx={{ mt: 1, float: "left" }}>
-								<FormGroup>
-									<FilterCheckbox
-										title={"Exclude Out of Stock Items"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"availability"}
-										v={true}
-										customColors={colors.customColors}
-									/>
-								</FormGroup>
-							</FormControl>
-						</ListItem>
+						<AvailabilityFilter
+							filters={state.filters}
+							setState={setState}
+							handleFilter={handleFilter}
+							customColors={colors.customColors}
+						/>
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
 						{/* STORE NAME FILTER */}
-						<FilterCategoryTitle title={"Store Name"} customColors={colors.customColors}/>
-						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
-							<FormControl sx={{ mt: 1, float: "left" }}>
-								<FormGroup>
-									<FilterCheckbox
-										title={"Rouses"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"storeName"}
-										v={"Rouses"}
-										customColors={colors.customColors}
-									/>
-									<FilterCheckbox
-										title={"Walmart"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"storeName"}
-										v={"Walmart"}
-										customColors={colors.customColors}
-									/>
-									<FilterCheckbox
-										title={"Winn-Dixie"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"storeName"}
-										v={"Winn-Dixie"}
-										customColors={colors.customColors}
-									/>
-								</FormGroup>
-							</FormControl>
-						</ListItem>
+						<StoreNameFilter
+							filters={state.filters}
+							setState={setState}
+							handleFilter={handleFilter}
+							customColors={colors.customColors}
+						/>
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
-						{/* PRICE FILTER */}
-						<FilterCategoryTitle title={"Price"} customColors={colors.customColors}/>
-						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
-							<FormControl sx={{ mt: 1, float: "left" }}>
-								<Grid container spacing={2} sx={{ alignItems: "center" }}>
-									<Grid item xs={4}>
-										<TextField
-											label="min"
-											variant="outlined"
-											value={priceFrom}
-											onChange={(event) => setPriceFrom(event.target.value)}
-											sx={muiTextFieldCSS(colors.customColors[6])}
-											inputProps={{ style: { fontFamily: "Montserrat" }}}
-											inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-										/>
-									</Grid>
-									<Grid item xs={1}>
-										<Typography>to</Typography>
-									</Grid>
-									<Grid item xs={4}>
-										<TextField
-											label="max"
-											variant="outlined"
-											value={priceTo}
-											onChange={(event) => setPriceTo(event.target.value)}
-											sx={muiTextFieldCSS(colors.customColors[6])}
-											inputProps={{ style: { fontFamily: "Montserrat" }}}
-											inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-										/>
-									</Grid>
-									<Grid item xs={1}>
-										<IconButton onClick={() => getProductsInPriceRange(
-											{ key: "priceRange", value: priceFrom + "-" + priceTo  },
-											setProductsData,
-											setInfoLoaded)}
-										>
-											<ArrowForwardIosIcon/>
-										</IconButton>
-									</Grid>
-								</Grid>
-							</FormControl>
-						</ListItem>
+						{/* PRICE RANGE FILTER */}
+						<PriceRangeFilter
+							state={state}
+							setState={setState}
+							customColors={colors.customColors}
+						/>
 
 						<Divider sx={{ margin: "1vh 0" }}/>
 
 						{/* CURRENT DEALS FILTER */}
-						<FilterCategoryTitle title={"Current Deals"} customColors={colors.customColors}/>
-						<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
-							<FormControl sx={{ mt: 1, float: "left" }}>
-								<FormGroup>
-									<FilterCheckbox
-										title={"On Sale"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"onSale"}
-										v={true}
-										customColors={colors.customColors}
-									/>
-									<FilterCheckbox
-										title={"Clearance"}
-										filters={filters}
-										setFilters={setFilters}
-										handleFilter={handleFilter}
-										k={"onClearance"}
-										v={true}
-										customColors={colors.customColors}
-									/>
-								</FormGroup>
-							</FormControl>
-						</ListItem>
+						<CurrentDealsFilter
+							filters={state.filters}
+							setState={setState}
+							handleFilter={handleFilter}
+							customColors={colors.customColors}
+						/>
 					</List>
 				</Box>
 
@@ -210,31 +99,31 @@ const Products = () => {
 						overflowY: "auto"
 					}}
 				>
-
 					{/* TOP BAR */}
 					<TopBar
-						productsData={productsData}
-						setProductsData={setProductsData}
-						setInfoLoaded={setInfoLoaded}
-						colors={colors}
+						state={state}
+						setState={setState}
+						handleFilter={handleFilter}
+						customColors={colors.customColors}
 					/>
 
 					{/* PRODUCT LIST */}
 					<ProductList
-						productsData={productsData}
-						page={page}
+						productsData={state.productsData}
+						state={state}
 						productsPerPage={productsPerPage}
-						colors={colors}
+						customColors={colors.customColors}
 						mode={mode}
 					/>
 
+					{/* PAGINATION */}
 					<Pagination
 						count={totalPages}
-						page={page}
+						page={state.page}
 						onChange={(event, value) => {
-							handleChange(event, value, setPage)
+							handleChange(event, value, setState)
 						}}
-						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[1])}
+						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[3])}
 					/>
 				</Box>
 			</Box>

@@ -1,9 +1,9 @@
 import {Box, Button, Divider, Menu, MenuItem, Typography} from "@mui/material";
 import { useState } from "react";
-import { sortProducts, handleClick, handleClose } from "../../utils/products/utils";
+import { filterProducts, handleClick, handleClose } from "../../utils/products/utils";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const TopBar = ({ productsData, setProductsData, setInfoLoaded, colors }) => {
+const TopBar = ({ state, setState, customColors }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	return (
@@ -11,7 +11,7 @@ const TopBar = ({ productsData, setProductsData, setInfoLoaded, colors }) => {
 			<Divider
 				sx={{
 					margin: "1vh 0",
-					borderColor: colors.customColors[6]
+					borderColor: customColors[6]
 				}}
 			/>
 			<Box
@@ -29,22 +29,22 @@ const TopBar = ({ productsData, setProductsData, setInfoLoaded, colors }) => {
 						textAlign: "center",
 					}}
 				>
-					{productsData.length} products
+					{state.productsData.length} products
 				</Typography>
 				<Button
 					onClick={(event) => handleClick(event, setAnchorEl)}
 					sx={{
 						display: "flex",
 						justifyContent: "space-between",
-						backgroundColor: colors.customColors[6],
-						color: colors.customColors[1],
+						backgroundColor: customColors[6],
+						color: customColors[1],
 						fontFamily: "Montserrat",
 						fontWeight: "900",
 						letterSpacing: "1px",
 						width: "200px",
 						":hover": {
-							backgroundColor: colors.customColors[5],
-							color: colors.customColors[1]
+							backgroundColor: customColors[5],
+							color: customColors[1]
 						}
 					}}
 				>
@@ -58,10 +58,10 @@ const TopBar = ({ productsData, setProductsData, setInfoLoaded, colors }) => {
 					open={Boolean(anchorEl)}
 					onClose={(event) => handleClose(event, setAnchorEl)}
 				>
-					<MenuItem onClick={() => sortProducts([{ key: "reverse", value: "false" }], setProductsData, setInfoLoaded)}>
+					<MenuItem onClick={() => filterProducts([{ key: "reverse", value: "false" }], setState)}>
 						Price Low to High
 					</MenuItem>
-					<MenuItem onClick={() => sortProducts([{ key: "reverse", value: "true" }], setProductsData, setInfoLoaded)}>
+					<MenuItem onClick={() => filterProducts([{ key: "reverse", value: "true" }], setState)}>
 						Price High to Low
 					</MenuItem>
 				</Menu>
@@ -70,7 +70,7 @@ const TopBar = ({ productsData, setProductsData, setInfoLoaded, colors }) => {
 			<Divider
 				sx={{
 					margin: "1vh 0",
-					borderColor: colors.customColors[6]
+					borderColor: customColors[6]
 				}}
 			/>
 		</Box>

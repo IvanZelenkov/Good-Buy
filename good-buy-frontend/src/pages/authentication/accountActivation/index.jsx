@@ -112,7 +112,7 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 						</Box>
 					</Box>
 				</Box>
-				<Copyright textdecorationcolor={colors.customColors[1]}/>
+				<Copyright textdecorationcolor={colors.customColors[6]}/>
 			</Container>
 		</Box>
 	);

@@ -2,14 +2,14 @@ import { Box, ImageList, Typography } from "@mui/material";
 import ImageListItem from "@mui/material/ImageListItem";
 import RatingStars from "./RatingStars";
 
-const ProductList = ({ productsData, page, productsPerPage, colors, mode }) => {
+const ProductList = ({ state, productsPerPage, customColors, mode }) => {
 	return (
 		<ImageList
 			cols={5}
 			gap={50}
 			sx={{ width: "100%" }}
 		>
-			{productsData?.slice((page - 1) * productsPerPage, page * productsPerPage)
+			{state.productsData?.slice((state.page - 1) * productsPerPage, state.page * productsPerPage)
 				.map((product) => (
 					<ImageListItem
 						key={product.ID}
@@ -25,14 +25,14 @@ const ProductList = ({ productsData, page, productsPerPage, colors, mode }) => {
 							loading="lazy"
 							onClick={() => window.open(product.store_link, "_blank")}
 							style={{
-								backgroundColor: `${colors.customColors[3]}`,
+								backgroundColor: `${customColors[3]}`,
 								borderTopLeftRadius: "10px",
 								borderTopRightRadius: "10px",
 								height: "15vh"
 							}}
 						/>
 						<Box sx={{
-							backgroundColor: mode === "dark" ? colors.customColors[2] : "#1C2A33",
+							backgroundColor: mode === "dark" ? customColors[2] : "#1C2A33",
 							borderBottomLeftRadius: "10px",
 							borderBottomRightRadius: "10px",
 							borderTop: "2px solid white"
@@ -74,7 +74,6 @@ const ProductList = ({ productsData, page, productsPerPage, colors, mode }) => {
 								<Typography sx={{
 									fontSize: "1.7vh",
 									fontFamily: "Montserrat",
-									fontWeight: "900",
 									color: "white"
 								}}>
 									${product.price}

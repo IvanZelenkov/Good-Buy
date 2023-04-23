@@ -16,12 +16,11 @@ import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import {muiTextFieldCSS, tokens} from "../../theme";
+import { muiTextFieldCSS, tokens } from "../../theme";
 
-const ShoppingList = () => {
+const ShoppingList = ({ topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const topBarHeight = 65;
 	const [items, setItems] = useState([
 		{ id: 1, name: "Three Musketeers" },
 		{ id: 2, name: "Candy Cane" },

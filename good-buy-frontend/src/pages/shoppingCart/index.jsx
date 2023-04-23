@@ -28,7 +28,6 @@ import SearchIcon from "@mui/icons-material/Search";
 const ShoppingCart = (props) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const topBarHeight = 65;
 	const cart = useContext(CartContext);
 	const id = props.id;
 	const quantity = props.quantity;
@@ -75,7 +74,7 @@ const ShoppingCart = (props) => {
 			component={motion.div}
 			exit={{ opacity: 0 }}
 			sx={{
-				height: `calc(100vh - ${topBarHeight}px - 3vh)`,
+				height: `calc(100vh - ${props.topBarHeight}px - 3vh)`,
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center"

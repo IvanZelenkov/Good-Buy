@@ -40,14 +40,14 @@ class PriceRangeStrategy(FilterStrategyInterface):
             # strip() method removes any leading and trailing whitespace
             # characters from a string.
             # int() converts the resulting string values to integers.
-            lower_bound = int(min_price.strip())
-            upper_bound = int(max_price.strip())
+            lower_bound = float(min_price.strip())
+            upper_bound = float(max_price.strip())
 
             # Filtering the products based on their price,
             # keeping only those within the price range.
             filtered_products = []
             for product in products:
-                price = int(product.get("price"))
+                price = float(product.get("price"))
                 if price is None:
                     continue
                 if lower_bound <= price <= upper_bound:

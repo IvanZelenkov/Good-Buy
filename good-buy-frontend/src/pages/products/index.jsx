@@ -20,11 +20,11 @@ const Products = ({ state, setState, navigate, topBarHeight }) => {
 	const totalPages = Math.ceil( state.productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
-		filterSearch(state, setState, navigate);
+		filterSearch(state, setState, navigate, state.lastSearchTerm);
 	}, [state.lastSearchTerm]);
 
 	useEffect(() => {
-		filterProducts(state.filters, state, setState);
+		filterProducts(state.filters, state, setState, state.lastSearchTerm);
 	}, [state.filters]);
 
 	if (state.infoLoaded === false || state.productsData === [])
@@ -104,22 +104,24 @@ const Products = ({ state, setState, navigate, topBarHeight }) => {
 						overflowY: "auto"
 					}}
 				>
-					{/* TOP BAR */}
-					<TopBar
-						state={state}
-						setState={setState}
-						handleFilter={handleFilter}
-						customColors={colors.customColors}
-					/>
+					<Box sx={{ width: "100%" }}>
+						{/* TOP BAR */}
+						<TopBar
+							state={state}
+							setState={setState}
+							handleFilter={handleFilter}
+							customColors={colors.customColors}
+						/>
 
-					{/* PRODUCT LIST */}
-					<ProductList
-						productsData={state.productsData}
-						state={state}
-						productsPerPage={productsPerPage}
-						customColors={colors.customColors}
-						mode={mode}
-					/>
+						{/* PRODUCT LIST */}
+						<ProductList
+							productsData={state.productsData}
+							state={state}
+							productsPerPage={productsPerPage}
+							customColors={colors.customColors}
+							mode={mode}
+						/>
+					</Box>
 
 					{/* PAGINATION */}
 					<Pagination

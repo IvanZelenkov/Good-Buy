@@ -7,7 +7,7 @@ const TopBar = ({ state, setState, customColors }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	return (
-		<Box sx={{ width: "100%" }}>
+		<Box>
 			<Divider
 				sx={{
 					margin: "1vh 0",
@@ -62,7 +62,8 @@ const TopBar = ({ state, setState, customColors }) => {
 						filterProducts(
 							[{ key: "reverse", value: "false" }],
 							state,
-							setState
+							setState,
+							state.lastSearchTerm
 						)
 					}}>
 						Price Low to High
@@ -71,7 +72,8 @@ const TopBar = ({ state, setState, customColors }) => {
 						filterProducts(
 							[{ key: "reverse", value: "true" }],
 							state,
-							setState
+							setState,
+							state.lastSearchTerm
 						)
 					}}>
 						Price High to Low

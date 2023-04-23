@@ -5,16 +5,16 @@ export const handleKeyDown = async (event, state, setState, navigate, filterSear
 		if (event.target.value) {
 			setState(prevState => ({ ...prevState, lastSearchTerm: event.target.value }));
 			if (filterSearch) {
-				filterSearch(state, setState, navigate);
+				filterSearch(state, setState, navigate, event.target.value);
 			}
 		}
 	}
 };
 
-export const filterSearch = async (state, setState, navigate) => {
-	const filterResult = await filterProducts(state.filters, state, setState);
+export const filterSearch = async (state, setState, navigate, lastSearchTerm) => {
+	const filterResult = await filterProducts(state.filters, state, setState, lastSearchTerm);
 
 	if (!filterResult.productNotFound) {
-		navigate(`/products?search=${state.lastSearchTerm}`);
+		navigate(`/products?search=${lastSearchTerm}`);
 	}
 };

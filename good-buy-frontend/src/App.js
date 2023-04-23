@@ -61,6 +61,21 @@ function App() {
         checkUser();
     }, []);
 
+    useEffect(() => {
+        if (location.pathname !== "/products") {
+            setState({
+                infoLoaded: false,
+                lastSearchTerm: "",
+                productNotFound: false,
+                productsData: [],
+                filters: [],
+                priceFrom: "",
+                priceTo: "",
+                page: 1
+            });
+        }
+    }, [location]);
+
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>

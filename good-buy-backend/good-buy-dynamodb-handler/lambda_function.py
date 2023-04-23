@@ -69,7 +69,7 @@ def lambda_handler(event, context):
         # table = db.Table("Shopping_Cart")
         # decoded_event = json.loads(event['body'])
         item = {
-            'ID': int(decoded_event['ID']),
+            'ID': decoded_event['ID'],
             'cart': decoded_event['cart']
         }
         post_action = PostAction(event, db.Table("Shopping_Cart"), item)
@@ -237,10 +237,13 @@ class GetAction(DBActionInterface):
         self.response = {}
 
     def set_action(self):
-        id_value = self.event['queryStringParameters']['ID']
+        if self.event['path'] == '/database/shopping-cart':
+            id_value = self.event['queryStringParameters']['ID']
+        elif self.event['path'] == '/database/user-account':
+            id_value = int(self.event['queryStringParameters']['ID'])
         response = self.table.get_item(
             Key={
-                'ID': int(id_value)
+                'ID': id_value
             }
         )
         self.response = response
@@ -303,11 +306,14 @@ class PutAction(DBActionInterface):
         return self.response
 
     def set_action(self):
-        id_value = self.event['queryStringParameters']['ID']
+        if self.event['path'] == '/database/shopping-cart':
+            id_value = self.event['queryStringParameters']['ID']
+        elif self.event['path'] == '/database/user-account':
+            id_value = int(self.event['queryStringParameters']['ID'])
         # decodedExpressionAttributes = json.loads(self.expressionAttributeValues)
         response = self.table.update_item(
             Key={
-                'ID': int(id_value)
+                'ID': id_value
             },
             UpdateExpression=self.update_expression,
             ExpressionAttributeValues=self.expression_attribute_values
@@ -333,10 +339,13 @@ class DeleteAction(DBActionInterface):
         return self.response
 
     def set_action(self):
-        id_value = self.event['queryStringParameters']['ID']
+        if self.event['path'] == '/database/shopping-cart':
+            id_value = self.event['queryStringParameters']['ID']
+        elif self.event['path'] == '/database/user-account':
+            id_value = int(self.event['queryStringParameters']['ID'])
         response = self.table.delete_item(
             Key={
-                'ID': int(id_value)
+                'ID': id_value
             }
         )
         self.response = response

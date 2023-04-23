@@ -12,6 +12,24 @@
 	}
 }
 
+@keyframes Shake {
+	0% {
+		transform: translate(0);
+	}
+	25% {
+		transform: translate(0px, 1px);
+	}
+	50% {
+		transform: translate(0);
+	}
+	75% {
+		transform: translate(0px, -1px);
+	}
+	100% {
+		transform: translate(0);
+	}
+}
+
 html, body, #root, .app, .content {
 	height: 100%;
 	width: 100%;

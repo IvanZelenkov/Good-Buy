@@ -14,7 +14,6 @@ export const handleKeyDown = async (event, state, setState, navigate, filterSear
 export const filterSearch = async (state, setState, navigate, lastSearchTerm) => {
 	const filterResult = await filterProducts(state.filters, state, setState, lastSearchTerm);
 
-	if (!filterResult.productNotFound) {
+	if (!filterResult.productNotFound)
 		navigate(`/products?search=${lastSearchTerm}`);
-	}
 };

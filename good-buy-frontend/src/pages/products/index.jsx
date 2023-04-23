@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Box, Divider, List, Pagination, useTheme } from "@mui/material";
+import { useEffect, useMemo } from "react";
+import { Box, Divider, ImageList, List, Pagination, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import Loader from "../../components/others/Loader";
 import ProductList from "../../components/products/ProductList";
@@ -13,7 +13,7 @@ import { tokens, muiPaginationCSS } from "../../theme";
 import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
 import { filterSearch } from "../../utils/home/utils";
 
-const Products = ({ state, setState, navigate, topBarHeight }) => {
+const Products = ({ state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const productsPerPage = 25;
@@ -27,7 +27,14 @@ const Products = ({ state, setState, navigate, topBarHeight }) => {
 		filterProducts(state.filters, state, setState, state.lastSearchTerm);
 	}, [state.filters]);
 
-	if (state.infoLoaded === false || state.productsData === [])
+	useEffect(() => {
+		if (state.productNotFound)
+			setSearchError(true);
+		else
+			setSearchError(false);
+	}, [state.productNotFound]);
+
+	if (state.infoLoaded === false)
 		return <Loader colors={colors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -42,14 +49,48 @@ const Products = ({ state, setState, navigate, topBarHeight }) => {
 						padding: "15px",
 						marginRight: "3vh"
 					}}>
-					{/* SEARCH BAR */}
-					<SearchBar
-						state={state}
-						setState={setState}
-						navigate={navigate}
-						mode={mode}
-						customColors={colors.customColors}
-					/>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							position: "relative"
+						}}
+					>
+						{/* SEARCH BAR */}
+						<SearchBar
+							state={state}
+							setState={setState}
+							mode={mode}
+							customColors={colors.customColors}
+						/>
+						{searchError && (
+							<Box
+								sx={{
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									backgroundColor: "red",
+									position: "absolute",
+									bottom: "-2vh",
+									width: "100%",
+									animation: "Shake 0.5s",
+									animationIterationCount: "infinite",
+									borderRadius: "10px"
+								}}
+							>
+								<Typography
+									sx={{
+										fontSize: "1vh",
+										fontFamily: "Montserrat",
+										fontWeight: "900",
+										color: "white"
+									}}
+								>
+									Products not found
+								</Typography>
+							</Box>
+						)}
+					</Box>
 
 					<Divider sx={{ margin: "1vh 0" }}/>
 
@@ -113,14 +154,23 @@ const Products = ({ state, setState, navigate, topBarHeight }) => {
 							customColors={colors.customColors}
 						/>
 
-						{/* PRODUCT LIST */}
-						<ProductList
-							productsData={state.productsData}
-							state={state}
-							productsPerPage={productsPerPage}
-							customColors={colors.customColors}
-							mode={mode}
-						/>
+						{searchError ?
+							(
+								// EMPTY PRODUCT LIST
+								<ImageList cols={5} gap={200}/>
+							)
+							:
+							(
+								// PRODUCT LIST
+								<ProductList
+									productsData={state.productsData}
+									state={state}
+									productsPerPage={productsPerPage}
+									customColors={colors.customColors}
+									mode={mode}
+								/>
+							)
+						}
 					</Box>
 
 					{/* PAGINATION */}

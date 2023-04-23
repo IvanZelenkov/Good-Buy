@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Box, Divider, ImageList, List, Pagination, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import Loader from "../../components/others/Loader";
@@ -17,6 +17,7 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const productsPerPage = 25;
+	const componentRef = useRef(null);
 	const totalPages = Math.ceil( state.productsData.flat().length / productsPerPage);
 
 	useEffect(() => {
@@ -142,12 +143,14 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 						justifyContent: "space-between",
 						alignItems: "center",
 						height: `calc(100vh - ${topBarHeight}px - 3vh)`,
-						overflowY: "auto"
+						overflowY: "auto",
+						paddingRight: "2.5vh"
 					}}
 				>
 					<Box sx={{ width: "100%" }}>
 						{/* TOP BAR */}
 						<TopBar
+							componentReference={componentRef}
 							state={state}
 							setState={setState}
 							handleFilter={handleFilter}
@@ -178,7 +181,7 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 						count={totalPages}
 						page={state.page}
 						onChange={(event, value) => {
-							handleChange(event, value, setState)
+							handleChange(event, value, setState, componentRef)
 						}}
 						sx={muiPaginationCSS(colors.customColors[6], colors.customColors[3])}
 					/>

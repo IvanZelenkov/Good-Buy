@@ -70,16 +70,21 @@ export const filterProducts = async (filters, state, setState, lastSearchTerm) =
 	}
 };
 
-export const handleChange = (event, value, setState) => {
+export const handleChange = (event, value, setState, componentRef) => {
 	setState((prevState) => ({ ...prevState, page: value }));
+	componentRef.current.scrollIntoView({ behavior: "smooth" });
 };
 
 export const handleClick = (event, setAnchorEl) => {
-	setAnchorEl(event.currentTarget);
+	if (event) {
+		event.preventDefault();
+		setAnchorEl(event.currentTarget);
+	}
 };
 
 export const handleClose = (event, setAnchorEl) => {
-	event.preventDefault();
-	event.stopPropagation();
-	setAnchorEl(null);
+	if (event) {
+		event.preventDefault();
+		setAnchorEl(null);
+	}
 };

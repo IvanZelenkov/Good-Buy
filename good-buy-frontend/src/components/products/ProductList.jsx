@@ -4,11 +4,7 @@ import RatingStars from "./RatingStars";
 
 const ProductList = ({ state, productsPerPage, customColors, mode }) => {
 	return (
-		<ImageList
-			cols={5}
-			gap={50}
-			sx={{ width: "100%" }}
-		>
+		<ImageList cols={5} gap={50}>
 			{state.productsData?.slice((state.page - 1) * productsPerPage, state.page * productsPerPage)
 				.map((product) => (
 					<ImageListItem
@@ -76,7 +72,7 @@ const ProductList = ({ state, productsPerPage, customColors, mode }) => {
 									fontFamily: "Montserrat",
 									color: "white"
 								}}>
-									${product.price}
+									${parseFloat(product.price)}
 								</Typography>
 							</Box>
 						</Box>

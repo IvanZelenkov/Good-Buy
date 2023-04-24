@@ -124,7 +124,7 @@ def lambda_handler(event, context):
         get_action = GetAction(event, db.Table("Shopping_Cart"))
         get_action.set_action()
         response = get_action.action()
-        data = json.load(response['Item'])
+        data = json.dumps(response['Item'])
         data["cart"].append(event["body"])
 
         update_expression = "SET cart =:cart"

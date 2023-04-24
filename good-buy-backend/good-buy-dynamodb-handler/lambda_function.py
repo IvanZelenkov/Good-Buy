@@ -8,6 +8,7 @@ import json
 import os
 from abc import ABC, abstractmethod
 import boto3
+from addToCart import addToCartJSON
 
 # from dotenv import load_dotenv
 
@@ -120,17 +121,39 @@ def lambda_handler(event, context):
         # table = db.Table("Shopping_Cart")
         # decoded_event = json.loads(event['body']['cart'])
 
+        # Body will be a product object
+        get_action = GetAction(event, db.Table("Shopping_Cart"))
+        get_action.set_action()
+        response = get_action.action()
+        file_name = "ShoppingCart_"+event['queryStringParameters']['ID']+'.json'
+        with open(file_name,"w", encoding='UTF-8') as outfile:
+            outfile.write(response['Item'])
+        addToCartJSON(event['queryStringParameters']['ID']
+        ,file_name,json.dumps(event['body'], indent=4, default=str))
+        with open(file_name,"r", encoding='UTF-8') as outfile:
+            data = json.load(file_name)
+        # make a get request of cart being updated
+        # and append that product object to that cart
+
+        # Then pass new cart to PutAction()
+
+
         update_expression = "SET cart =:cart"
         expression_attribute_values = {
-            ':cart': decoded_event['cart']
+            ':cart': data['cart']
         }
+
+        if os.path.exists(file_name):
+            os.remove(file_name)
+        else:
+            print("File doesn't exist")
 
         # decodedExpressionAttributes = json.dumps(expression_attribute_values)
 
         put_action = PutAction(event, db.Table("Shopping_Cart"),
                                update_expression, expression_attribute_values)
         put_action.set_action()
-        response = put_action.action()
+        res = put_action.action()
 
         ret_val = {
             'statusCode': 200,
@@ -139,7 +162,7 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': json.dumps(response, indent=4, default=str)
+            'body': json.dumps(res, indent=4, default=str)
         }
     # When using this path and method, must pass the ID of
     # the user accound you want to update as a query parameter,

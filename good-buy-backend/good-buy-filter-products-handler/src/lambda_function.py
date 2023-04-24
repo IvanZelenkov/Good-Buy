@@ -71,7 +71,11 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             "body": f"An error occurred while authenticating with AWS: {str(error)}"
         }
 
-    s3_service = S3Service(s3_client)
+    s3_service = S3Service(
+        s3_client,
+        os.getenv("S3_BUCKET_NAME"),
+        os.getenv("S3_JSON_FOLDER_NAME")
+    )
     params = event.get("queryStringParameters")
     product_service = ProductService(s3_service)
 

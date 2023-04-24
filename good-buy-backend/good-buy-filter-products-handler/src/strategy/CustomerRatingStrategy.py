@@ -2,8 +2,8 @@
 This module provides an implementation of a filter strategy to filter products by customer rating.
 """
 
-from typing import Dict, List
-from FilterStrategyInterface import FilterStrategyInterface
+from typing import Dict, List, Any
+from strategy.FilterStrategyInterface import FilterStrategyInterface
 
 
 class CustomerRatingStrategy(FilterStrategyInterface):
@@ -20,16 +20,16 @@ class CustomerRatingStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters products by customer rating.
 
         Args:
-            products (List[Dict[str, str]]): A nested list of dictionaries
+            products (List[Dict[str, Any]]): A nested list of dictionaries
                                              representing products to be filtered.
 
         Returns:
-            List[Dict[str, str]]: A list of products that match the customer rating criteria.
+            List[Dict[str, Any]]: A list of products that match the customer rating criteria.
         """
         try:
             min_rating = float(self.param_value)

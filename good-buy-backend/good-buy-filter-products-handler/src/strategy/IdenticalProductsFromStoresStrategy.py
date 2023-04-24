@@ -3,8 +3,8 @@ This module provides an implementation of a filter strategy to filter products
 by name in order to get identical products from different stores.
 """
 
-from typing import Dict, List
-from FilterStrategyInterface import FilterStrategyInterface
+from typing import Dict, List, Any
+from strategy.FilterStrategyInterface import FilterStrategyInterface
 
 
 class IdenticalProductsFromStoresStrategy(FilterStrategyInterface):
@@ -22,16 +22,16 @@ class IdenticalProductsFromStoresStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters products by product name.
 
         Args:
-            products (List[Dict[str, str]]): A list of dictionaries
+            products (List[Dict[str, Any]]): A list of dictionaries
                                              representing products to be filtered.
 
         Returns:
-            List[Dict[str, str]]: A list of products whose names match.
+            List[Dict[str, Any]]: A list of products whose names match.
         """
         try:
             filtered_products = [product for product in products

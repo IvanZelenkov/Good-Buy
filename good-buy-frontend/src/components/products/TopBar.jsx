@@ -1,4 +1,4 @@
-import {Box, Button, Divider, Menu, MenuItem, Typography} from "@mui/material";
+import { Box, Button, Divider, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import { filterProducts, handleClick, handleClose } from "../../utils/products/utils";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";

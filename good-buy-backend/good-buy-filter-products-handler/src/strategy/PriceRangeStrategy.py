@@ -3,8 +3,8 @@ This module provides an implementation of a filter strategy to filter
 products by price range.
 """
 
-from typing import Dict, List
-from FilterStrategyInterface import FilterStrategyInterface
+from typing import Dict, List, Any
+from strategy.FilterStrategyInterface import FilterStrategyInterface
 
 
 class PriceRangeStrategy(FilterStrategyInterface):
@@ -21,16 +21,16 @@ class PriceRangeStrategy(FilterStrategyInterface):
         """
         self.param_value = param_value
 
-    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters products by price range.
 
         Args:
-            products (List[Dict[str, str]]): A list of dictionaries
+            products (List[Dict[str, Any]]): A list of dictionaries
                                              representing products to be filtered.
 
         Returns:
-            List[Dict[str, str]]: A list of products that match the price range.
+            List[Dict[str, Any]]: A list of products that match the price range.
         """
         try:
             # Split the price range string using "-" separator.

@@ -30,31 +30,36 @@ pipeline {
                         python3 -m pip install --upgrade pip
                         pip3 install --upgrade -r requirements.txt
                     """
-                    parallel(
-                        "Unit tests": {
-                            stage("Unit tests") {
-                                sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                    withCredentials([[
+                        $class: "AmazonWebServicesCredentialsBinding",
+                        credentialsId: "3bad8343-2415-4729-8b1a-ab923601f249"
+                    ]]) {
+                        parallel(
+                            "Unit tests": {
+                                stage("Unit tests") {
+                                    sh "python3 -m pytest -r ${BACKEND_FOLDER_NAME}"
+                                }
+                            },
+                            "Security tests": {
+                                stage("Security tests") {
+                                    sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
+                                }
+                            },
+                            "Linting tests": {
+                                stage("Linting tests") {
+                                    sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
+                                }
+                            },
+                            "Coverage": {
+                                stage("Coverage") {
+                                    sh """
+                                        python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}
+                                        python3 -m coverage report
+                                    """
+                                }
                             }
-                        },
-                        "Security tests": {
-                            stage("Security tests") {
-                                sh "python3 -m bandit --exclude ${exclude_dirs} -r ${BACKEND_FOLDER_NAME}"
-                            }
-                        },
-                        "Linting tests": {
-                            stage("Linting tests") {
-                                sh "python3 -m pylint --rcfile=${pylint_rcfile} --ignore=${exclude_dirs} -r y ${BACKEND_FOLDER_NAME}"
-                            }
-                        },
-                        "Coverage": {
-                            stage("Coverage") {
-                                sh """
-                                    python3 -m coverage run --source=${BACKEND_FOLDER_NAME} -m pytest -r ${BACKEND_FOLDER_NAME}
-                                    python3 -m coverage report
-                                """
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

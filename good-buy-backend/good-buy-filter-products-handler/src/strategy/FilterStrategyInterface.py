@@ -3,7 +3,7 @@ This module defines the abstract base class FilterStrategyInterface.
 """
 
 from abc import ABCMeta, abstractmethod
-from typing import Dict, List
+from typing import Dict, List, Any
 
 
 class FilterStrategyInterface(metaclass=ABCMeta):
@@ -12,14 +12,14 @@ class FilterStrategyInterface(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def filter(self, products: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def filter(self, products: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters products based on a given strategy.
 
         Args:
-            products (List[Dict[str, str]]): A list of products to be filtered.
+            products (List[Dict[str, Any]]): A list of products to be filtered.
 
         Returns:
-            List[Dict[str, str]]: A list of filtered products.
+            List[Dict[str, Any]]: A list of filtered products.
         """
         pass

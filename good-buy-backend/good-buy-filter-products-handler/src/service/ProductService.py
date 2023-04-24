@@ -3,11 +3,11 @@ This module defines the ProductService class, which provides functionality for
 filtering products based on various strategies.
 """
 import json
+from typing import List, Dict, Any
 
-from typing import List, Dict
-from StoreApiInterface import StoreApiInterface
-from FilterStrategyInterface import FilterStrategyInterface
-from S3Service import S3Service
+from service.StoreApiInterface import StoreApiInterface
+from service.S3Service import S3Service
+from strategy.FilterStrategyInterface import FilterStrategyInterface
 
 
 class ProductService(StoreApiInterface):
@@ -29,12 +29,12 @@ class ProductService(StoreApiInterface):
         """
         self.s3_service = s3_service
 
-    def get_all_products(self) -> List[Dict[str, str]]:
+    def get_all_products(self) -> List[Dict[str, Any]]:
         """
         Gets all products from all stores.
 
         Returns:
-            List[Dict[str, str]]:: A list of dictionaries representing the products.
+            List[Dict[str, Any]]:: A list of dictionaries representing the products.
         """
         products = []
         for store_name in self.STORE_NAMES:
@@ -43,7 +43,7 @@ class ProductService(StoreApiInterface):
 
         return products
 
-    def filter(self, filter_strategies: List[FilterStrategyInterface]) -> List[Dict[str, str]]:
+    def filter(self, filter_strategies: List[FilterStrategyInterface]) -> List[Dict[str, Any]]:
         """
         Filters products based on the specified filter strategies.
 
@@ -53,7 +53,7 @@ class ProductService(StoreApiInterface):
                                                                functionality.
 
         Returns:
-            List[Dict[str, str]]: A list of filtered products.
+            List[Dict[str, Any]]: A list of filtered products.
         """
         # Load all products from S3
         products = self.get_all_products()

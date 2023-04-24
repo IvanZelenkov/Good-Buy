@@ -125,28 +125,13 @@ def lambda_handler(event, context):
         get_action = GetAction(event, db.Table("Shopping_Cart"))
         get_action.set_action()
         response = get_action.action()
-        file_name = "ShoppingCart_"+event['queryStringParameters']['ID']+'.json'
-        with open(file_name,"w", encoding='UTF-8') as outfile:
-            outfile.write(response['Item'])
-        addToCartJSON(event['queryStringParameters']['ID']
-        ,file_name,json.dumps(event['body'], indent=4, default=str))
-        with open(file_name,"r", encoding='UTF-8') as outfile:
-            data = json.load(file_name)
-        # make a get request of cart being updated
-        # and append that product object to that cart
-
-        # Then pass new cart to PutAction()
-
+        data = json.load(response['Item'])
+        data["cart"].append(event["body"])
 
         update_expression = "SET cart =:cart"
         expression_attribute_values = {
             ':cart': data['cart']
         }
-
-        if os.path.exists(file_name):
-            os.remove(file_name)
-        else:
-            print("File doesn't exist")
 
         # decodedExpressionAttributes = json.dumps(expression_attribute_values)
 

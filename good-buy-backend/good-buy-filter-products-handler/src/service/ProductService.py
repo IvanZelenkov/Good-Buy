@@ -2,8 +2,14 @@
 This module defines the ProductService class, which provides functionality for
 filtering products based on various strategies.
 """
+import os
+import sys
 import json
-from typing import List, Dict, Any
+from typing import Dict, List, Any
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
+src = os.path.dirname(current_dir)
+sys.path.append(src)
 
 from service.StoreApiInterface import StoreApiInterface
 from service.S3Service import S3Service

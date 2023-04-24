@@ -2,7 +2,14 @@
 This module provides an implementation of a filter strategy to filter products by availability.
 """
 
+import os
+import sys
 from typing import Dict, List, Any
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
+src = os.path.dirname(current_dir)
+sys.path.append(src)
+
 from strategy.FilterStrategyInterface import FilterStrategyInterface
 
 

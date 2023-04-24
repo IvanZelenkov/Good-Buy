@@ -120,16 +120,9 @@ def lambda_handler(event, context):
         # table = db.Table("Shopping_Cart")
         # decoded_event = json.loads(event['body']['cart'])
 
-        # Body will be a product object
-        get_action = GetAction(event, db.Table("Shopping_Cart"))
-        get_action.set_action()
-        response = get_action.action()
-        data = json.dumps(response['Item'])
-        data["cart"].append(event["body"])
-
         update_expression = "SET cart =:cart"
         expression_attribute_values = {
-            ':cart': data['cart']
+            ':cart': decoded_event['cart']
         }
 
         # decodedExpressionAttributes = json.dumps(expression_attribute_values)
@@ -137,7 +130,7 @@ def lambda_handler(event, context):
         put_action = PutAction(event, db.Table("Shopping_Cart"),
                                update_expression, expression_attribute_values)
         put_action.set_action()
-        res = put_action.action()
+        response = put_action.action()
 
         ret_val = {
             'statusCode': 200,
@@ -146,7 +139,7 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
             },
-            'body': json.dumps(res, indent=4, default=str)
+            'body': json.dumps(response, indent=4, default=str)
         }
     # When using this path and method, must pass the ID of
     # the user accound you want to update as a query parameter,

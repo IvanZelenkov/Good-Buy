@@ -8,7 +8,6 @@ import json
 import os
 from abc import ABC, abstractmethod
 import boto3
-from addToCart import addToCartJSON
 
 # from dotenv import load_dotenv
 

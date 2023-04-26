@@ -120,12 +120,21 @@ def lambda_handler(event, context):
         # table = db.Table("Shopping_Cart")
         # decoded_event = json.loads(event['body']['cart'])
 
+        # decodedExpressionAttributes = json.dumps(expression_attribute_values)
+
+        # Get the initial shopping cart value
+        get_action = GetAction(event, db.Table("Shopping_Cart"))
+        get_action.set_action()
+        # Shopping cart is in res['Item']
+        res = get_action.action()
+        # email,products,res, context
+        add_to_cart = AddToCart(event['queryStringParameters']['ID'], event['body'], res)
+        new_cart = add_to_cart.addToCartJSON()
+        print(new_cart)
         update_expression = "SET cart =:cart"
         expression_attribute_values = {
-            ':cart': decoded_event['cart']
+            ':cart': new_cart
         }
-
-        # decodedExpressionAttributes = json.dumps(expression_attribute_values)
 
         put_action = PutAction(event, db.Table("Shopping_Cart"),
                                update_expression, expression_attribute_values)
@@ -349,3 +358,52 @@ class DeleteAction(DBActionInterface):
             }
         )
         self.response = response
+
+class AddToCart():
+    '''
+    This class defines the action of adding
+    a new product to a cart.
+    '''
+    def __init__(self, email, products, prev_cart):
+        self.email = email
+        self.products = products
+        self.prev_cart = prev_cart
+        self.filename = "/tmp/" + email + ".json"
+
+    def addToCartJSON(self):
+        '''
+        This function was created by Cooper to add a new product
+        to a cart value for the shopping cart table in
+        dynamodb.
+        Must pass in an email from the query parameter string,
+        a json product value from the event body,
+        and intial cart value.
+        '''
+        # json_object = json.dumps(self.products, indent = 4)
+        # This writes the initial cart value to the file
+        # example filename is "/tmp/test@gmail.com.json"
+        with open(self.filename, 'w', encoding='UTF-8') as outfile:
+            outfile.write(json.dumps(self.prev_cart,indent = 4))
+            # json.dumps(self.prev_cart, self.filename,indent = 4)
+
+        # This loads the initial cart value in the listObj.
+        with open(self.filename, 'r', encoding='UTF-8') as fp:
+            listObj = json.load(fp)
+        print(listObj["Item"]["cart"])
+        # Append the new product the the existing cart value
+        listObj["Item"]["cart"].append(self.products)
+        # print("test")
+        print(json.dumps(listObj["Item"]["cart"], indent = 4))
+
+        # with open(self.filename, "w", encoding='UTF-8') as json_file:
+        #     json.dump(listObj, json_file, indent = 4, separators = (',',': '))
+
+        # with open(self.filename, encoding='UTF-8') as cart_file:
+        #     cart = json.load(cart_file)
+
+        if os.path.exists(self.filename):
+            os.remove(self.filename)
+        else:
+            print(self.filename)
+
+        return json.dumps(listObj["Item"]["cart"], indent = 4)

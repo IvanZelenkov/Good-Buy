@@ -73,6 +73,7 @@ function App() {
                 filters: [],
                 priceFrom: "",
                 priceTo: "",
+                reverse: false,
                 page: 1
             });
         }

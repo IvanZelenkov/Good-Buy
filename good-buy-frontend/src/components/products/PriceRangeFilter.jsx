@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import FilterCategoryTitle from "./FilterCategoryTitle";
-import { FormControl, Grid, IconButton, ListItem, TextField, Typography } from "@mui/material";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { FormControl, Grid, IconButton, ListItem, TextField, Tooltip, Typography } from "@mui/material";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { muiTextFieldCSS } from "../../theme";
-import {filterProducts, handleFilter} from "../../utils/products/utils";
+import { handleFilter} from "../../utils/products/utils";
 
 const PriceRangeFilter = ({ state, setState, customColors }) => {
 	const [disableButton, setDisableButton] = useState(true);
@@ -36,7 +37,7 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 			<ListItem sx={{ display: "flex", borderRadius: "2px" }}>
 				<FormControl sx={{ mt: 1, float: "left" }}>
 					<Grid container spacing={2} sx={{ alignItems: "center" }}>
-						<Grid item xs={4}>
+						<Grid item xs={3}>
 							<TextField
 								label="min"
 								variant="outlined"
@@ -53,7 +54,7 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 						<Grid item xs={1}>
 							<Typography>to</Typography>
 						</Grid>
-						<Grid item xs={4}>
+						<Grid item xs={3}>
 							<TextField
 								label="max"
 								variant="outlined"
@@ -67,16 +68,39 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 								inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 							/>
 						</Grid>
-						<Grid item xs={1}>
-							<IconButton onClick={() => {
-								handleFilter(
-									{ key: "priceRange", value: state.priceFrom + "-" + state.priceTo },
-									state.filters,
-									setState
-								)
-							}} disabled={disableButton}>
-								<ArrowForwardIosIcon/>
-							</IconButton>
+						<Grid item xs={2}>
+							<Tooltip title="Filter" placement="bottom">
+								<span>
+									<IconButton
+										disabled={disableButton}
+										onClick={() => {
+											handleFilter(
+												{ key: "priceRange", value: state.priceFrom + "-" + state.priceTo },
+												state.filters,
+												setState
+											)
+										}}
+									>
+										<FilterAltIcon/>
+									</IconButton>
+								</span>
+							</Tooltip>
+						</Grid>
+						<Grid item xs={2}>
+							<Tooltip title="Reset" placement="bottom">
+								<IconButton
+									onClick={() => {
+										setState((prevState) => ({ ...prevState, priceFrom: "", priceTo: "" }));
+										handleFilter(
+											{ key: "priceRange", value: "" },
+											state.filters,
+											setState
+										);
+									}}
+								>
+									<RestartAltIcon/>
+								</IconButton>
+							</Tooltip>
 						</Grid>
 					</Grid>
 				</FormControl>

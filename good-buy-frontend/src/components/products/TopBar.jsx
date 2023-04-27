@@ -75,10 +75,11 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 					<MenuItem
 						sx={{ fontFamily: "Montserrat", fontWeight: "600" }}
 						onClick={(event) => {
+							setState((prevState) => ({ ...prevState, lastSearchTerm: "" }));
 							filterProducts(
 								[],
 								state,
-								setState
+								setState,
 							);
 							handleMenuItemClick(event,"All products")
 							handleClose(event, setAnchorEl)

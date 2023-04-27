@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
-import { filterProducts, handleClick, handleClose } from "../../utils/products/utils";
+import { filterProducts, handleFilter, handleClick, handleClose } from "../../utils/products/utils";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const TopBar = ({ componentReference, state, setState, customColors }) => {
@@ -79,28 +79,18 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 							setState,
 							state.lastSearchTerm
 						);
-						handleMenuItemClick(event, "Price Low to High")
+						handleMenuItemClick(event,"Best Match")
 					}}>
 						Best Match
 					</MenuItem>
 					<MenuItem onClick={(event) => {
-						filterProducts(
-							[{ key: "reverse", value: "false" }],
-							state,
-							setState,
-							state.lastSearchTerm
-						);
+						handleFilter({ key: "reverse", value: false }, state.filters, setState)
 						handleMenuItemClick(event, "Price Low to High")
 					}}>
 						Price Low to High
 					</MenuItem>
 					<MenuItem onClick={(event) => {
-						filterProducts(
-							[{ key: "reverse", value: "true" }],
-							state,
-							setState,
-							state.lastSearchTerm
-						);
+						handleFilter({ key: "reverse", value: true }, state.filters, setState)
 						handleMenuItemClick(event, "Price High to Low")
 					}}>
 						Price High to Low

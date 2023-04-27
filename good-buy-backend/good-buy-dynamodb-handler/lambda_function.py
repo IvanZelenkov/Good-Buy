@@ -97,9 +97,15 @@ def lambda_handler(event, context):
             'phone': decoded_event['phone'],
             'username': decoded_event['username']
         }
+
         post_action = PostAction(event, db.Table("Users"), item)
+        gen_empty_cart = GenerateEmptyCart(decoded_event['email'])
+        empty_cart = gen_empty_cart.generateEmptyCartWithUSERID()
+        post_empty_cart_action = PostAction(event, db.Table("Shopping_Cart"),empty_cart)
         post_action.set_action()
         response = post_action.action()
+        post_empty_cart_action.set_action()
+        post_empty_cart_action.action()
         ret_val = {
             'statusCode': 200,
             'headers': {
@@ -419,3 +425,24 @@ class AddToCart():
             print(temp + self.filename)
 
         return listObj["Item"]["cart"]
+
+class GenerateEmptyCart():
+    '''This class defines an empty cart for a user.'''
+
+    def __init__(self, email):
+        self.email = email
+        self.filename = email + ".json"
+
+    def generateEmptyCartWithUSERID(self):
+        '''This is the function for an empty cart, takes in a email address (String)'''
+        temp = tempfile.mkdtemp()
+        my_dict = {"ID": "", "cart": []}
+        my_dict.update({"ID": self.email})
+        jsonString = json.dumps(my_dict, indent = 4)
+        # filename = "ShoppingCart_" + self.email + ".json"
+        with open(temp + self.filename, "w", encoding='UTF-8') as outfile:
+            outfile.write(jsonString)
+
+        with open(temp + self.filename, 'r', encoding='UTF-8') as fp:
+            listObj = json.load(fp)
+        return listObj

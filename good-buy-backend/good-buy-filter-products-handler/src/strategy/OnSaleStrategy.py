@@ -39,8 +39,10 @@ class OnSaleStrategy(FilterStrategyInterface):
             List[Dict[str, Any]]: A list of products that match the clearance criteria.
         """
         try:
+            on_sale = str(self.param_value).lower() == "true"
+
             filtered_products = [product for product in products
-                                 if product.get("on_sale") == bool(self.param_value)]
+                                 if product.get("on_sale") == on_sale]
 
             return filtered_products
         except ValueError as error:

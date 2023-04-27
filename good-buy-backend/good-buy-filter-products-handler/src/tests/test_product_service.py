@@ -96,7 +96,7 @@ class TestProductService(unittest.TestCase):
             StoreNameStrategy("Walmart"),
             CustomerRatingStrategy(3),
             PriceRangeStrategy("1-4"),
-            ClearanceStrategy("false"),
+            ClearanceStrategy("true"),
             AvailabilityStrategy("true")
         ])
 

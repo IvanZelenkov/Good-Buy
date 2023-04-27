@@ -39,8 +39,10 @@ class AvailabilityStrategy(FilterStrategyInterface):
             List[Dict[str, Any]]: A list of products that match the availability criteria.
         """
         try:
+            availability = str(self.param_value).lower() == "true"
+
             filtered_products = [product for product in products
-                                 if product.get("availability") == bool(self.param_value)]
+                                 if product.get("availability") == availability]
 
             return filtered_products
         except ValueError as error:

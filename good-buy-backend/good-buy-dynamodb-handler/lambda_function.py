@@ -427,6 +427,7 @@ class AddToCart():
         return listObj["Item"]["cart"]
 
 class GenerateEmptyCart():
+    '''This class defines an empty cart for a user.'''
 
     def __init__(self, email):
         self.email = email
@@ -439,7 +440,7 @@ class GenerateEmptyCart():
         my_dict.update({"ID": self.email})
         jsonString = json.dumps(my_dict, indent = 4)
         # filename = "ShoppingCart_" + self.email + ".json"
-        with open(temp + self.filename, "w") as outfile:
+        with open(temp + self.filename, "w", encoding='UTF-8') as outfile:
             outfile.write(jsonString)
 
         with open(temp + self.filename, 'r', encoding='UTF-8') as fp:

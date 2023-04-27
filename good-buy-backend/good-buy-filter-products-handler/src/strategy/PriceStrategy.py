@@ -46,7 +46,11 @@ class PriceStrategy(FilterStrategyInterface):
             # which is then used as the sorting key for sorted().
             # reverse=True argument is used to sort in reverse order.
             # reverse=False argument is used to sort by default in ascending order.
-            sorted_products = sorted(products, key=lambda x: x["price"], reverse=bool(self.param_value))
+            sorted_products = sorted(
+                products,
+                key=lambda x: x["price"],
+                reverse=bool(self.param_value)
+            )
 
             return sorted_products
         except ValueError as error:

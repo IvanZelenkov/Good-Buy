@@ -10,7 +10,7 @@ sys.path.append(src)
 from service.ProductService import ProductService
 from service.S3Service import S3Service
 from strategy.FilterStrategyInterface import FilterStrategyInterface
-from strategy.IdenticalProductsFromStoresStrategy import IdenticalProductsFromStoresStrategy
+from strategy.ProductNameStrategy import ProductNameStrategy
 from strategy.StoreNameStrategy import StoreNameStrategy
 from strategy.CustomerRatingStrategy import CustomerRatingStrategy
 from strategy.PriceRangeStrategy import PriceRangeStrategy
@@ -87,7 +87,7 @@ class TestProductService(unittest.TestCase):
 
     def test_all_filter_strategies(self):
         filter_strategies = [
-            IdenticalProductsFromStoresStrategy("Twix"),
+            ProductNameStrategy("Twix"),
             StoreNameStrategy("Rouses"),
             CustomerRatingStrategy(1),
             PriceRangeStrategy("1-2"),
@@ -100,8 +100,8 @@ class TestProductService(unittest.TestCase):
         self.assertFilteredProducts(filter_strategies)
 
     def test_identical_products_from_stores_filter_strategy(self):
-        self.assertFilteredProducts([IdenticalProductsFromStoresStrategy("Twix")])
-        self.assertFilteredProducts([IdenticalProductsFromStoresStrategy("Snickers")])
+        self.assertFilteredProducts([ProductNameStrategy("Twix")])
+        self.assertFilteredProducts([ProductNameStrategy("Snickers")])
 
     def test_store_name_filter_strategy(self):
         self.assertFilteredProducts([StoreNameStrategy("Rouses")])

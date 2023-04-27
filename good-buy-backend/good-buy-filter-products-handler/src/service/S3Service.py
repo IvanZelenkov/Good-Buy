@@ -1,15 +1,17 @@
 """
 S3Service module.
 
-This module defines a service class for interacting with S3.
+This module defines a service class for interacting with Amazon S3 service.
 """
 
-from botocore.exceptions import ClientError
+import os
+import boto3
+from botocore.exceptions import ClientError, NoCredentialsError
 
 
 class S3Service:
     """
-    A service class for interacting with S3.
+    A service class for interacting with Amazon S3 service.
     """
 
     def __init__(self, s3_client, s3_bucket_name, s3_folder_name):
@@ -19,6 +21,24 @@ class S3Service:
         self.s3_client = s3_client
         self.s3_bucket_name = s3_bucket_name
         self.s3_folder_name = s3_folder_name
+
+    @staticmethod
+    def create_s3_client() -> boto3.client:
+        """
+        Create an S3 client object.
+
+        Returns:
+            botocore.client.S3: An S3 client object.
+        """
+        try:
+            s3_client = boto3.resource(
+                "s3",
+                aws_access_key_id=os.getenv("ACCESS_KEY"),
+                aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY")
+            )
+            return s3_client
+        except NoCredentialsError as error:
+            raise RuntimeError(f"Failed to authenticate with AWS: {error}") from error
 
     def get_s3_object(self, store_name: str) -> str:
         """

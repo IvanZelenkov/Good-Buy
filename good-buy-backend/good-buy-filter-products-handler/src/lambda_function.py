@@ -10,8 +10,6 @@ import os
 import sys
 import json
 from typing import Dict, Any
-import boto3
-from botocore.exceptions import NoCredentialsError
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 service_dir = os.path.join(current_dir, "service")
@@ -21,7 +19,7 @@ sys.path.append(service_dir)
 sys.path.append(factory_dir)
 sys.path.append(strategy_dir)
 
-from IdenticalProductsFromStoresStrategy import IdenticalProductsFromStoresStrategy
+from ProductNameStrategy import ProductNameStrategy
 from StoreNameStrategy import StoreNameStrategy
 from CustomerRatingStrategy import CustomerRatingStrategy
 from PriceRangeStrategy import PriceRangeStrategy
@@ -33,7 +31,7 @@ from ProductService import ProductService
 from S3Service import S3Service
 
 FILTER_STRATEGY_MAP = {
-    "productName": IdenticalProductsFromStoresStrategy,
+    "productName": ProductNameStrategy,
     "storeName": StoreNameStrategy,
     "customerRating": CustomerRatingStrategy,
     "priceRange": PriceRangeStrategy,
@@ -59,25 +57,14 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             - headers (Dict[str, str]): HTTP headers of the response.
             - body (str): JSON-encoded string containing the filtered products.
     """
-    try:
-        s3_client = boto3.resource(
-            "s3",
-            aws_access_key_id=os.getenv("ACCESS_KEY"),
-            aws_secret_access_key=os.getenv("SECRET_ACCESS_KEY")
-        )
-    except NoCredentialsError as error:
-        return {
-            "statusCode": 500,
-            "body": f"An error occurred while authenticating with AWS: {str(error)}"
-        }
-
-    s3_service = S3Service(
-        s3_client,
-        os.getenv("S3_BUCKET_NAME"),
-        os.getenv("S3_JSON_FOLDER_NAME")
-    )
     params = event.get("queryStringParameters")
-    product_service = ProductService(s3_service)
+    product_service = ProductService(
+        S3Service(
+            S3Service.create_s3_client(),
+            os.getenv("S3_BUCKET_NAME"),
+            os.getenv("S3_JSON_FOLDER_NAME")
+        )
+    )
 
     if not params:
         body = product_service.get_all_products()

@@ -35,7 +35,12 @@ class TestProductService(unittest.TestCase):
 
         filtered_products = self.product_service.filter(filter_strategies)
 
+        print(filtered_products)
+
         self.assertIsInstance(filtered_products, list)
+        self.assertTrue(filtered_products, "List is empty.")
+        self.assertTrue(all(isinstance(product, dict) for product in filtered_products),
+                        "List contains non-dictionary elements.")
 
         for filtered_product in filtered_products:
             self.assertIsInstance(filtered_product, dict)
@@ -85,23 +90,36 @@ class TestProductService(unittest.TestCase):
             self.assertIsInstance(product, dict)
             self.assertFilteredProductFields(product)
 
-    def test_all_filter_strategies(self):
-        filter_strategies = [
+    def test_multiple_filter_strategies(self):
+        self.assertFilteredProducts([
             ProductNameStrategy("Twix"),
-            StoreNameStrategy("Rouses"),
-            CustomerRatingStrategy(1),
-            PriceRangeStrategy("1-2"),
-            PriceStrategy("true"),
-            OnSaleStrategy("true"),
-            ClearanceStrategy("true"),
+            StoreNameStrategy("Walmart"),
+            CustomerRatingStrategy(3),
+            PriceRangeStrategy("1-4"),
+            ClearanceStrategy("false"),
             AvailabilityStrategy("true")
-        ]
+        ])
 
-        self.assertFilteredProducts(filter_strategies)
+        self.assertFilteredProducts([
+            ProductNameStrategy("Snickers"),
+            StoreNameStrategy("Rouses"),
+            CustomerRatingStrategy(2),
+            PriceRangeStrategy("1-2"),
+            PriceStrategy("true")
+        ])
 
-    def test_identical_products_from_stores_filter_strategy(self):
+    def test_product_name_filter_strategy(self):
         self.assertFilteredProducts([ProductNameStrategy("Twix")])
         self.assertFilteredProducts([ProductNameStrategy("Snickers")])
+        self.assertFilteredProducts([ProductNameStrategy("Three Musketeers")])
+        self.assertFilteredProducts([ProductNameStrategy("Hersheys kiss")])
+
+    def test_product_name_filter_strategy_with_misspelled_words(self):
+        self.assertFilteredProducts([ProductNameStrategy("Snikers")])
+        self.assertFilteredProducts([ProductNameStrategy("Tree Muskets")])
+        self.assertFilteredProducts([ProductNameStrategy("skitles")])
+        self.assertFilteredProducts([ProductNameStrategy("kit-kat")])
+        self.assertFilteredProducts([ProductNameStrategy("candy")])
 
     def test_store_name_filter_strategy(self):
         self.assertFilteredProducts([StoreNameStrategy("Rouses")])

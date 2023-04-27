@@ -9,6 +9,7 @@ import StoreNameFilter from "../../components/products/StoreNameFilter";
 import PriceRangeFilter from "../../components/products/PriceRangeFilter";
 import AvailabilityFilter from "../../components/products/AvailabilityFilter";
 import CurrentDealsFilter from "../../components/products/CurrentDealsFilter";
+import RatingStrategyFilter from "../../components/products/RatingStrategyFilter";
 import { tokens, muiPaginationCSS } from "../../theme";
 import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
 import { filterSearch } from "../../utils/home/utils";
@@ -133,6 +134,15 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 							handleFilter={handleFilter}
 							customColors={colors.customColors}
 						/>
+
+						TODO
+						{/* CUSTOMER RATING FILTER */}
+						<RatingStrategyFilter
+							filters={state.filters}
+							setState={setState}
+							handleFilter={handleFilter}
+							customColors={colors.customColors}
+						/>
 					</List>
 				</Box>
 
@@ -160,7 +170,7 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 						{searchError ?
 							(
 								// EMPTY PRODUCT LIST
-								<ImageList cols={5} gap={200}/>
+								<ImageList cols={5} gap={320}/>
 							)
 							:
 							(

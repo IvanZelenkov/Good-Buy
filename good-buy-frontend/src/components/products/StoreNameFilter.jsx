@@ -1,5 +1,5 @@
 import FilterCheckbox from "./FilterCheckbox";
-import { FormControl, FormGroup, ListItem } from "@mui/material";
+import {FormControl, FormGroup, ListItem, Typography} from "@mui/material";
 import FilterCategoryTitle from "./FilterCategoryTitle";
 
 const storeNames = [
@@ -18,7 +18,11 @@ const StoreNameFilter = ({ filters, setState, handleFilter, customColors }) => {
 						{storeNames.map((storeName, id) => (
 							<FilterCheckbox
 								key={id}
-								title={storeName.title}
+								title={
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh", fontWeight: "900", color: customColors[6]}}>
+										{storeName.title}
+									</Typography>
+								}
 								filters={filters}
 								setState={setState}
 								handleFilter={handleFilter}

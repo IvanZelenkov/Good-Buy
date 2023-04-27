@@ -59,7 +59,7 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 						sx={{
 							fontSize: "1.1vh",
 							fontFamily: "Montserrat",
-							fontWeight: "900",
+							fontWeight: "600",
 							letterSpacing: "1px"
 						}}
 					>
@@ -72,41 +72,53 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 					open={Boolean(anchorEl)}
 					onClose={(event) => handleClose(event, setAnchorEl)}
 				>
-					<MenuItem onClick={(event) => {
-						filterProducts(
-							[],
-							state,
-							setState
-						);
-						handleMenuItemClick(event,"All products")
-						handleClose(event, setAnchorEl)
-					}}>
+					<MenuItem
+						sx={{ fontFamily: "Montserrat", fontWeight: "600" }}
+						onClick={(event) => {
+							filterProducts(
+								[],
+								state,
+								setState
+							);
+							handleMenuItemClick(event,"All products")
+							handleClose(event, setAnchorEl)
+						}}
+					>
 						All products
 					</MenuItem>
-					<MenuItem onClick={(event) => {
-						filterProducts(
-							[],
-							state,
-							setState,
-							state.lastSearchTerm
-						);
-						handleMenuItemClick(event,"Best Match")
-						handleClose(event, setAnchorEl)
-					}}>
+					<MenuItem
+						sx={{ fontFamily: "Montserrat", fontWeight: "600" }}
+						onClick={(event) => {
+							filterProducts(
+								[],
+								state,
+								setState,
+								state.lastSearchTerm
+							);
+							handleMenuItemClick(event,"Best Match")
+							handleClose(event, setAnchorEl)
+						}}
+					>
 						Best Match
 					</MenuItem>
-					<MenuItem onClick={(event) => {
-						handleMenuItemClick(event, "Price Low to High")
-						handleFilter({ key: "reverse", value: "false" }, state.filters, setState)
-						handleClose(event, setAnchorEl)
-					}}>
+					<MenuItem
+						sx={{ fontFamily: "Montserrat", fontWeight: "600" }}
+						onClick={(event) => {
+							handleMenuItemClick(event, "Price Low to High")
+							handleFilter({ key: "reverse", value: "false" }, state.filters, setState)
+							handleClose(event, setAnchorEl)
+						}}
+					>
 						Price Low to High
 					</MenuItem>
-					<MenuItem onClick={(event) => {
-						handleMenuItemClick(event, "Price High to Low")
-						handleFilter({ key: "reverse", value: "true" }, state.filters, setState)
-						handleClose(event, setAnchorEl)
-					}}>
+					<MenuItem
+						sx={{ fontFamily: "Montserrat", fontWeight: "600" }}
+						onClick={(event) => {
+							handleMenuItemClick(event, "Price High to Low")
+							handleFilter({ key: "reverse", value: "true" }, state.filters, setState)
+							handleClose(event, setAnchorEl)
+						}}
+					>
 						Price High to Low
 					</MenuItem>
 				</Menu>

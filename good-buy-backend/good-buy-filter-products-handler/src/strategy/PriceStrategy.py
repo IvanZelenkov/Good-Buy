@@ -41,16 +41,17 @@ class PriceStrategy(FilterStrategyInterface):
                                   lowest to highest or highest to lowest.
         """
         try:
+            # reverse=True argument is used to sort in reverse order.
+            # reverse=False argument is used to sort by default in ascending order.
+            reverse = str(self.param_value).lower() == "true"
+
+            print(reverse)
+            print(bool(self.param_value))
+
             # By default, sorted function sorts the elements in ascending order.
             # sorted function takes an element x from the products list and returns its price,
             # which is then used as the sorting key for sorted().
-            # reverse=True argument is used to sort in reverse order.
-            # reverse=False argument is used to sort by default in ascending order.
-            sorted_products = sorted(
-                products,
-                key=lambda x: x["price"],
-                reverse=bool(self.param_value)
-            )
+            sorted_products = sorted(products, key=lambda x: x["price"], reverse=reverse)
 
             return sorted_products
         except ValueError as error:

@@ -66,7 +66,10 @@ const ProductList = ({ state, productsPerPage, customColors, mode }) => {
 								justifyContent: "space-between",
 								padding: "0.5vh"
 							}}>
-								<RatingStars rating={product.rating} starColor={"gold"}/>
+								<RatingStars
+									rating={product.rating}
+									starStyle={{ color: "gold", fontSize: "1.7vh" }}
+								/>
 								<Typography sx={{
 									fontSize: "1.7vh",
 									fontFamily: "Montserrat",

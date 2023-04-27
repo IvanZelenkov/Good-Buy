@@ -135,7 +135,8 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 							customColors={colors.customColors}
 						/>
 
-						TODO
+						<Divider sx={{ margin: "1vh 0" }}/>
+
 						{/* CUSTOMER RATING FILTER */}
 						<RatingStrategyFilter
 							filters={state.filters}

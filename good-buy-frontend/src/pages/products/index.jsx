@@ -171,7 +171,9 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 						{searchError ?
 							(
 								// EMPTY PRODUCT LIST
-								<ImageList cols={5} gap={320}/>
+								<ImageList cols={5} gap={320}>
+									<></>
+								</ImageList>
 							)
 							:
 							(

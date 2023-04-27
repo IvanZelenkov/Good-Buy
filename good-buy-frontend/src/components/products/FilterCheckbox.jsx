@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 const FilterCheckbox = ({ title, filters, setState, handleFilter, k, v, customColors }) => {
 	const isChecked = filters.some((filter) => {
@@ -14,11 +14,7 @@ const FilterCheckbox = ({ title, filters, setState, handleFilter, k, v, customCo
 					style={{ color: customColors[6] }}
 				/>
 			}
-			label={
-				<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh", fontWeight: "900", color: customColors[6]}}>
-					{title}
-				</Typography>
-			}
+			label={title}
 			sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
 		/>
 	);

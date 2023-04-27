@@ -396,9 +396,16 @@ class AddToCart():
 
         print(listObj["Item"]["cart"])
         # Append the new product the the existing cart value
-        listObj["Item"]["cart"].append(self.products)
+        prod = json.loads(self.products)
+        listObj["Item"]["cart"].append(prod)
+        print(listObj["Item"]["cart"])
+
+        # with open(temp + self.filename, 'w', encoding='UTF-8') as outfile:
+        #     json.dump(listObj["Item"]["cart"],outfile,indent = 4)
+        #     new_cart = json.load(outfile)
+
         # print("test")
-        print(json.dumps(listObj["Item"]["cart"], indent = 4))
+        # print(json.dumps(listObj["Item"]["cart"], indent = 4))
 
         # with open(self.filename, "w", encoding='UTF-8') as json_file:
         #     json.dump(listObj, json_file, indent = 4, separators = (',',': '))
@@ -411,4 +418,4 @@ class AddToCart():
         else:
             print(temp + self.filename)
 
-        return json.dumps(listObj["Item"]["cart"], indent = 4)
+        return listObj["Item"]["cart"]

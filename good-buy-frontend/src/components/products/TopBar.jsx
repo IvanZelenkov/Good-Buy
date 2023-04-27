@@ -76,6 +76,17 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 						filterProducts(
 							[],
 							state,
+							setState
+						);
+						handleMenuItemClick(event,"All products")
+						handleClose(event, setAnchorEl)
+					}}>
+						All products
+					</MenuItem>
+					<MenuItem onClick={(event) => {
+						filterProducts(
+							[],
+							state,
 							setState,
 							state.lastSearchTerm
 						);

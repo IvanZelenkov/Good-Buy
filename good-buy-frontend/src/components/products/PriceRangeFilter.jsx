@@ -3,7 +3,7 @@ import FilterCategoryTitle from "./FilterCategoryTitle";
 import { FormControl, Grid, IconButton, ListItem, TextField, Typography } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { muiTextFieldCSS } from "../../theme";
-import { filterProducts } from "../../utils/products/utils";
+import {filterProducts, handleFilter} from "../../utils/products/utils";
 
 const PriceRangeFilter = ({ state, setState, customColors }) => {
 	const [disableButton, setDisableButton] = useState(true);
@@ -69,11 +69,10 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 						</Grid>
 						<Grid item xs={1}>
 							<IconButton onClick={() => {
-								filterProducts(
-									[{ key: "priceRange", value: state.priceFrom + "-" + state.priceTo }],
-									state,
-									setState,
-									state.lastSearchTerm
+								handleFilter(
+									{ key: "priceRange", value: state.priceFrom + "-" + state.priceTo },
+									state.filters,
+									setState
 								)
 							}} disabled={disableButton}>
 								<ArrowForwardIosIcon/>

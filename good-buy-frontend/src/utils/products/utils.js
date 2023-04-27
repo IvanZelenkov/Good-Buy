@@ -4,14 +4,20 @@ export const handleFilter = (filter, filters, setState) => {
 	const existingFilterIndex = filters.findIndex((f) => f.key === filter.key);
 
 	if (existingFilterIndex !== -1) {
-		// If a filter with the same key already exists, remove it from the list or update its values
+		// If a filter with the same key already exists,
+		// remove it from the list or update its values
 		const existingFilter = filters[existingFilterIndex];
-		if (existingFilter.key === "reverse") {
+
+		// Don't create an array for specific key values
+		if (existingFilter.key === "reverse" || existingFilter.key === "priceRange") {
 			const updatedFilter = { ...existingFilter, value: filter.value };
 			const updatedFilters = [...filters];
 			updatedFilters[existingFilterIndex] = updatedFilter;
 			setState((prevState) => ({ ...prevState, filters: updatedFilters }));
-		} else {
+		}
+		// Create an array for the key values so that they can be
+		// combined if there are multiple values of the same key.
+		else {
 			const updatedValues = filter.values || [filter.value];
 			const newValues = existingFilter.value.includes(filter.value)
 				? existingFilter.value.filter((v) => v !== filter.value)

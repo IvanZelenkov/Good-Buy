@@ -7,6 +7,7 @@ and take query string parameters or body data from it.
 import json
 import os
 from abc import ABC, abstractmethod
+import tempfile
 import boto3
 
 # from dotenv import load_dotenv
@@ -368,7 +369,7 @@ class AddToCart():
         self.email = email
         self.products = products
         self.prev_cart = prev_cart
-        self.filename = "/tmp/" + email + ".json"
+        self.filename = email + ".json"
 
     def addToCartJSON(self):
         '''
@@ -379,16 +380,20 @@ class AddToCart():
         a json product value from the event body,
         and intial cart value.
         '''
+        # temp = tempfile.TemporaryFile()
+        temp = tempfile.mkdtemp()
+
         # json_object = json.dumps(self.products, indent = 4)
         # This writes the initial cart value to the file
         # example filename is "/tmp/test@gmail.com.json"
-        with open(self.filename, 'w', encoding='UTF-8') as outfile:
+        with open(temp + self.filename, 'w', encoding='UTF-8') as outfile:
             outfile.write(json.dumps(self.prev_cart,indent = 4))
             # json.dumps(self.prev_cart, self.filename,indent = 4)
 
         # This loads the initial cart value in the listObj.
-        with open(self.filename, 'r', encoding='UTF-8') as fp:
+        with open(temp + self.filename, 'r', encoding='UTF-8') as fp:
             listObj = json.load(fp)
+
         print(listObj["Item"]["cart"])
         # Append the new product the the existing cart value
         listObj["Item"]["cart"].append(self.products)
@@ -401,9 +406,9 @@ class AddToCart():
         # with open(self.filename, encoding='UTF-8') as cart_file:
         #     cart = json.load(cart_file)
 
-        if os.path.exists(self.filename):
-            os.remove(self.filename)
+        if os.path.exists(temp + self.filename):
+            os.remove(temp + self.filename)
         else:
-            print(self.filename)
+            print(temp + self.filename)
 
         return json.dumps(listObj["Item"]["cart"], indent = 4)

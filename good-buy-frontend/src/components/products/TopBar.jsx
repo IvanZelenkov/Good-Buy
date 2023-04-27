@@ -80,18 +80,21 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 							state.lastSearchTerm
 						);
 						handleMenuItemClick(event,"Best Match")
+						handleClose(event, setAnchorEl)
 					}}>
 						Best Match
 					</MenuItem>
 					<MenuItem onClick={(event) => {
-						handleFilter({ key: "reverse", value: false }, state.filters, setState)
 						handleMenuItemClick(event, "Price Low to High")
+						handleFilter({ key: "reverse", value: "false" }, state.filters, setState)
+						handleClose(event, setAnchorEl)
 					}}>
 						Price Low to High
 					</MenuItem>
 					<MenuItem onClick={(event) => {
-						handleFilter({ key: "reverse", value: true }, state.filters, setState)
 						handleMenuItemClick(event, "Price High to Low")
+						handleFilter({ key: "reverse", value: "true" }, state.filters, setState)
+						handleClose(event, setAnchorEl)
 					}}>
 						Price High to Low
 					</MenuItem>

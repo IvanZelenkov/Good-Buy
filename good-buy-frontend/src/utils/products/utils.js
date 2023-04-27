@@ -6,18 +6,25 @@ export const handleFilter = (filter, filters, setState) => {
 	if (existingFilterIndex !== -1) {
 		// If a filter with the same key already exists, remove it from the list or update its values
 		const existingFilter = filters[existingFilterIndex];
-		const updatedValues = filter.values || [filter.value];
-		const newValues = existingFilter.value.includes(filter.value)
-			? existingFilter.value.filter((v) => v !== filter.value)
-			: [...existingFilter.value, ...updatedValues];
-		if (newValues.length) {
-			const updatedFilter = { ...existingFilter, value: newValues };
+		if (existingFilter.key === "reverse") {
+			const updatedFilter = { ...existingFilter, value: filter.value };
 			const updatedFilters = [...filters];
 			updatedFilters[existingFilterIndex] = updatedFilter;
 			setState((prevState) => ({ ...prevState, filters: updatedFilters }));
 		} else {
-			const updatedFilters = filters.filter((f, index) => index !== existingFilterIndex);
-			setState((prevState) => ({ ...prevState, filters: updatedFilters }));
+			const updatedValues = filter.values || [filter.value];
+			const newValues = existingFilter.value.includes(filter.value)
+				? existingFilter.value.filter((v) => v !== filter.value)
+				: [...existingFilter.value, ...updatedValues];
+			if (newValues.length) {
+				const updatedFilter = { ...existingFilter, value: newValues };
+				const updatedFilters = [...filters];
+				updatedFilters[existingFilterIndex] = updatedFilter;
+				setState((prevState) => ({ ...prevState, filters: updatedFilters }));
+			} else {
+				const updatedFilters = filters.filter((f, index) => index !== existingFilterIndex);
+				setState((prevState) => ({ ...prevState, filters: updatedFilters }));
+			}
 		}
 	} else {
 		// If the filter doesn't exist yet, add it to the list with all its values
@@ -43,6 +50,8 @@ export const filterProducts = async (filters, state, setState, lastSearchTerm) =
 			filterPairs[filter.key] = filter.value;
 		}
 	});
+
+	console.log(filterPairs)
 
 	try {
 		const productsDataResponse = await axios.get(

@@ -1,6 +1,6 @@
 import FilterCategoryTitle from "./FilterCategoryTitle";
 import FilterCheckbox from "./FilterCheckbox";
-import { FormControl, FormGroup, ListItem } from "@mui/material";
+import {FormControl, FormGroup, ListItem, Typography} from "@mui/material";
 
 const AvailabilityFilter = ({ filters, setState, handleFilter, customColors }) => {
 	return (
@@ -10,7 +10,11 @@ const AvailabilityFilter = ({ filters, setState, handleFilter, customColors }) =
 				<FormControl sx={{ mt: 1, float: "left" }}>
 					<FormGroup>
 						<FilterCheckbox
-							title={"Exclude Out of Stock Items"}
+							title={
+								<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh", fontWeight: "900", color: customColors[6]}}>
+									Exclude Out of Stock Items
+								</Typography>
+							}
 							filters={filters}
 							setState={setState}
 							handleFilter={handleFilter}

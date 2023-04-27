@@ -51,8 +51,6 @@ export const filterProducts = async (filters, state, setState, lastSearchTerm) =
 		}
 	});
 
-	console.log(filterPairs)
-
 	try {
 		const productsDataResponse = await axios.get(
 			"https://" +

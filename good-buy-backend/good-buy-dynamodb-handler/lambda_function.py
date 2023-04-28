@@ -426,6 +426,23 @@ class AddToCart():
 
         return listObj["Item"]["cart"]
 
+class DeleteFromCart():
+    '''
+    This class defines the action of
+    removing an item from a user's cart.
+    '''
+    def __init__(self, email, products, prev_cart):
+        self.email = email
+        self.products = products
+        self.prev_cart = prev_cart
+        self.filename = email + '.json'
+
+    def removeFromCart(self):
+        '''
+        This class will perform the action
+        of removing an item.
+        '''
+
 class GenerateEmptyCart():
     '''This class defines an empty cart for a user.'''
 

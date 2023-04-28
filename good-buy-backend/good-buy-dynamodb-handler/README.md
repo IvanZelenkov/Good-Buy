@@ -20,8 +20,14 @@ Make sure to provide the needed parameters or body data needed for each function
         ![Get Request](./images/Screenshot%202023-04-11%20110109.png)
 - POST requires body data in the form of JSON of the information that you want to send to the database.
         ![Post Request](./images/Screenshot%202023-04-11%20202248.png)
-- PUT requires an integer parameter of "ID" of the item you want to update and the body data in the form of JSON of the new information that will be sent to the database.
-        ![Put Request](./images/Screenshot%202023-04-11%20202938.png)
-        ![Put Request 2](./images/Screenshot%202023-04-11%20203309.png)
+- For the user, PUT requires an integer parameter of "ID" for the user that you want 
+the update and the body data of the user with the new information.
+        ![Put Request User](./images/Screenshot%202023-04-11%20202938.png)
+        ![Put Request User 2](./images/Screenshot%202023-04-11%20203309.png)
+- For the shopping cart, PUT reqires a string parameter of "ID" of the user's email,
+action parameter of either add or delete, and the body data of the product that you want to add to the cart or delete from the cart.
+        ![Put Request Cart](./images/PutCartAdd.png)
+        ![Put Request Cart 2](./images/PutCartDelete.png)
+        ![Put Request Cart 2](./images/PutCartBody.png)
 - DELETE requires an integer parameter of "ID" of the item you want to delete.
         ![Delete Request](./images/Screenshot%202023-04-11%20203502.png)

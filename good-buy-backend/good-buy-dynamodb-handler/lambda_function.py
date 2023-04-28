@@ -135,8 +135,13 @@ def lambda_handler(event, context):
         # Shopping cart is in res['Item']
         res = get_action.action()
         # email,products,res, context
-        add_to_cart = AddToCart(event['queryStringParameters']['ID'], event['body'], res)
-        new_cart = add_to_cart.addToCartJSON()
+        if event['queryStringParameters']['action'] == 'add':
+            add_to_cart = AddToCart(event['queryStringParameters']['ID'], event['body'], res)
+            new_cart = add_to_cart.addToCartJSON()
+        elif event['queryStringParameters']['action'] == 'delete':
+            remove_from_cart = DeleteFromCart(event['queryStringParameters']['ID'],
+                                              event['body'], res)
+            new_cart = remove_from_cart.removeFromCart()
         print(new_cart)
         update_expression = "SET cart =:cart"
         expression_attribute_values = {
@@ -442,6 +447,19 @@ class DeleteFromCart():
         This class will perform the action
         of removing an item.
         '''
+        temp = tempfile.mkdtemp()
+
+        with open(temp + self.filename, 'w', encoding='UTF-8') as outfile:
+            outfile.write(json.dumps(self.prev_cart,indent = 4))
+
+        with open(temp + self.filename, 'r', encoding='UTF-8') as fp:
+            listObj = json.load(fp)
+        prod = json.loads(self.products)
+        list_cart = listObj["Item"]["cart"]
+        item_index = list_cart.index(prod)
+        list_cart.pop(item_index)
+        return list_cart
+
 
 class GenerateEmptyCart():
     '''This class defines an empty cart for a user.'''

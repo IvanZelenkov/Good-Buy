@@ -164,19 +164,6 @@ pipeline {
                         sh "docker system prune -af --volumes"
                     }
                 }
-                stage("Cleanup Old Builds") {
-                    steps {
-                        sh """
-                            build_number=\$((${BUILD_NUMBER}-5))
-                            if [ \${build_number} -lt 1 ]; then
-                                build_number=1
-                            fi
-                            echo "Deleting builds 1 through \${build_number} ..."
-                            jenkins-cli delete-builds good-buy-pipeline 1-\${build_number}
-                            echo "Finished deleting old builds."
-                        """
-                    }
-                }
             }
         }
     }

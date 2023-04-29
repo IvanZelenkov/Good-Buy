@@ -6,7 +6,7 @@ export const onChange = (event, authenticationState, setAuthenticationState) => 
 		invalidEmailMessage: "",
 		invalidUsernameMessage: "",
 		invalidPasswordMessage: "",
-		invalidAuthCodeMessage: "",
+		invalidAuthCodeMessage: ""
 	}));
 	event.persist();
 	setAuthenticationState(prevState => ({
@@ -40,21 +40,17 @@ export const checkUser = async (updateUser, authenticationState, setAuthenticati
 	}
 };
 
-export const setAuthListener = async (authenticationState, setAuthenticationState) => {
+export const setAuthListener = (authenticationState, setAuthenticationState) => {
 	Hub.listen("auth", (data) => {
-		switch (data.payload.event) {
-			case "signOut":
-				setAuthenticationState(prevState => ({
-					...prevState,
-					formState: {
-						...authenticationState.formState,
-						formType: "signIn"
-					}
-				}));
-				break;
-			case "signIn":
-				break;
-			default:
+		const { event } = data.payload;
+		if (event === "signOut") {
+			setAuthenticationState(prevState => ({
+				...prevState,
+				formState: {
+					...authenticationState.formState,
+					formType: "signIn"
+				}
+			}));
 		}
 	});
 };

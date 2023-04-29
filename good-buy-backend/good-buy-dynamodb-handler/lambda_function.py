@@ -51,6 +51,11 @@ def lambda_handler(event, context):
         response = get_action.action()
         ret_val = {
             'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
             'body': json.dumps(response, indent=4, default=str)
         }
     # When using this path and method, must provide ID of the user account you
@@ -62,6 +67,11 @@ def lambda_handler(event, context):
         response = get_action.action()
         ret_val = {
             'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
+            },
             'body': json.dumps(response, indent=4, default=str)
         }
     # When using this path and method, must provide the ID and the cart

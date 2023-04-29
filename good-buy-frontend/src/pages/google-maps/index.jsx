@@ -7,7 +7,38 @@ import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStor
 import Loader from "../../components/others/Loader";
 import Map from "../../components/google-maps/Map";
 import { calculateRoute, getCurrentLocation, getDirection } from "../../utils/google-maps/utils";
-import { stores, tokens } from "../../theme";
+import { tokens } from "../../theme";
+
+const stores = {
+	recommended: [
+		{
+			name: "Walmart",
+			address: "6000 Bullard Ave, New Orleans",
+			distance: "19 min (3.1 mi)",
+			logo: "walmart-logo.png"
+		},
+		{
+			name: "Walmart",
+			address: "8101 W Judge Perez Dr, Chalmette",
+			distance: "22 min (3.6 mi)",
+			logo: "walmart-logo.png"
+		},
+		{
+			name: "Rouses",
+			address: "701 Baronne St, New Orleans",
+			distance: "30 min (5 mi)",
+			logo: "rouses-logo.png"
+		}
+	],
+	alternate: [
+		{
+			name: "Winn-Dixie",
+			address: "8101 W Judge Perez Dr, Chalmette",
+			distance: "22 min (3.6 mi)",
+			logo: "winn-dixie-logo.png"
+		}
+	]
+};
 
 const GoogleMaps = ({ topBarHeight }) => {
 	const { isLoaded } = useLoadScript({

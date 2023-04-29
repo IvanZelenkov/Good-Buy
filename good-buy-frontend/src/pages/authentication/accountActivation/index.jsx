@@ -1,21 +1,15 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import {
-	Avatar,
-	Box,
-	Button,
-	Container,
-	Link,
-	TextField,
-	Typography,
-	useTheme,
-} from "@mui/material";
-import { muiTextFieldCSS, tokens } from "../../../theme";
+import { Avatar, Box, Button, Container, Link, TextField, Typography } from "@mui/material";
+import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
+import { onChange } from "../../../utils/authentication/utils";
+import { confirmSignUp } from "../../../utils/authentication/signUp/utils";
+import { handleResendClick } from "../../../utils/authentication/accountActivation/utils";
 
-const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, invalidAuthCodeMessage }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
+const AccountActivation = ({ authenticationState, setAuthenticationState, customColors }) => {
+	const [isResending, setIsResending] = useState(false);
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -36,14 +30,14 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
+					<Avatar sx={{ margin: 1, backgroundColor: customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: colors.customColors[6]
+							color: customColors[6]
 						}}
 					>
 						Account Activation
@@ -57,10 +51,12 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							name="username"
 							autoComplete="email"
 							autoFocus
-							error={invalidEmailMessage !== ""}
-							helperText={invalidEmailMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidEmailMessage !== ""}
+							helperText={authenticationState.invalidEmailMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -70,10 +66,12 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							fullWidth
 							label="Confirmation Code"
 							name="authCode"
-							error={invalidAuthCodeMessage !== ""}
-							helperText={invalidAuthCodeMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidAuthCodeMessage !== ""}
+							helperText={authenticationState.invalidAuthCodeMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -81,18 +79,18 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							type="submit"
 							fullWidth
 							variant="contained"
-							onClick={confirmSignUp}
+							onClick={() => confirmSignUp(authenticationState, setAuthenticationState)}
 							sx={{
 								fontFamily: "Montserrat",
 								fontWeight: "600",
 								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								backgroundColor: colors.customColors[6],
-								color: colors.customColors[1],
+								backgroundColor: customColors[6],
+								color: customColors[1],
 								":hover": {
-									backgroundColor: colors.customColors[5],
-									color: colors.customColors[1]
+									backgroundColor: customColors[5],
+									color: customColors[1]
 								}
 							}}
 						>
@@ -102,17 +100,18 @@ const AccountActivation = ({ onInputChange, confirmSignUp, invalidEmailMessage, 
 							<Link
 								variant="body2"
 								sx={{
-									color: colors.customColors[6],
-									textDecorationColor: colors.customColors[1],
+									color: customColors[6],
+									textDecorationColor: customColors[6],
 									cursor: "pointer"
 								}}
+								onClick={() => handleResendClick(setIsResending, authenticationState.formState.username)}
 							>
 								Didn't receive a code? Resend
 							</Link>
 						</Box>
 					</Box>
 				</Box>
-				<Copyright textdecorationcolor={colors.customColors[6]}/>
+				<Copyright textdecorationcolor={customColors[6]}/>
 			</Container>
 		</Box>
 	);

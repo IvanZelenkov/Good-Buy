@@ -1,22 +1,13 @@
 import { motion } from "framer-motion";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import {
-	Avatar,
-	Box,
-	Button,
-	Container,
-	Link,
-	TextField,
-	Typography,
-	useTheme,
-} from "@mui/material";
-import { muiTextFieldCSS, tokens } from "../../../theme";
+import { Avatar, Box, Button, Container, Link, TextField, Typography } from "@mui/material";
+import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
+import { onChange } from "../../../utils/authentication/utils";
+import { signUp } from "../../../utils/authentication/signUp/utils";
+import { signInInstead } from "../../../utils/authentication/signIn/utils";
 
-const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, invalidUsernameMessage, invalidPasswordMessage }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-
+const SignUp = ({ authenticationState, setAuthenticationState, customColors }) => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
@@ -36,14 +27,14 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
+					<Avatar sx={{ margin: 1, backgroundColor: customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: colors.customColors[6]
+							color: customColors[6]
 						}}
 					>
 						Sign Up
@@ -57,10 +48,12 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							name="username"
 							autoComplete="email"
 							autoFocus
-							error={invalidEmailMessage !== ""}
-							helperText={invalidEmailMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidEmailMessage !== ""}
+							helperText={authenticationState.invalidEmailMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -71,10 +64,12 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							label="Username"
 							name="name"
 							autoComplete="name"
-							error={invalidUsernameMessage !== ""}
-							helperText={invalidUsernameMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidUsernameMessage !== ""}
+							helperText={authenticationState.invalidUsernameMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -85,28 +80,30 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 							name="password"
 							label="Password"
 							type="password"
-							error={invalidPasswordMessage !== ""}
-							helperText={invalidPasswordMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidPasswordMessage !== ""}
+							helperText={authenticationState.invalidPasswordMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
 							fullWidth
 							variant="contained"
-							onClick={signUp}
+							onClick={() => signUp(authenticationState, setAuthenticationState)}
 							sx={{
 								fontFamily: "Montserrat",
 								fontWeight: "600",
 								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								backgroundColor: colors.customColors[6],
-								color: colors.customColors[1],
+								backgroundColor: customColors[6],
+								color: customColors[1],
 								":hover": {
-									backgroundColor: colors.customColors[5],
-									color: colors.customColors[1]
+									backgroundColor: customColors[5],
+									color: customColors[1]
 								}
 							}}
 						>
@@ -114,11 +111,11 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						</Button>
 						<Box sx={{ display: "flex", justifyContent: "center" }}>
 							<Link
-								onClick={signInInstead}
+								onClick={() => signInInstead(authenticationState, setAuthenticationState)}
 								variant="body2"
 								sx={{
-									color: colors.customColors[6],
-									textDecorationColor: colors.customColors[6],
+									color: customColors[6],
+									textDecorationColor: customColors[6],
 									fontFamily: "Montserrat",
 									cursor: "pointer"
 								}}
@@ -128,7 +125,7 @@ const SignUp = ({ onInputChange, signUp, signInInstead, invalidEmailMessage, inv
 						</Box>
 					</Box>
 				</Box>
-				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={colors.customColors[6]}/>
+				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={customColors[6]}/>
 			</Container>
 		</Box>
 	);

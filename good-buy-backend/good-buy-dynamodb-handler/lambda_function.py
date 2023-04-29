@@ -44,14 +44,15 @@ def lambda_handler(event, context):
     print(event)
     if event['body']:
         decoded_event = json.loads(event['body'])
-    if event['httpMethod'] == 'OPTION':
+    if event['httpMethod'] == 'OPTIONS':
         ret_val = {
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
-            }
+            },
+            'body': ''
         }
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'GET':
         # table = db.Table("Shopping_Cart")

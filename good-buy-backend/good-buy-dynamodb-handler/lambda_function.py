@@ -529,6 +529,10 @@ class DeleteFromCart():
         list_cart = listObj["Item"]["cart"]
         item_index = list_cart.index(prod)
         list_cart.pop(item_index)
+        if os.path.exists(temp + self.filename):
+            os.remove(temp + self.filename)
+        else:
+            print(temp + self.filename)
         return list_cart
 
 

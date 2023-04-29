@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import SignIn from "./signIn";
 import AccountActivation from "./accountActivation";
 import SignUp from "./signUp";
-import ForgotPassword from "./forgotPassword";
+import ResetPassword from "./resetPassword";
 import UserProfile from "../userProfile";
 import { checkUser, setAuthListener } from "../../utils/authentication/utils";
 
@@ -17,12 +17,14 @@ const Authentication = ({ user, updateUser }) => {
 			username: "", // In Amazon Cognito, the field "username" means "email"
 			name: "",
 			password: "",
+			newPassword: "",
 			authCode: "",
 			formType: "signIn"
 		},
 		invalidEmailMessage: "",
 		invalidUsernameMessage: "",
 		invalidPasswordMessage: "",
+		invalidNewPasswordMessage: "",
 		invalidAuthCodeMessage: ""
 	});
 
@@ -59,7 +61,12 @@ const Authentication = ({ user, updateUser }) => {
 				/>
 			)}
 			{formType === "forgotPassword" && (
-				<ForgotPassword/>
+				<ResetPassword
+					updateUser={updateUser}
+					authenticationState={authenticationState}
+					setAuthenticationState={setAuthenticationState}
+					customColors={colors.customColors}
+				/>
 			)}
 			{formType === "signedIn" && (
 				<UserProfile user={user}/>

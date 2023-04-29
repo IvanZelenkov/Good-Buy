@@ -1,12 +1,41 @@
 import { Auth } from "aws-amplify";
 
-export const handleResendClick = async (setIsResending, username) => {
-	setIsResending(true);
+export const handleResendClick = async (username) => {
 	try {
 		await Auth.resendSignUp(username);
 	} catch (error) {
 		console.log(`Error resending verification code: ${error.message}`);
-	} finally {
-		setIsResending(false);
+	}
+};
+
+export const confirmSignUp = async (authenticationState, setAuthenticationState) => {
+	const { username, authCode } = authenticationState.formState;
+	if (!(/\S+@\S+\.\S+/.test(username)))
+		setAuthenticationState(prevState => ({
+			...prevState,
+			invalidEmailMessage: "Invalid email address."
+		}));
+	if (!(/^[0-9]{6}$/.test(authCode)))
+		setAuthenticationState(prevState => ({
+			...prevState,
+			invalidAuthCodeMessage: "The activation code must be 6 digits."
+		}));
+	else {
+		let flag = 0;
+		await Auth.confirmSignUp(username, authCode).catch(() => {
+			setAuthenticationState(prevState => ({
+				...prevState,
+				invalidAuthCodeMessage: "Invalid activation code."
+			}));
+			flag = 1;
+		});
+		if (flag === 0)
+			setAuthenticationState(prevState => ({
+				...prevState,
+				formState: {
+					...authenticationState.formState,
+					formType: "signIn"
+				}
+			}));
 	}
 };

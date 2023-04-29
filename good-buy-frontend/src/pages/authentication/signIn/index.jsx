@@ -6,6 +6,7 @@ import Copyright from "../../../components/authentication/Copyright";
 import { onChange } from "../../../utils/authentication/utils";
 import { signIn } from "../../../utils/authentication/signIn/utils";
 import { signUpInstead } from "../../../utils/authentication/signUp/utils";
+import { forgotPasswordInstead } from "../../../utils/authentication/resetPassword/utils";
 
 const SignIn = ({ updateUser, authenticationState, setAuthenticationState, customColors }) => {
 	return (
@@ -114,6 +115,7 @@ const SignIn = ({ updateUser, authenticationState, setAuthenticationState, custo
 						<Grid container>
 							<Grid item xs>
 								<Link
+									onClick={() => forgotPasswordInstead(authenticationState, setAuthenticationState)}
 									variant="body2"
 									sx={{
 										color: customColors[6],

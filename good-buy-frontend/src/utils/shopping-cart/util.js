@@ -35,7 +35,7 @@ export const generateShoppingCartForNewUser = async (user, state, setState) => {
 			process.env.REACT_APP_REST_API_ID +
 			".execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart",
 			{
-				"email": user.attributes.email
+				"ID": user.attributes.email
 			}
 		);
 

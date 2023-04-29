@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
-import mainImage from "../../images/deals/dealsMainImage.avif";
-import saleImage from "../../images/deals/saleImage.avif";
-import { itemData, tokens } from "../../theme";
+import dealsMainImage from "../../images/deals/deals-main-image.webp";
+import saleImage from "../../images/deals/sale-image.webp";
+import { tokens } from "../../theme";
+import { topDealsImages } from "../../utils/deals/utils";
 
 const Deals = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const imagePaths = topDealsImages.map((image) => image);
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -17,7 +19,7 @@ const Deals = () => {
 						sx={{
 							display: "flex",
 							height: `calc(100vh - ${65}px - 50vh)`,
-							backgroundImage: `url(${mainImage})`,
+							backgroundImage: `url(${dealsMainImage})`,
 							backgroundSize: "cover",
 							backgroundPosition: "center",
 							backgroundRepeat: "no-repeat",
@@ -88,7 +90,7 @@ const Deals = () => {
 							{/* Large Screen */}
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{itemData.slice(0, 4).map((item, id) => (
+									{imagePaths.slice(0, 4).map((path, id) => (
 										<Grid item key={id} xs={3} align="center" sx={{
 											cursor: "pointer",
 											filter: "brightness(100%)",
@@ -98,13 +100,13 @@ const Deals = () => {
 											}
 										}}>
 											<img
-												src={`${item.img}`}
+												src={path}
 												alt=""
 												loading="lazy"
 												style={{
 													borderRadius: "5px",
 													maxWidth: "100%",
-													height: "auto",
+													height: "auto"
 												}}
 											/>
 										</Grid>
@@ -113,7 +115,7 @@ const Deals = () => {
 							</Grid>
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{itemData.slice(4, 7).map((item, id) => (
+									{imagePaths.slice(4, 7).map((path, id) => (
 										<Grid item key={id} xs={4} align="center" sx={{
 											cursor: "pointer",
 											filter: "brightness(100%)",
@@ -123,13 +125,13 @@ const Deals = () => {
 											}
 										}}>
 											<img
-												src={`${item.img}`}
+												src={path}
 												alt=""
 												loading="lazy"
 												style={{
 													borderRadius: "5px",
 													maxWidth: "100%",
-													height: "auto",
+													height: "auto"
 												}}
 											/>
 										</Grid>

@@ -1,25 +1,13 @@
 import { motion } from "framer-motion";
 import { CheckBox as CheckBoxIcon, LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import {
-	Avatar,
-	Box,
-	Button,
-	Checkbox,
-	Container,
-	FormControlLabel,
-	Grid,
-	Link,
-	TextField,
-	Typography,
-	useTheme,
-} from "@mui/material";
-import { muiTextFieldCSS, tokens } from "../../../theme";
+import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, Grid, Link, TextField, Typography } from "@mui/material";
+import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
+import { onChange } from "../../../utils/authentication/utils";
+import { signIn } from "../../../utils/authentication/signIn/utils";
+import { signUpInstead } from "../../../utils/authentication/signUp/utils";
 
-const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, invalidPasswordMessage }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-
+const SignIn = ({ updateUser, authenticationState, setAuthenticationState, customColors }) => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
@@ -39,14 +27,14 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						alignItems: "center"
 					}}
 				>
-					<Avatar sx={{ margin: 1, backgroundColor: colors.customColors[6] }}>
+					<Avatar sx={{ margin: 1, backgroundColor: customColors[6] }}>
 						<LockOutlinedIcon/>
 					</Avatar>
 					<Typography
 						sx={{
 							fontSize: "20px",
 							fontFamily: "Montserrat",
-							color: colors.customColors[6]
+							color: customColors[6]
 						}}
 					>
 						Sign In
@@ -60,10 +48,12 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							name="username"
 							autoComplete="email"
 							autoFocus
-							error={invalidEmailMessage !== ""}
-							helperText={invalidEmailMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidEmailMessage !== ""}
+							helperText={authenticationState.invalidEmailMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
@@ -74,46 +64,48 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							name="password"
 							label="Password"
 							type="password"
-							error={invalidPasswordMessage !== ""}
-							helperText={invalidPasswordMessage}
-							onChange={onInputChange}
-							sx={muiTextFieldCSS(colors.customColors[6])}
+							error={authenticationState.invalidPasswordMessage !== ""}
+							helperText={authenticationState.invalidPasswordMessage}
+							onChange={(event) => {
+								onChange(event, authenticationState, setAuthenticationState)
+							}}
+							sx={muiTextFieldCSS(customColors[6])}
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<FormControlLabel
 							control={<Checkbox
 								value="remember"
-								style={{ color: colors.customColors[6] }}
-								checkedIcon={<CheckBoxIcon sx={{ color: colors.customColors[6] }}/>}
+								style={{ color: customColors[6] }}
+								checkedIcon={<CheckBoxIcon sx={{ color: customColors[6] }}/>}
 							/>}
 							label={
 								<Typography style={{
-									color: colors.customColors[6],
+									color: customColors[6],
 									fontFamily: "Montserrat",
 									fontWeight: "600"
 								}}>
 									Remember me
 								</Typography>
 							}
-							sx={{ color: colors.customColors[6] }}
+							sx={{ color: customColors[6] }}
 						/>
 						<Button
 							type="submit"
 							fullWidth
 							variant="contained"
-							onClick={signIn}
+							onClick={() => signIn(updateUser, authenticationState, setAuthenticationState)}
 							sx={{
 								fontFamily: "Montserrat",
 								fontWeight: "600",
 								letterSpacing: "1px",
 								marginTop: 3,
 								marginBottom: 2,
-								backgroundColor: colors.customColors[6],
-								color: colors.customColors[1],
+								backgroundColor: customColors[6],
+								color: customColors[1],
 								":hover": {
-									backgroundColor: colors.customColors[5],
-									color: colors.customColors[1]
+									backgroundColor: customColors[5],
+									color: customColors[1]
 								}
 							}}
 						>
@@ -124,8 +116,8 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 								<Link
 									variant="body2"
 									sx={{
-										color: colors.customColors[6],
-										textDecorationColor: colors.customColors[6],
+										color: customColors[6],
+										textDecorationColor: customColors[6],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}
@@ -135,11 +127,11 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 							</Grid>
 							<Grid item>
 								<Link
-									onClick={signUpInstead}
+									onClick={() => signUpInstead(authenticationState, setAuthenticationState)}
 									variant="body2"
 									sx={{
-										color: colors.customColors[6],
-										textDecorationColor: colors.customColors[6],
+										color: customColors[6],
+										textDecorationColor: customColors[6],
 										cursor: "pointer",
 										fontFamily: "Montserrat"
 									}}
@@ -150,7 +142,7 @@ const SignIn = ({ onInputChange, signIn, signUpInstead, invalidEmailMessage, inv
 						</Grid>
 					</Box>
 				</Box>
-				<Copyright textdecorationcolor={colors.customColors[6]}/>
+				<Copyright textdecorationcolor={customColors[6]}/>
 			</Container>
 		</Box>
 	);

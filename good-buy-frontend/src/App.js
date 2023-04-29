@@ -25,6 +25,7 @@ function App() {
         infoLoaded: false,
         lastSearchTerm: "",
         productNotFound: false,
+        shoppingCartData: [],
         productsData: [],
         filters: [],
         priceFrom: "",
@@ -114,8 +115,20 @@ function App() {
                                 <Route exact path="/deals" element={<Deals/>}/>
                                 <Route exact path="/google-maps" element={<GoogleMaps topBarHeight={topBarHeight}/>}/>
                                 <Route exact path="/shopping-list" element={<ShoppingList topBarHeight={topBarHeight}/>}/>
-                                <Route exact path="/shopping-cart" element={<ShoppingCart topBarHeight={topBarHeight}/>}/>
-                                <Route exact path="/authentication" element={<Authentication user={user} updateUser={updateUser}/>}/>
+                                <Route exact path="/shopping-cart" element={
+                                    <ShoppingCart
+                                        user={user}
+                                        state={state}
+                                        setState={setState}
+                                        topBarHeight={topBarHeight}
+                                    />
+                                }/>
+                                <Route exact path="/authentication" element={
+                                    <Authentication
+                                        user={user}
+                                        updateUser={updateUser}
+                                    />
+                                }/>
                             </Routes>
                         </AnimatePresence>
                     </main>

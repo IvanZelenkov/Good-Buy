@@ -1,17 +1,5 @@
 import { useState, useMemo } from "react";
-import {
-	Box,
-	Button,
-	Checkbox,
-	IconButton,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
-	TextField
-} from "@mui/material";
+import { Box, Button, Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -110,15 +98,15 @@ const ShoppingList = ({ topBarHeight }) => {
 					</TableBody>
 				</Table>
 			</Paper>
-			<TableCell
-				colSpan={3}
+			<Box
 				sx={{
 					position: "sticky",
 					bottom: 0,
 					width: "40vw",
 					backgroundColor: colors.customColors[3],
 					borderBottomLeftRadius: "5px",
-					borderBottomRightRadius: "5px"
+					borderBottomRightRadius: "5px",
+					padding: "1vh"
 				}}
 			>
 				<form onSubmit={handleAdd} style={{ display: "flex" }}>
@@ -126,7 +114,7 @@ const ShoppingList = ({ topBarHeight }) => {
 						value={newItem}
 						onChange={(event) => setNewItem(event.target.value)}
 						placeholder="Add a new product"
-						fullWidth={"100%"}
+						fullWidth={true}
 						sx={muiTextFieldCSS(colors.customColors[6])}
 						inputProps={{
 							style: {
@@ -152,7 +140,7 @@ const ShoppingList = ({ topBarHeight }) => {
 						<AddIcon sx={{ fontSize: "2vh" }}/>
 					</Button>
 				</form>
-			</TableCell>
+			</Box>
 		</Box>
 	);
 };

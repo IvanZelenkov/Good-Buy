@@ -1,80 +1,45 @@
-import { useState, useMemo, useContext } from "react";
-import {
-	Box,
-	Button,
-	Checkbox,
-	IconButton, InputBase,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableFooter,
-	TableHead,
-	TableRow,
-	TextField, Typography
-} from "@mui/material";
+import { useState, useMemo, useEffect } from "react";
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
-import {muiTextFieldCSS, tokens} from "../../theme";
-import {ProductCard} from "./CartProduct";
-import { CartContext } from "./CartContext";
-import { getProductData } from "./productStore";
-import { productArray } from "./productStore";
-import SearchIcon from "@mui/icons-material/Search";
+import { tokens } from "../../theme";
+import { getShoppingCartData, handleRemove } from "../../utils/shopping-cart/util";
+import Loader from "../../components/others/Loader";
 
-const ShoppingCart = (props) => {
+const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const cart = useContext(CartContext);
-	const id = props.id;
-	const quantity = props.quantity;
-	const productData = getProductData(id);
-	const [inputProductName, setInputProductName] = useState("");
-	const [isValid, setIsValid] = useState(false);
+
+	console.log("STATE")
+	console.log(state)
 	
 	const [items, setItems] = useState([
 		{ id: 1, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$64.05", quantity: "1" },
 		{ id: 2, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$2.00" , quantity: "1" },
 		{ id: 3, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$23.00" ,quantity: "1" },
 		{ id: 4, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$12.00" , quantity: "1" },
-		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72.00", quantity: "1"  }
+		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72.00", quantity: "1" }
 	]);
-	const [newItem, setNewItem] = useState("");
-    
-	const handleCheck = (id) => {
-		const updatedItems = items.map((item) =>
-			item.id === id ? { ...item, checked: !item.checked } : item
-		);
-		setItems(updatedItems);
-	};
-
-	const handleRemove = (id) => {
-		const updatedItems = items.filter((item) => item.id !== id);
-		setItems(updatedItems);
-	};
-
-	const handleAdd = (event) => {
-		event.preventDefault();
-		const newId = items.length + 1;
-		const newItemObj = { id: newId, name: newItem };
-		setItems([...items, newItemObj]);
-		setNewItem("");
-	};
 
 	const totalPrice = items.reduce((accumulator, current) => {
 		const price = parseFloat(current.price.slice(1));
 		return accumulator + price;
 	}, 0);
 
+	// TODO
+	// useEffect(() => {
+	// 	getShoppingCartData(user, state, setState);
+	// }, []);
+
+	if (state.infoLoaded === false && state.shoppingCartData !== [])
+		return <Loader colors={colors}/>;
 	return (
 		<Box
 			component={motion.div}
 			exit={{ opacity: 0 }}
 			sx={{
-				height: `calc(100vh - ${props.topBarHeight}px - 3vh)`,
+				height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center"
@@ -152,7 +117,7 @@ const ShoppingCart = (props) => {
 								</TableCell>
 								
 								<TableCell align="center">
-									<IconButton onClick={() => handleRemove(item.id)}>
+									<IconButton onClick={() => handleRemove(item.id, items, setItems)}>
 										<DeleteIcon sx={{ color: "#FF2323" }} />
 									</IconButton>
 								</TableCell>

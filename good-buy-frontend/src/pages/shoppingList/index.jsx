@@ -9,20 +9,19 @@ import { muiTextFieldCSS, tokens } from "../../theme";
 const ShoppingList = ({ topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const [items, setItems] = useState([
-		{ id: 1, name: "Three Musketeers" },
-		{ id: 2, name: "Candy Cane" },
-		{ id: 3, name: "Kit Kat" },
-		{ id: 4, name: "Skittles" },
-		{ id: 5, name: "Twix" }
-	]);
+	const [items, setItems] = useState([]);
 	const [newItem, setNewItem] = useState("");
 
 	const handleCheck = (id) => {
-		const updatedItems = items.map((item) =>
-			item.id === id ? { ...item, checked: !item.checked } : item
-		);
-		setItems(updatedItems);
+		setItems(items.map(item => {
+			if (item.id === id) {
+				return {
+					...item,
+					checked: !item.checked
+				};
+			}
+			return item;
+		}));
 	};
 
 	const handleRemove = (id) => {
@@ -33,7 +32,11 @@ const ShoppingList = ({ topBarHeight }) => {
 	const handleAdd = (event) => {
 		event.preventDefault();
 		const newId = items.length + 1;
-		const newItemObj = { id: newId, name: newItem };
+		const newItemObj = {
+			id: newId,
+			name: newItem,
+			checked: false
+		};
 		setItems([...items, newItemObj]);
 		setNewItem("");
 	};
@@ -114,7 +117,7 @@ const ShoppingList = ({ topBarHeight }) => {
 						value={newItem}
 						onChange={(event) => setNewItem(event.target.value)}
 						placeholder="Add a new product"
-						fullWidth={true}
+						fullWidth
 						sx={muiTextFieldCSS(colors.customColors[6])}
 						inputProps={{
 							style: {

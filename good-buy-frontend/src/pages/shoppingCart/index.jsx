@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../../theme";
-import { getShoppingCartData, handleRemove } from "../../utils/shopping-cart/util";
+import { fetchShoppingCartData, handleRemove } from "../../utils/shopping-cart/utils";
 import Loader from "../../components/others/Loader";
 
 const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
@@ -29,10 +29,10 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 
 	// TODO
 	// useEffect(() => {
-	// 	getShoppingCartData(user, state, setState);
+	// 	fetchShoppingCartData(user, state, setState);
 	// }, []);
 
-	if (state.infoLoaded === false && state.shoppingCartData !== [])
+	if (state.infoLoaded === false)
 		return <Loader colors={colors}/>;
 	return (
 		<Box

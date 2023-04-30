@@ -66,17 +66,18 @@ function App() {
 
     useEffect(() => {
         if (location.pathname !== "/products") {
-            setState({
+            setState((prevState) => ({
                 infoLoaded: false,
                 lastSearchTerm: "",
                 productNotFound: false,
+                shoppingCartData: [...prevState.shoppingCartData],
                 productsData: [],
                 filters: [],
                 priceFrom: "",
                 priceTo: "",
                 reverse: false,
                 page: 1
-            });
+            }));
         }
     }, [location]);
 
@@ -104,6 +105,7 @@ function App() {
                                 />
                                 <Route exact path="/products" element={
                                     <Products
+                                        user={user}
                                         state={state}
                                         setState={setState}
                                         searchError={searchError}

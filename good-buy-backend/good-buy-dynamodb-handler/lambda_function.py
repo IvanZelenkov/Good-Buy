@@ -7,6 +7,7 @@ and take query string parameters or body data from it.
 import json
 import os
 from abc import ABC, abstractmethod
+from decimal import Decimal
 import tempfile
 import boto3
 
@@ -101,6 +102,7 @@ def lambda_handler(event, context):
             post_action = PostAction(event, db.Table("Shopping_Cart"), item)
             post_action.set_action()
             response = post_action.action()
+            response.update({"Item": item})
             ret_val = {
             'statusCode': 200,
             'headers': {
@@ -479,8 +481,13 @@ class AddToCart():
         print(listObj["Item"]["cart"])
         # Append the new product the the existing cart value
         prod = json.loads(self.products)
+        str_rating = str(prod['rating'])
+        prod.update({'rating': str_rating})
+        # print(str(prod['rating']))
         listObj["Item"]["cart"].append(prod)
-        print(listObj["Item"]["cart"])
+        list_cart = json.dumps(listObj)
+        ret_cart = json.loads(list_cart, parse_float=Decimal)
+        print(ret_cart["Item"]["cart"])
 
         # with open(temp + self.filename, 'w', encoding='UTF-8') as outfile:
         #     json.dump(listObj["Item"]["cart"],outfile,indent = 4)
@@ -500,7 +507,7 @@ class AddToCart():
         else:
             print(temp + self.filename)
 
-        return listObj["Item"]["cart"]
+        return ret_cart["Item"]["cart"]
 
 class DeleteFromCart():
     '''

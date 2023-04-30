@@ -93,4 +93,3 @@ def verify_email(email):
     print(response2)
     status = ses_identity.get_identity_status(email)
     return status == 'Success'
-    

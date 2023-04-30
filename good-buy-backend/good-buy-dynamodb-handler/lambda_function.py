@@ -533,6 +533,8 @@ class DeleteFromCart():
         with open(temp + self.filename, 'r', encoding='UTF-8') as fp:
             listObj = json.load(fp)
         prod = json.loads(self.products)
+        str_rating = str(prod['rating'])
+        prod.update({'rating': str_rating})
         list_cart = listObj["Item"]["cart"]
         item_index = list_cart.index(prod)
         list_cart.pop(item_index)

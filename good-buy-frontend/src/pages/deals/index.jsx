@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
-import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
+import {Box, Button, Container, Grid, Paper, Typography, useTheme} from "@mui/material";
 import dealsMainImage from "../../images/deals/deals-main-image.webp";
 import saleImage from "../../images/deals/sale-image.webp";
 import { tokens } from "../../theme";
-import { topDealsImages } from "../../utils/deals/utils";
+import { topDealsImages, carouselImages } from "../../utils/deals/utils";
+import CarouselComponent from "../../components/deals/CarouselComponent";
 
 const Deals = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const imagePaths = topDealsImages.map((image) => image);
+	const topDealsImagePaths = topDealsImages.map((image) => image);
+	const carouselImagePaths = carouselImages.map((image) => image);
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
@@ -90,13 +92,12 @@ const Deals = () => {
 							{/* Large Screen */}
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{imagePaths.slice(0, 4).map((path, id) => (
+									{topDealsImagePaths.slice(0, 4).map((path, id) => (
 										<Grid item key={id} xs={3} align="center" sx={{
-											cursor: "pointer",
 											filter: "brightness(100%)",
 											transition: "filter 1s ease",
 											"&:hover": {
-												filter: "brightness(75%)"
+												filter: "brightness(85%)"
 											}
 										}}>
 											<img
@@ -106,7 +107,8 @@ const Deals = () => {
 												style={{
 													borderRadius: "5px",
 													maxWidth: "100%",
-													height: "auto"
+													height: "auto",
+													cursor: "pointer"
 												}}
 											/>
 										</Grid>
@@ -115,13 +117,12 @@ const Deals = () => {
 							</Grid>
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
-									{imagePaths.slice(4, 7).map((path, id) => (
+									{topDealsImagePaths.slice(4, 7).map((path, id) => (
 										<Grid item key={id} xs={4} align="center" sx={{
-											cursor: "pointer",
 											filter: "brightness(100%)",
 											transition: "filter 1s ease",
 											"&:hover": {
-												filter: "brightness(75%)"
+												filter: "brightness(85%)"
 											}
 										}}>
 											<img
@@ -131,12 +132,27 @@ const Deals = () => {
 												style={{
 													borderRadius: "5px",
 													maxWidth: "100%",
-													height: "auto"
+													height: "auto",
+													cursor: "pointer"
 												}}
 											/>
 										</Grid>
 									))}
 								</Grid>
+							</Grid>
+							<Grid
+								item
+								xs={12}
+								sx={{
+									position: "relative",
+									marginBottom: "2vh",
+									filter: "brightness(100%)",
+									transition: "filter 1s ease",
+									"&:hover": {
+										filter: "brightness(85%)"
+									}
+								}}>
+								<CarouselComponent carouselImagePaths={carouselImagePaths}/>
 							</Grid>
 						</Grid>
 					</Container>

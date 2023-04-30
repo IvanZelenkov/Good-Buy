@@ -78,7 +78,6 @@ export const filterProducts = async (filters, state, setState, lastSearchTerm) =
 			infoLoaded: true
 		};
 	} catch (error) {
-		console.log(error);
 		return { productNotFound: true, productsData: [], infoLoaded: true };
 	}
 };
@@ -101,3 +100,24 @@ export const handleClose = (event, setAnchorEl) => {
 		setAnchorEl(null);
 	}
 };
+
+export const addProductToShoppingCart = async (user, product, state, setState) => {
+	if (user.attributes.email)
+		return;
+
+	try {
+		await axios.put(
+			"https://" +
+			process.env.REACT_APP_REST_API_ID +
+			`.execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart?action=add&ID=${user.attributes.email}`,
+			{ product }
+		);
+
+		setState((prevState) => ({
+			...prevState,
+			shoppingCartData: [...prevState.shoppingCartData, product]
+		}));
+	} catch (error) {
+		console.log(error);
+	}
+}

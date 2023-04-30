@@ -14,7 +14,7 @@ import { tokens, muiPaginationCSS } from "../../theme";
 import { handleFilter, handleChange, filterProducts } from "../../utils/products/utils";
 import { filterSearch } from "../../utils/home/utils";
 
-const Products = ({ state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
+const Products = ({ user, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 	const productsPerPage = 25;
@@ -23,10 +23,12 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 
 	useEffect(() => {
 		filterSearch(state, setState, navigate, state.lastSearchTerm);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.lastSearchTerm]);
 
 	useEffect(() => {
 		filterProducts(state.filters, state, setState, state.lastSearchTerm);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.filters]);
 
 	useEffect(() => {
@@ -34,6 +36,7 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 			setSearchError(true);
 		else
 			setSearchError(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.productNotFound]);
 
 	if (state.infoLoaded === false)
@@ -179,8 +182,10 @@ const Products = ({ state, setState, searchError, setSearchError, navigate, topB
 							(
 								// PRODUCT LIST
 								<ProductList
+									user={user}
 									productsData={state.productsData}
 									state={state}
+									setState={setState}
 									productsPerPage={productsPerPage}
 									customColors={colors.customColors}
 									mode={mode}

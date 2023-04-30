@@ -1,8 +1,11 @@
-import { Box, ImageList, Typography } from "@mui/material";
+import { Box, ImageList, Typography, IconButton } from "@mui/material";
 import ImageListItem from "@mui/material/ImageListItem";
 import RatingStars from "./RatingStars";
+import { AddShoppingCart } from "@mui/icons-material";
+import {addProductToShoppingCart} from "../../utils/products/utils";
 
-const ProductList = ({ state, productsPerPage, customColors, mode }) => {
+
+const ProductList = ({ user, state, setState, productsPerPage, customColors, mode }) => {
 	return (
 		<ImageList cols={5} gap={50}>
 			{state.productsData?.slice((state.page - 1) * productsPerPage, state.page * productsPerPage)
@@ -14,6 +17,18 @@ const ProductList = ({ state, productsPerPage, customColors, mode }) => {
 							textAlign: "center"
 						}}
 					>
+						<IconButton
+							onClick={() => addProductToShoppingCart(user, product, state, setState)}
+							sx={{
+								position: "absolute",
+								top: "10px",
+								right: "10px",
+								zIndex: 1,
+								backgroundColor: "white"
+							}}
+						>
+							<AddShoppingCart sx={{ color: "red" }}/>
+						</IconButton>
 						<img
 							className={"product-image"}
 							src={require(`../../images/products/${product.image_url}`)}

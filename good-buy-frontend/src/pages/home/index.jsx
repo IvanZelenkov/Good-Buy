@@ -23,7 +23,7 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError,
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			{!user && showPopup && <SubscribePopup onClose={handlePopupClose} />}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: `calc(100vh - ${topBarHeight}px - 3vh)` }}>
-				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 					<Box
 						sx={{
 							display: "flex",

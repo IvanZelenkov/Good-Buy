@@ -482,7 +482,9 @@ class AddToCart():
         # Append the new product the the existing cart value
         prod = json.loads(self.products)
         str_rating = str(prod['rating'])
+        str_price = str(prod['price'])
         prod.update({'rating': str_rating})
+        prod.update({'price': str_price})
         # print(str(prod['rating']))
         listObj["Item"]["cart"].append(prod)
         list_cart = json.dumps(listObj)
@@ -534,7 +536,9 @@ class DeleteFromCart():
             listObj = json.load(fp)
         prod = json.loads(self.products)
         str_rating = str(prod['rating'])
+        str_price = str(prod['price'])
         prod.update({'rating': str_rating})
+        prod.update({'price': str_price})
         list_cart = listObj["Item"]["cart"]
         item_index = list_cart.index(prod)
         list_cart.pop(item_index)

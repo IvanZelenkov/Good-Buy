@@ -36,13 +36,13 @@ const TopBar = () => {
 	return (
 		<AppBar position="sticky" sx={{ backgroundColor: colors.customColors[6] }}>
 			<Container maxWidth="xl">
-				<Toolbar disableGutters>
+				<Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
 					<Typography
 						noWrap
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
-							fontSize: "1.5vh",
+							fontSize: "20px",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
 							color: colors.customColors[1],
@@ -72,7 +72,6 @@ const TopBar = () => {
 							<MenuIcon/>
 						</IconButton>
 						<Menu
-							id="menu-appbar"
 							anchorEl={anchorElNav}
 							anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 							keepMounted
@@ -88,7 +87,12 @@ const TopBar = () => {
 									component={Link}
 									to={page.route}
 								>
-									<Typography sx={{ textAlign: "center", fontFamily: "Montserrat"}}>
+									<Typography
+										sx={{
+											textAlign: "center",
+											fontFamily: "Montserrat"
+										}}
+									>
 										{page.pageName}
 									</Typography>
 								</MenuItem>
@@ -102,6 +106,7 @@ const TopBar = () => {
 							mr: 2,
 							display: { xs: "flex", md: "none" },
 							flexGrow: 1,
+							fontSize: "20px",
 							fontWeight: 700,
 							color: colors.customColors[1],
 							letterSpacing: "0.3rem",
@@ -125,12 +130,14 @@ const TopBar = () => {
 									display: "flex",
 									justifyContent: "center",
 									alignItems: "center",
+									fontSize: "15px",
 									fontWeight: "900",
 									fontFamily: "Montserrat",
 									color: colors.customColors[1],
 									letterSpacing: "1px",
 									":hover": {
-										color: colors.customColors[2]
+										color: "#ff0036",
+										backgroundColor: "transparent"
 									}
 								}}
 							>
@@ -148,6 +155,7 @@ const TopBar = () => {
 										sx={{ marginRight: "1vw" }}
 									>
 										<LightModeOutlinedIcon sx={{
+											fontSize: 22,
 											color: colors.customColors[1],
 											":hover": {
 												color: colors.customColors[2]
@@ -162,6 +170,7 @@ const TopBar = () => {
 										sx={{ marginRight: "1vw" }}
 									>
 										<DarkModeOutlinedIcon sx={{
+											fontSize: 22,
 											color: colors.customColors[1],
 											":hover": {
 												color: colors.customColors[2]
@@ -180,6 +189,7 @@ const TopBar = () => {
 								>
 									<AccountCircleIcon
 										sx={{
+											fontSize: 22,
 											color: colors.customColors[1],
 											":hover": {
 												color: colors.customColors[2]

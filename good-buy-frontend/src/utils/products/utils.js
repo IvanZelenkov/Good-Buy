@@ -102,20 +102,40 @@ export const handleClose = (event, setAnchorEl) => {
 };
 
 export const addProductToShoppingCart = async (user, product, state, setState) => {
-	if (user.attributes.email)
+	if (!user || !user.attributes || !user.attributes.email) {
+		setState((prevState) => ({
+			...prevState,
+			shoppingCartData: [...state.shoppingCartData, product]
+		}));
+		localStorage.setItem("shoppingCartData", JSON.stringify(state.shoppingCartData));
 		return;
+	}
 
 	try {
-		await axios.put(
+		const response = await axios.put(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
 			`.execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart?action=add&ID=${user.attributes.email}`,
-			{ product }
+			{
+				ID: product.ID,
+				Name: product.Name,
+				image_url: product.image_url,
+				category: product.category,
+				availability: product.availability,
+				on_clearance: product.on_clearance,
+				on_sale: product.on_sale,
+				brand: product.brand,
+				store_name: product.store_name,
+				price: product.price,
+				store_link: product.store_link,
+				store_location: product.store_location,
+				rating: product.rating
+			}
 		);
 
 		setState((prevState) => ({
 			...prevState,
-			shoppingCartData: [...prevState.shoppingCartData, product]
+			shoppingCartData: response.data.Item.cart
 		}));
 	} catch (error) {
 		console.log(error);

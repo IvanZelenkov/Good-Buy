@@ -56,7 +56,7 @@ const ShoppingList = ({ topBarHeight }) => {
 			<Paper
 				sx={{
 					width: "40vw",
-					boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
+					boxShadow:  mode === "light" ? "0px 70px 60px rgba(0, 0, 0, 0.5)" : "",
 					backgroundColor: colors.customColors[6],
 					height: "50vh",
 					overflowX: "auto",

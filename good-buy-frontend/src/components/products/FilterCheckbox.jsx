@@ -7,6 +7,7 @@ const FilterCheckbox = ({ title, filters, setState, handleFilter, k, v, customCo
 
 	return (
 		<FormControlLabel
+			label={title}
 			control={
 				<Checkbox
 					checked={isChecked}
@@ -14,8 +15,6 @@ const FilterCheckbox = ({ title, filters, setState, handleFilter, k, v, customCo
 					style={{ color: customColors[6] }}
 				/>
 			}
-			label={title}
-			sx={{ fontFamily: "Montserrat", fontSize: "0.8vh" }}
 		/>
 	);
 };

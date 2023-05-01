@@ -2,12 +2,14 @@ import { useMemo } from "react";
 import { Auth } from "aws-amplify";
 import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import Loader from "../../components/others/Loader";
 
 const UserProfile = ({ user }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
+	const navigate = useNavigate();
 	const avatarUrl = "https://static.toiimg.com/thumb/msid-76682135,width-400,resizemode-4/76682135.jpg";
 
 	if (user === null)
@@ -93,7 +95,10 @@ const UserProfile = ({ user }) => {
 					fullWidth
 					variant="contained"
 					onClick={() => {
-						Auth.signOut();
+						Auth.signOut().then(() => {
+							navigate('/');
+							window.location.reload();
+						});
 					}}
 					sx={{
 						fontFamily: "Montserrat",

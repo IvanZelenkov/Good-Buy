@@ -53,7 +53,7 @@ const createShoppingCart = async (user, state, setState) => {
 
 export const deleteProductFromShoppingCart = async (user, product, state, setState) => {
 	if (!user || !user.attributes || !user.attributes.email) {
-		const updatedShoppingCartData = state.shoppingCartData.filter((shoppingCartProduct) => shoppingCartProduct.ID !== product.ID);
+		const updatedShoppingCartData = JSON.parse(localStorage.getItem("shoppingCartData")).filter((shoppingCartProduct) => shoppingCartProduct.ID !== product.ID);
 		setState((prevState) => ({
 			...prevState,
 			shoppingCartData: [...updatedShoppingCartData]

@@ -105,9 +105,9 @@ export const addProductToShoppingCart = async (user, product, state, setState) =
 	if (!user || !user.attributes || !user.attributes.email) {
 		setState((prevState) => ({
 			...prevState,
-			shoppingCartData: [...state.shoppingCartData, product]
+			shoppingCartData: [...JSON.parse(localStorage.getItem("shoppingCartData")), product]
 		}));
-		localStorage.setItem("shoppingCartData", JSON.stringify(state.shoppingCartData));
+		localStorage.setItem("shoppingCartData", JSON.stringify([...JSON.parse(localStorage.getItem("shoppingCartData")), product]));
 		return;
 	}
 

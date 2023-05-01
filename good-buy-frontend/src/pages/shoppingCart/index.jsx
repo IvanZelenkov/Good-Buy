@@ -25,12 +25,6 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 				const authUser = await Auth.currentAuthenticatedUser();
 				fetchShoppingCartData(authUser, state, setState);
 			} catch (error) {
-				console.log("FROM LOCAL STORAGE")
-				console.log(JSON.parse(localStorage.getItem("shoppingCartData")));
-
-				console.log("FROM STATE")
-				console.log(state.shoppingCartData)
-
 				if (state.shoppingCartData === [] && JSON.parse(localStorage.getItem("shoppingCartData")) === []) {
 					localStorage.setItem("shoppingCartData", JSON.stringify(state.shoppingCartData));
 					localStorage.setItem("infoLoaded", JSON.stringify(true));

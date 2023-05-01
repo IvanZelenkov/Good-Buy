@@ -6,7 +6,6 @@ does nothing currently
 """
 import json
 import boto3
-from ses_identities import SesIdentity
 import botocore.exceptions
 
 def lambda_handler(event, context):
@@ -16,7 +15,7 @@ def lambda_handler(event, context):
     ses_client = boto3.client("ses", region_name = "us-east-1")
     email = event["email"]
     boolean = verify_email(email)
-    if boolean is True:
+    if boolean is False:
         #notify somehow that there is no verification
         try:
             ses_client.create_template(
@@ -56,16 +55,17 @@ def lambda_handler(event, context):
         TemplateData = worker
     )
 
-    if boolean is True: #if verified, subscrive to an sns topic
-        sns_client = boto3.client('sns')
-        snsArn = 'arn:aws:sns:Region:AccountID:TestTopic'
-        message = "This is a test notification."
+    if boolean is True: #if verified, subscribe to an sns topic
+        sns_client = boto3.client('sns', region_name = 'us-east-1')
+        sns.subscribe(TopicArn=topic_arn, Protocol="email", Endpoint="user@server.com")
+        subscription_arn = response["SubscriptionArn"]
+        
+        sns.publish(
+            TopicArn=topic_arn, 
+            Message="This is a message", 
+            Subject="notification")
 
-        sns_client.publish(
-            TopicArn = snsArn,
-            Message = message ,
-            Subject='Hello'
-            )
+       
     #after it's verified, we can subscirbe to an sns topic
     print("Hello from Lambda!" + event + context)
     return {
@@ -81,7 +81,8 @@ def verify_email(email):
     Docstring for email function
     '''
     ses_client = boto3.client("ses", region_name = "us-east-1")
-    ses_identity = SesIdentity(ses_client)
+    
+       
     response1 = ses_client.verify_domain_identity(
         Domain = "testinguser1"
     )
@@ -90,6 +91,13 @@ def verify_email(email):
     response2 = ses_client.verify_email_identity(
         EmailAddress = str(email)
     )
+    try:
+        response = ses_client.get_identity_verification_attributes(Identities=[identity])
+        status = response['VerificationAttributes'].get(
+        identity, {'VerificationStatus': 'NotFound'})['VerificationStatus']
+        logger.info("Got status of %s for %s.", status, identity)   
+    except ClientError:
+            logger.exception("Couldn't get status for %s.", identity)
     print(response2)
     status = ses_identity.get_identity_status(email)
     return status == 'Success'

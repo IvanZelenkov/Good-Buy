@@ -7,7 +7,7 @@ GoodBuy will not only help shoppers compare prices across brands, but also help 
 whenever they need to shop!
 
 ### Solution Architecture
-![Good-Buy-Solution-Architecture](https://user-images.githubusercontent.com/64171964/234468744-374d1759-76d4-4db3-a288-142aadd32b1e.png)
+![Good-Buy-Solution-Architecture](https://user-images.githubusercontent.com/64171964/235519703-6c66c292-3872-48f1-9668-3985b8c54fc5.png)
 
 ### Jenkins Pipeline
 ![Screenshot 2023-04-25 at 23 06 39](https://user-images.githubusercontent.com/64171964/234467480-d926705c-077e-4cbe-ae94-889d16dc37c1.png)

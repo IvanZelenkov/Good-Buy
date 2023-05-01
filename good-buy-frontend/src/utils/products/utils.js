@@ -61,7 +61,7 @@ export const filterProducts = async (filters, state, setState, lastSearchTerm) =
 		const productsDataResponse = await axios.get(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
-			".execute-api.us-east-1.amazonaws.com/Development/store-apis/filter-products",
+			".execute-api.us-east-1.amazonaws.com/Production/store-apis/filter-products",
 			{ params: filterPairs }
 		);
 
@@ -115,7 +115,7 @@ export const addProductToShoppingCart = async (user, product, state, setState) =
 		const response = await axios.put(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
-			`.execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart?action=add&ID=${user.attributes.email}`,
+			`.execute-api.us-east-1.amazonaws.com/Production/database/shopping-cart?action=add&ID=${user.attributes.email}`,
 			{
 				ID: product.ID,
 				Name: product.Name,

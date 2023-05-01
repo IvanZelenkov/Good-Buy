@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import {Box, Button, Container, Grid, Paper, Typography, useTheme} from "@mui/material";
+import { Box, Button, Container, Grid, Typography, useTheme } from "@mui/material";
 import dealsMainImage from "../../images/deals/deals-main-image.webp";
 import saleImage from "../../images/deals/sale-image.webp";
 import { tokens } from "../../theme";
-import { topDealsImages, carouselImages } from "../../utils/deals/utils";
+import { topDealsImages, carouselImages } from "../../utils/deals/utils"
 import CarouselComponent from "../../components/deals/CarouselComponent";
 
 const Deals = () => {

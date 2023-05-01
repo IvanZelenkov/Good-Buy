@@ -13,4 +13,4 @@ whenever they need to shop!
 ![Screenshot 2023-04-25 at 23 06 39](https://user-images.githubusercontent.com/64171964/234467480-d926705c-077e-4cbe-ae94-889d16dc37c1.png)
 
 ### OpenAPI UI
-![Good-Buy-Rest-Api-Development-oas30](https://user-images.githubusercontent.com/64171964/234467213-8325b5e5-045d-4b13-bd2e-047e3c8beba3.png)
+![Good-Buy-Rest-Api-Production-oas30](https://user-images.githubusercontent.com/64171964/235512795-58471439-0eae-496e-a54c-4521cdee614e.png)

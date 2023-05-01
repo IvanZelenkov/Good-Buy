@@ -5,7 +5,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../../theme";
 import { fetchShoppingCartData, deleteProductFromShoppingCart, tableHeaderTitles } from "../../utils/shopping-cart/utils";
-import Loader from "../../components/others/Loader";
+import Loader from "../../components/loader/Loader";
 import { Auth } from "aws-amplify";
 import ProductImageCell from "../../components/shoppingCart/ProductImageCell";
 import ProductAttributeCell from "../../components/shoppingCart/ProductAttributeCell";
@@ -36,6 +36,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 			}
 		}
 		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (state.infoLoaded === false && JSON.parse(localStorage.getItem("infoLoaded")) === false)

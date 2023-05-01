@@ -17,7 +17,7 @@ export function getCurrentLocation(setLocation, setService) {
 export function calculateRoute(productsArray) {
 	return new Promise((resolve, reject) => {
 		let xhr = new XMLHttpRequest();
-		let url = 'https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/Development/google-maps';
+		let url = 'https://faa4mfet0g.execute-api.us-east-1.amazonaws.com/Production/google-maps';
 		xhr.open("GET", url, true);
 
 		const wayPoints = [];

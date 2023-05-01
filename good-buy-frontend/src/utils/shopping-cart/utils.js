@@ -8,7 +8,7 @@ export const fetchShoppingCartData = async (user, state, setState) => {
 		const response = await axios.get(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
-			`.execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart?ID=${user.attributes.email}`
+			`.execute-api.us-east-1.amazonaws.com/Production/database/shopping-cart?ID=${user.attributes.email}`
 		);
 
 		if (response.data.Item && response.data.Item.cart) {
@@ -33,7 +33,7 @@ const createShoppingCart = async (user, state, setState) => {
 		const response = await axios.post(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
-			".execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart",
+			".execute-api.us-east-1.amazonaws.com/Production/database/shopping-cart",
 			{
 				"ID": user.attributes.email
 			}
@@ -66,7 +66,7 @@ export const deleteProductFromShoppingCart = async (user, product, state, setSta
 		const response = await axios.put(
 			"https://" +
 			process.env.REACT_APP_REST_API_ID +
-			`.execute-api.us-east-1.amazonaws.com/Development/database/shopping-cart?action=delete&ID=${user.attributes.email}`,
+			`.execute-api.us-east-1.amazonaws.com/Production/database/shopping-cart?action=delete&ID=${user.attributes.email}`,
 			{
 				ID: product.ID,
 				Name: product.Name,

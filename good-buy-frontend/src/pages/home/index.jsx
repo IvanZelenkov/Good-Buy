@@ -6,7 +6,7 @@ import AppLogo from "../../components/home/AppLogo";
 import AppTitle from "../../components/home/AppTitle";
 import ErrorPopup from "../../components/home/ErrorPopup";
 import SearchBar from "../../components/home/SearchBar";
-import SubscribePopup from "../../components/others/SubscribePopup";
+import SubscribePopup from "../../components/subscribePopup/SubscribePopup";
 
 const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
@@ -17,11 +17,12 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError,
 			setSearchError(true);
 		else
 			setSearchError(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.productNotFound]);
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
-			{!user && showPopup && <SubscribePopup onClose={handlePopupClose} />}
+			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: `calc(100vh - ${topBarHeight}px - 3vh)` }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 					<Box

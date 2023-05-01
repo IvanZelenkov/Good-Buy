@@ -11,8 +11,8 @@ import Products from "./pages/products";
 import ShoppingCart from "./pages/shoppingCart";
 import ShoppingList from "./pages/shoppingList";
 import TopBar from "./pages/global/TopBar";
-import { checkUser, handlePopupClose } from "./utils/app/utils";
-import {Auth} from "aws-amplify";
+import { handlePopupClose } from "./utils/app/utils";
+import { Auth } from "aws-amplify";
 
 function App() {
     const [theme, colorMode] = useMode();

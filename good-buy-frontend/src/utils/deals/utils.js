@@ -10,7 +10,7 @@ import carouselImage1 from "../../images/deals/carousel-image-1.webp";
 import carouselImage2 from "../../images/deals/carousel-image-2.webp";
 import carouselImage3 from "../../images/deals/carousel-image-3.webp";
 import carouselImage4 from "../../images/deals/carousel-image-4.webp";
-import carouselImage5 from "../../images/deals/carousel-image-5.webp";
+import carouselImage5 from"../../images/deals/carousel-image-5.webp"
 
 export const topDealsImages = [
 	topDeal1,
@@ -29,3 +29,7 @@ export const carouselImages = [
 	carouselImage4,
 	carouselImage5
 ];
+
+export const handleCarouselItemClick = (index, setCurrentSlide) => {
+	setCurrentSlide(index);
+};

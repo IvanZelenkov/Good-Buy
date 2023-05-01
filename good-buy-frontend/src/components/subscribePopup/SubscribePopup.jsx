@@ -1,33 +1,18 @@
 import { useState } from "react";
 import {
-	Dialog, DialogTitle, DialogContent, DialogContentText,
-	DialogActions, Button, TextField, InputAdornment,
-	IconButton, Zoom, useTheme
+	Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
+	Button, TextField, InputAdornment, IconButton, Zoom
 } from "@mui/material";
 import { Email as EmailIcon } from '@mui/icons-material';
-import { muiTextFieldCSS, tokens } from "../../theme";
+import { muiTextFieldCSS } from "../../theme";
+import { handleClose, handleEmailChange, handleSubscribe } from "../../utils/subscribePopup/utils";
 
 const SubscribePopup = ({ onClose }) => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
 	const [open, setOpen] = useState(true);
 	const [email, setEmail] = useState("");
 
-	const handleClose = () => {
-		setOpen(false);
-		onClose();
-	};
-
-	const handleEmailChange = (event) => {
-		setEmail(event.target.value);
-	};
-
-	const handleSubscribe = () => {
-		handleClose();
-	};
-
 	return (
-		<Dialog open={open} onClose={handleClose} TransitionComponent={Zoom} TransitionProps={{ timeout: 1500 }}>
+		<Dialog open={open} onClose={() => handleClose(setOpen, onClose)} TransitionComponent={Zoom} TransitionProps={{ timeout: 1500 }}>
 			<DialogTitle
 				className="subscribe-popup-title-background-gradient"
 				sx={{ fontSize: "1.5vh", fontFamily: "Montserrat", color: "white", textAlign: "center" }}
@@ -53,7 +38,7 @@ const SubscribePopup = ({ onClose }) => {
 					label="Email"
 					type="email"
 					value={email}
-					onChange={handleEmailChange}
+					onChange={(event) => handleEmailChange(event, setEmail)}
 					fullWidth
 					sx={muiTextFieldCSS("black")}
 					InputProps={{
@@ -67,8 +52,8 @@ const SubscribePopup = ({ onClose }) => {
 						)
 					}}
 				/>
-				<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-					<Button onClick={handleClose} sx={{
+				<DialogActions style={{ display: "flex", justifyContent: "space-between" }}>
+					<Button onClick={() => handleClose(setOpen, onClose)} sx={{
 						borderRadius: "5px",
 						background: "linear-gradient(to right, #00C6FF, #0072FF)",
 						color: "white",
@@ -86,7 +71,7 @@ const SubscribePopup = ({ onClose }) => {
 					}}>
 						Not Now
 					</Button>
-					<Button onClick={handleSubscribe} sx={{
+					<Button onClick={() => handleSubscribe(email)} sx={{
 						borderRadius: "5px",
 						background: "linear-gradient(to right, #FF6969, #F90A0A)",
 						color: "white",

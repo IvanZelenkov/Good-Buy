@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Box, Divider, ImageList, List, Pagination, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import Loader from "../../components/others/Loader";
+import Loader from "../../components/loader/Loader";
 import ProductList from "../../components/products/ProductList";
 import TopBar from "../../components/products/TopBar";
 import SearchBar from "../../components/products/SearchBar";

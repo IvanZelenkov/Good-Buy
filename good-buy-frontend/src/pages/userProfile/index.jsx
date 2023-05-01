@@ -4,7 +4,7 @@ import { Box, Button, Container, Typography, Avatar, useTheme } from "@mui/mater
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
-import Loader from "../../components/others/Loader";
+import Loader from "../../components/loader/Loader";
 
 const UserProfile = ({ user }) => {
 	const { palette: { mode } } = useTheme();

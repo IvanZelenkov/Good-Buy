@@ -2,19 +2,16 @@ import { useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Box } from "@mui/material";
+import { handleCarouselItemClick } from "../../utils/deals/utils";
 
 const CarouselComponent = ({ carouselImagePaths }) => {
 	const [currentSlide, setCurrentSlide] = useState(0);
-
-	const handleCarouselItemClick = (index) => {
-		setCurrentSlide(index);
-	};
 
 	return (
 		<Box sx={{ cursor: "pointer" }}>
 			<Carousel
 				stopOnHover={true}
-				showArrows={false}
+				showArrows={true}
 				showThumbs={false}
 				showStatus={false}
 				autoPlay={true}
@@ -28,18 +25,9 @@ const CarouselComponent = ({ carouselImagePaths }) => {
 					<Box
 						key={index}
 						onClick={() => handleCarouselItemClick(index)}
-						sx={{
-							width: "100%"
-						}}
+						sx={{ width: "100%" }}
 					>
-						<img
-							src={path}
-							alt=""
-							style={{
-								width: "100%",
-								borderRadius: "10px"
-							}}
-						/>
+						<img src={path} alt="product-ad" style={{ borderRadius: "10px" }}/>
 					</Box>
 				))}
 			</Carousel>

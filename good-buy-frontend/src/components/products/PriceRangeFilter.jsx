@@ -29,6 +29,7 @@ const PriceRangeFilter = ({ state, setState, customColors }) => {
 
 	useEffect(() => {
 		checkInputValidity();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state]);
 
 	return (

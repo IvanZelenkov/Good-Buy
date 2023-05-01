@@ -7,7 +7,7 @@ const FilterCategoryTitle = ({ title,  customColors }) => {
 				sx={{
 					fontFamily: "Montserrat",
 					color: customColors[6],
-					fontSize: "1.2vh",
+					fontSize: "16px",
 					float: "left",
 					fontWeight: "900"
 				}}

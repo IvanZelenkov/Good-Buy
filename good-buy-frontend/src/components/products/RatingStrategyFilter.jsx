@@ -26,7 +26,7 @@ const RatingStrategyFilter = ({ filters, setState, handleFilter, customColors })
 									<RatingStars
 										title={rating.title}
 										rating={rating.value}
-										starStyle={{ color: "gold", fontSize: "1.5vh" }}
+										starStyle={{ color: "gold", fontSize: "18px" }}
 									/>
 								}
 								filters={filters}

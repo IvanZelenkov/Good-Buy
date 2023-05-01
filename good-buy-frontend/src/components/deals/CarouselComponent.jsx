@@ -18,7 +18,7 @@ const CarouselComponent = ({ carouselImagePaths }) => {
 				showThumbs={false}
 				showStatus={false}
 				autoPlay={true}
-				interval={4000}
+				interval={3000}
 				infiniteLoop={true}
 				emulateTouch={true}
 				selectedItem={currentSlide}

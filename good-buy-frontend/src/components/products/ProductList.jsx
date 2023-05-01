@@ -1,9 +1,8 @@
-import { Box, ImageList, Typography, IconButton } from "@mui/material";
+import { Box, ImageList, Typography, IconButton, Tooltip } from "@mui/material";
 import ImageListItem from "@mui/material/ImageListItem";
 import RatingStars from "./RatingStars";
 import { AddShoppingCart } from "@mui/icons-material";
-import {addProductToShoppingCart} from "../../utils/products/utils";
-
+import { addProductToShoppingCart } from "../../utils/products/utils";
 
 const ProductList = ({ user, state, setState, productsPerPage, customColors, mode }) => {
 	return (
@@ -17,18 +16,25 @@ const ProductList = ({ user, state, setState, productsPerPage, customColors, mod
 							textAlign: "center"
 						}}
 					>
-						<IconButton
-							onClick={() => addProductToShoppingCart(user, product, state, setState)}
-							sx={{
-								position: "absolute",
-								top: "10px",
-								right: "10px",
-								zIndex: 1,
-								backgroundColor: "white"
-							}}
-						>
-							<AddShoppingCart sx={{ color: "red" }}/>
-						</IconButton>
+						<Tooltip title="Add to Shopping Cart" placement="top">
+							<IconButton
+								onClick={() => addProductToShoppingCart(user, product, state, setState)}
+								sx={{
+									position: "absolute",
+									top: "10px",
+									right: "10px",
+									zIndex: 1,
+									backgroundColor: "#2c3b50",
+									"&:hover": {
+										backgroundColor: "#1C2A33",
+										transform: "scale(1.1)"
+									},
+									transition: "transform 0.5s ease-out"
+								}}
+							>
+								<AddShoppingCart sx={{ color: "#ff0036" }}/>
+							</IconButton>
+						</Tooltip>
 						<img
 							className={"product-image"}
 							src={require(`../../images/products/${product.image_url}`)}
@@ -39,7 +45,7 @@ const ProductList = ({ user, state, setState, productsPerPage, customColors, mod
 								backgroundColor: `${customColors[3]}`,
 								borderTopLeftRadius: "10px",
 								borderTopRightRadius: "10px",
-								height: "15vh"
+								height: "150px"
 							}}
 						/>
 						<Box sx={{
@@ -60,14 +66,14 @@ const ProductList = ({ user, state, setState, productsPerPage, customColors, mod
 									src={require("../../images/stores/" + product.store_name.toString().toLowerCase() + "-logo.png")}
 									sx={{
 										marginRight: "1vh",
-										width: "4vh",
-										height: "2.2vh",
+										width: "40px",
+										height: "22px",
 										borderRadius: "5px"
 									}}
 								/>
 								<Typography sx={{
 									padding: "0.5vh",
-									fontSize: "1.1vh",
+									fontSize: "11px",
 									fontFamily: "Montserrat",
 									fontWeight: "900",
 									color: "white"
@@ -83,10 +89,10 @@ const ProductList = ({ user, state, setState, productsPerPage, customColors, mod
 							}}>
 								<RatingStars
 									rating={product.rating}
-									starStyle={{ color: "gold", fontSize: "1.7vh" }}
+									starStyle={{ color: "gold", fontSize: "18px" }}
 								/>
 								<Typography sx={{
-									fontSize: "1.7vh",
+									fontSize: "16px",
 									fontFamily: "Montserrat",
 									color: "white"
 								}}>

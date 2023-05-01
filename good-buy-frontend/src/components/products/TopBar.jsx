@@ -30,7 +30,7 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 			>
 				<Typography
 					sx={{
-						fontSize: "1.5vh",
+						fontSize: "20px",
 						fontFamily: "Montserrat",
 						textAlign: "center",
 					}}
@@ -57,7 +57,7 @@ const TopBar = ({ componentReference, state, setState, customColors }) => {
 				>
 					<Typography
 						sx={{
-							fontSize: "1.1vh",
+							fontSize: "14px",
 							fontFamily: "Montserrat",
 							fontWeight: "600",
 							letterSpacing: "1px"

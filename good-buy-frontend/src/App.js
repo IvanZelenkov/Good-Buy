@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
@@ -12,6 +11,8 @@ import Products from "./pages/products";
 import ShoppingCart from "./pages/shoppingCart";
 import ShoppingList from "./pages/shoppingList";
 import TopBar from "./pages/global/TopBar";
+import { checkUser, handlePopupClose } from "./utils/app/utils";
+import {Auth} from "aws-amplify";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -34,34 +35,21 @@ function App() {
         page: 1
     });
 
-    const handlePopupClose = () => {
-        setShowPopup(false);
-        localStorage.setItem("popupClosed", "true");
-        setTimeout(() => {
-            localStorage.removeItem("popupClosed");
-        }, 1800000); // 30 minutes
-
-        window.addEventListener("beforeunload", () => {
-            localStorage.removeItem("popupClosed");
-        });
-    };
-
-    const checkUser = async () => {
-        try {
-            const authUser = await Auth.currentAuthenticatedUser();
-            updateUser(authUser);
-            setShowPopup(true);
-        } catch (error) {
-            if (!localStorage.getItem("popupClosed")) {
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                const authUser = await Auth.currentAuthenticatedUser();
+                updateUser(authUser);
                 setShowPopup(true);
-            } else {
-                setShowPopup(false);
+            } catch (error) {
+                if (!localStorage.getItem("popupClosed")) {
+                    setShowPopup(true);
+                } else {
+                    setShowPopup(false);
+                }
             }
         }
-    };
-
-    useEffect(() => {
-        checkUser();
+        fetchUser();
     }, []);
 
     useEffect(() => {
@@ -94,7 +82,7 @@ function App() {
                                     <Home
                                         user={user}
                                         showPopup={showPopup}
-                                        handlePopupClose={handlePopupClose}
+                                        handlePopupClose={() => handlePopupClose(setShowPopup)}
                                         state={state}
                                         setState={setState}
                                         searchError={searchError}

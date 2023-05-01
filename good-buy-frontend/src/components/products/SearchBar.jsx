@@ -21,7 +21,7 @@ const SearchBar = ({ state, setState, mode, customColors }) => {
 					marginLeft: 2,
 					flex: 1,
 					fontFamily: "Montserrat",
-					fontSize: "1vh",
+					fontSize: "16px",
 					fontWeight: "900",
 					color: mode === "dark" ? customColors[1] : customColors[1],
 					"&::placeholder": {

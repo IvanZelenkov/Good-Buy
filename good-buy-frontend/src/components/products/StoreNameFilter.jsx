@@ -19,7 +19,7 @@ const StoreNameFilter = ({ filters, setState, handleFilter, customColors }) => {
 							<FilterCheckbox
 								key={id}
 								title={
-									<Typography sx={{ fontFamily: "Montserrat", fontSize: "1vh", fontWeight: "900", color: customColors[6]}}>
+									<Typography sx={{ fontFamily: "Montserrat", fontSize: "14px", fontWeight: "900", color: customColors[6]}}>
 										{storeName.title}
 									</Typography>
 								}

@@ -1,38 +1,50 @@
-import { useState, useMemo, useEffect } from "react";
-import { Box, IconButton, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { useMemo, useEffect } from "react";
+import { Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useTheme } from "@mui/material/styles";
 import { tokens } from "../../theme";
-import { fetchShoppingCartData, handleRemove } from "../../utils/shopping-cart/utils";
+import { fetchShoppingCartData, deleteProductFromShoppingCart, tableHeaderTitles } from "../../utils/shopping-cart/utils";
 import Loader from "../../components/others/Loader";
+import { Auth } from "aws-amplify";
+import ProductImageCell from "../../components/shoppingCart/ProductImageCell";
+import ProductAttributeCell from "../../components/shoppingCart/ProductAttributeCell";
 
 const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 
-	console.log("STATE")
-	console.log(state)
-	
-	const [items, setItems] = useState([
-		{ id: 1, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$64.05", quantity: "1" },
-		{ id: 2, image: "PRODUCT IMAGE", name: "PRODUCT NAME", price: "$2.00" , quantity: "1" },
-		{ id: 3, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$23.00" ,quantity: "1" },
-		{ id: 4, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$12.00" , quantity: "1" },
-		{ id: 5, image: "PRODUCT IMAGE", name: "PRODUCT NAME",  price: "$72.00", quantity: "1" }
-	]);
-
-	const totalPrice = items.reduce((accumulator, current) => {
-		const price = parseFloat(current.price.slice(1));
+	const totalPrice = state.shoppingCartData.reduce((accumulator, current) => {
+		const price = parseFloat(current.price);
 		return accumulator + price;
 	}, 0);
 
-	// TODO
-	// useEffect(() => {
-	// 	fetchShoppingCartData(user, state, setState);
-	// }, []);
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const authUser = await Auth.currentAuthenticatedUser();
+				fetchShoppingCartData(authUser, state, setState);
+			} catch (error) {
+				console.log("FROM LOCAL STORAGE")
+				console.log(JSON.parse(localStorage.getItem("shoppingCartData")));
 
-	if (state.infoLoaded === false)
+				console.log("FROM STATE")
+				console.log(state.shoppingCartData)
+
+				if (state.shoppingCartData === [] && JSON.parse(localStorage.getItem("shoppingCartData")) === []) {
+					localStorage.setItem("shoppingCartData", JSON.stringify(state.shoppingCartData));
+					localStorage.setItem("infoLoaded", JSON.stringify(true));
+					setState(prevState => ({
+						...prevState,
+						infoLoaded: true
+					}));
+				}
+			}
+		}
+		fetchData();
+	}, []);
+
+	if (state.infoLoaded === false && JSON.parse(localStorage.getItem("infoLoaded")) === false)
 		return <Loader colors={colors}/>;
 	return (
 		<Box
@@ -41,6 +53,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 			sx={{
 				height: `calc(100vh - ${topBarHeight}px - 3vh)`,
 				display: "flex",
+				flexDirection: "column",
 				justifyContent: "center",
 				alignItems: "center"
 			}}
@@ -48,7 +61,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 			<Paper
 				sx={{
 					width: "40vw",
-					boxShadow: "0px 70px 60px rgba(0, 0, 0, 0.5)",
+					boxShadow:  mode === "light" ? "0px 70px 60px rgba(0, 0, 0, 0.5)" : "",
 					backgroundColor: colors.customColors[6],
 					height: "50vh",
 					overflowX: "auto",
@@ -57,6 +70,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 				}}
 			>
 				<Table aria-label="Shopping Cart">
+					{/* TABLE HEADER */}
 					<TableHead
 						sx={{
 							backgroundColor: colors.customColors[3],
@@ -65,61 +79,58 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 							zIndex: "1"
 						}}
 					>
-						
 						<TableRow>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Image</TableCell> 
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Name</TableCell>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Price</TableCell>
-							<TableCell sx ={{color: colors.customColors[6], fontSize:"1.4vh", fontFamily: "Montserrat" }}>Quantity</TableCell>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
-							
+							{/* TABLE HEADER TITLES */}
+							{tableHeaderTitles.map((title, id) => (
+								<TableCell
+									key={id}
+									sx={{
+										color: colors.customColors[6],
+										fontSize: "18px",
+										fontFamily: "Montserrat",
+										textAlign: "center",
+										fontWeight: "600"
+									}}
+								>
+									{title}
+								</TableCell>
+							))}
 						</TableRow>
 					</TableHead>
 					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
-						{items.map((item) => (
-							<TableRow key={item.id} sx={{ height: "40px" }}>
-								<TableCell
-									sx={{
-										fontSize: "1.4vh",
-										fontFamily: "Montserrat",
-										color: colors.customColors[1]
-									}}
-								>
-									{item.image}
-								</TableCell>
-								<TableCell
-									sx={{
-										fontSize: "1.4vh",
-										fontFamily: "Montserrat",
-										color: colors.customColors[1]
-									}}
-								>
-									{item.name}
-								</TableCell>
-								<TableCell align="center">
-									<Typography sx={{
-										fontSize: "1.4vh",
-										fontFamily: "Montserrat",
-										color: colors.customColors[1]
-									}}>
-										{item.price}
-									</Typography>
-								</TableCell>
-							
-								<TableCell align="center">
-									<Typography sx={{
-										fontSize: "1.4vh",
-										fontFamily: "Montserrat",
-										color: colors.customColors[1]
-									}}>
-										{item.quantity}
-									</Typography>
-								</TableCell>
-								
-								<TableCell align="center">
-									<IconButton onClick={() => handleRemove(item.id, items, setItems)}>
-										<DeleteIcon sx={{ color: "#FF2323" }} />
-									</IconButton>
+						{(user && user.attributes && user.attributes.email ? state.shoppingCartData : JSON.parse(localStorage.getItem("shoppingCartData")) || []).map((product, id) => (
+							<TableRow key={id} sx={{ height: "40px" }}>
+								{/* PRODUCT IMAGE CELL */}
+								<ProductImageCell productImageUrl={product.image_url} productStoreLink={product.store_link} customColors={colors.customColors}/>
+
+								{/* PRODUCT NAME CELL */}
+								<ProductAttributeCell productAttribute={product.Name} customColors={colors.customColors}/>
+
+								{/* PRICE CELL */}
+								<ProductAttributeCell productAttribute={product.price} customColors={colors.customColors}/>
+
+								{/* RATING CELL */}
+								<ProductAttributeCell productAttribute={product.rating} customColors={colors.customColors}/>
+
+								{/* STORE NAME CELL */}
+								<ProductAttributeCell productAttribute={product.store_name} customColors={colors.customColors}/>
+
+								{/* REMOVE PRODUCT CELL */}
+								<TableCell align="center" sx={{ textAlign: "center" }}>
+									<Tooltip title="Remove" placement="bottom">
+										<RemoveCircleIcon
+											onClick={() => deleteProductFromShoppingCart(user, product, state, setState)}
+											sx={{
+												color: "#ff0036",
+												fontSize: 30,
+												cursor: "pointer",
+												"&:hover": {
+													transform: "scale(1.2)"
+												},
+												transition: "transform 0.5s ease-out"
+											}}
+										/>
+									</Tooltip>
 								</TableCell>
 							</TableRow>
 						))}
@@ -132,9 +143,9 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 					justifyContent: "center",
 					alignItems: "center",
 					backgroundColor: `${colors.customColors[3]}`,
-					width: "20vw",
-					height: "50vh",
-					marginLeft: "2vh",
+					width: "40vw",
+					height: "10vh",
+					marginTop: "1.5vh",
 					borderRadius: "5px",
 					padding: "15px"
 				}}
@@ -142,7 +153,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 				<Typography
 					sx={{
 						fontFamily: "Montserrat",
-						fontSize: "2.5vh",
+						fontSize: "24px",
 						textAlign: "center",
 						color: mode === "dark" ? colors.customColors[6] : colors.customColors[6]
 					}}

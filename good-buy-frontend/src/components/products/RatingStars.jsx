@@ -27,7 +27,7 @@ const RatingStars = ({ title, rating, starStyle }) => {
 			{starArray}
 			<Typography
 				sx={{
-					fontSize: "1.1vh",
+					fontSize: "14px",
 					fontFamily: "Montserrat",
 					fontWeight: "900",
 					marginLeft: "0.5vh"

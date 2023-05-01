@@ -191,6 +191,10 @@ def lambda_handler(event, context):
         put_action.set_action()
         response = put_action.action()
 
+        new_get_action = GetAction(event, db.Table("Shopping_Cart"))
+        new_get_action.set_action()
+        new_cart_response = new_get_action.action()
+        response.update({"Item": new_cart_response['Item']})
         ret_val = {
             'statusCode': 200,
             'headers': {
@@ -233,9 +237,14 @@ def lambda_handler(event, context):
     if event['path'] == '/database/shopping-cart' and event['httpMethod'] == 'DELETE':
         # table = db.Table("Shopping_Cart")
 
+        new_get_action = GetAction(event, db.Table("Shopping_Cart"))
+        new_get_action.set_action()
+        new_cart_response = new_get_action.action()
+
         delete_action = DeleteAction(event, db.Table("Shopping_Cart"))
         delete_action.set_action()
         response = delete_action.action()
+        response.update({"Item": new_cart_response['Item']})
 
         ret_val = {
             'statusCode': 200,

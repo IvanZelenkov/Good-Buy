@@ -4,9 +4,8 @@ import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, Grid, Link,
 import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
 import { onChange } from "../../../utils/authentication/utils";
-import { signIn } from "../../../utils/authentication/signIn/utils";
+import { forgotPasswordInstead, signIn } from "../../../utils/authentication/signIn/utils";
 import { signUpInstead } from "../../../utils/authentication/signUp/utils";
-import { forgotPasswordInstead } from "../../../utils/authentication/resetPassword/utils";
 
 const SignIn = ({ updateUser, authenticationState, setAuthenticationState, customColors }) => {
 	return (

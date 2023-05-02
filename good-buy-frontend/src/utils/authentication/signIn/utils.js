@@ -11,6 +11,16 @@ export const signInInstead = (authenticationState, setAuthenticationState) => {
 	}));
 }
 
+export const forgotPasswordInstead = (authenticationState, setAuthenticationState) => {
+	setAuthenticationState(prevState => ({
+		...prevState,
+		formState: {
+			...authenticationState.formState,
+			formType: "forgotPassword-sendCode"
+		}
+	}));
+}
+
 export const signIn = async (updateUser, authenticationState, setAuthenticationState) => {
 	const { username, password } = authenticationState.formState;
 

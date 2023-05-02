@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import SignIn from "./signIn";
 import AccountActivation from "./accountActivation";
 import SignUp from "./signUp";
-import ResetPassword from "./resetPassword";
+import ForgotPasswordSendCode from "./forgotPasswordSendCode";
 import UserProfile from "../userProfile";
 import { checkUser, setAuthListener } from "../../utils/authentication/utils";
+import ForgotPasswordSetNewPassword from "./forgotPasswordSetNewPassword";
 
 const Authentication = ({ user, updateUser }) => {
 	const theme = useTheme();
@@ -60,9 +61,16 @@ const Authentication = ({ user, updateUser }) => {
 					customColors={colors.customColors}
 				/>
 			)}
-			{formType === "forgotPassword" && (
-				<ResetPassword
+			{formType === "forgotPassword-sendCode" && (
+				<ForgotPasswordSendCode
 					updateUser={updateUser}
+					authenticationState={authenticationState}
+					setAuthenticationState={setAuthenticationState}
+					customColors={colors.customColors}
+				/>
+			)}
+			{formType === "forgotPassword-setNewPassword" && (
+				<ForgotPasswordSetNewPassword
 					authenticationState={authenticationState}
 					setAuthenticationState={setAuthenticationState}
 					customColors={colors.customColors}

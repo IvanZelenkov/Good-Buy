@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import { Avatar, Box, Button, Container, Link, TextField, Typography } from "@mui/material";
+import {Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
+import { signInInstead} from "../../../utils/authentication/signIn/utils";
+import { handleForgotPasswordSendCode } from "../../../utils/authentication/forgotPasswordSendCode/utils";
 import { onChange } from "../../../utils/authentication/utils";
-import { signUp } from "../../../utils/authentication/signUp/utils";
-import { signInInstead } from "../../../utils/authentication/signIn/utils";
+import { signUpInstead } from "../../../utils/authentication/signUp/utils";
 
-const SignUp = ({ authenticationState, setAuthenticationState, customColors }) => {
+const ForgotPasswordSendCode = ({ authenticationState, setAuthenticationState, customColors }) => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
@@ -37,7 +38,7 @@ const SignUp = ({ authenticationState, setAuthenticationState, customColors }) =
 							color: customColors[6]
 						}}
 					>
-						Sign Up
+						Forgot Password
 					</Typography>
 					<Box sx={{ marginTop: 1 }}>
 						<TextField
@@ -57,42 +58,10 @@ const SignUp = ({ authenticationState, setAuthenticationState, customColors }) =
 							inputProps={{ style: { fontFamily: "Montserrat" }}}
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							label="Username"
-							name="name"
-							autoComplete="name"
-							error={authenticationState.invalidUsernameMessage !== ""}
-							helperText={authenticationState.invalidUsernameMessage}
-							onChange={(event) => {
-								onChange(event, authenticationState, setAuthenticationState)
-							}}
-							sx={muiTextFieldCSS(customColors[6])}
-							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							error={authenticationState.invalidPasswordMessage !== ""}
-							helperText={authenticationState.invalidPasswordMessage}
-							onChange={(event) => {
-								onChange(event, authenticationState, setAuthenticationState)
-							}}
-							sx={muiTextFieldCSS(customColors[6])}
-							inputProps={{ style: { fontFamily: "Montserrat" }}}
-							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
-						/>
 						<Button
 							fullWidth
 							variant="contained"
-							onClick={() => signUp(authenticationState, setAuthenticationState)}
+							onClick={() => handleForgotPasswordSendCode(authenticationState, setAuthenticationState)}
 							sx={{
 								fontFamily: "Montserrat",
 								fontWeight: "600",
@@ -107,22 +76,38 @@ const SignUp = ({ authenticationState, setAuthenticationState, customColors }) =
 								}
 							}}
 						>
-							Sign Up
+							Send Code
 						</Button>
-						<Box sx={{ display: "flex", justifyContent: "center" }}>
-							<Link
-								onClick={() => signInInstead(authenticationState, setAuthenticationState)}
-								variant="body2"
-								sx={{
-									color: customColors[6],
-									textDecorationColor: customColors[6],
-									fontFamily: "Montserrat",
-									cursor: "pointer"
-								}}
-							>
-								Already have an account? Sign In
-							</Link>
-						</Box>
+						<Grid container>
+							<Grid item xs>
+								<Link
+									onClick={() => signInInstead(authenticationState, setAuthenticationState)}
+									variant="body2"
+									sx={{
+										color: customColors[6],
+										textDecorationColor: customColors[6],
+										fontFamily: "Montserrat",
+										cursor: "pointer"
+									}}
+								>
+									Return to Sign In
+								</Link>
+							</Grid>
+							<Grid item xs>
+								<Link
+									onClick={() => signUpInstead(authenticationState, setAuthenticationState)}
+									variant="body2"
+									sx={{
+										color: customColors[6],
+										textDecorationColor: customColors[6],
+										cursor: "pointer",
+										fontFamily: "Montserrat"
+									}}
+								>
+									Don't have an account? Sign Up
+								</Link>
+							</Grid>
+						</Grid>
 					</Box>
 				</Box>
 				<Copyright textdecorationcolor={customColors[6]}/>
@@ -131,4 +116,4 @@ const SignUp = ({ authenticationState, setAuthenticationState, customColors }) =
 	);
 }
 
-export default SignUp;
+export default ForgotPasswordSendCode;

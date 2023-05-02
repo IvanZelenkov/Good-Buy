@@ -20,22 +20,21 @@ export const confirmSignUp = async (authenticationState, setAuthenticationState)
 			...prevState,
 			invalidAuthCodeMessage: "The activation code must be 6 digits."
 		}));
-	else {
-		let flag = 0;
-		await Auth.confirmSignUp(username, authCode).catch(() => {
-			setAuthenticationState(prevState => ({
-				...prevState,
-				invalidAuthCodeMessage: "Invalid activation code."
-			}));
-			flag = 1;
-		});
-		if (flag === 0)
-			setAuthenticationState(prevState => ({
-				...prevState,
-				formState: {
-					...authenticationState.formState,
-					formType: "signIn"
-				}
-			}));
+
+	try {
+		await Auth.confirmSignUp(username, authCode);
+
+		setAuthenticationState(prevState => ({
+			...prevState,
+			formState: {
+				...authenticationState.formState,
+				formType: "signIn"
+			}
+		}));
+	} catch (error) {
+		setAuthenticationState(prevState => ({
+			...prevState,
+			invalidAuthCodeMessage: "Invalid email address or activation code."
+		}));
 	}
 };

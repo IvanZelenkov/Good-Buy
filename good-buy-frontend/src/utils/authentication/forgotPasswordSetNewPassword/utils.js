@@ -1,17 +1,7 @@
 import { Auth } from "aws-amplify";
 
-export const forgotPasswordInstead = (authenticationState, setAuthenticationState) => {
-	setAuthenticationState(prevState => ({
-		...prevState,
-		formState: {
-			...authenticationState.formState,
-			formType: "forgotPassword"
-		}
-	}));
-}
-
-export const handleSubmit = async (updateUser, authenticationState, setAuthenticationState) => {
-	const { username, password, newPassword } = authenticationState.formState;
+export const handleForgotPasswordSetNewPassword = async (authenticationState, setAuthenticationState) => {
+	const { username, authCode, newPassword } = authenticationState.formState;
 
 	if (!(/\S+@\S+\.\S+/.test(username))) {
 		setAuthenticationState(prevState => ({
@@ -23,14 +13,6 @@ export const handleSubmit = async (updateUser, authenticationState, setAuthentic
 
 	const passwordRegex = /^(?!\s+)(?!.*\s+$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9$^*.[\]{}()?"!@#%&/\\,><':;|_~`=+\- ]{8,256}$/;
 
-	if (!passwordRegex.test(password)) {
-		setAuthenticationState(prevState => ({
-			...prevState,
-			invalidPasswordMessage: "Use 8 characters or more for your password that include lowercase, uppercase characters, and numerals."
-		}));
-		return;
-	}
-
 	if (!passwordRegex.test(newPassword)) {
 		setAuthenticationState(prevState => ({
 			...prevState,
@@ -40,8 +22,7 @@ export const handleSubmit = async (updateUser, authenticationState, setAuthentic
 	}
 
 	try {
-		const user = await Auth.signIn(username, password);
-		await Auth.changePassword(user, password, newPassword);
+		await Auth.forgotPasswordSubmit(username, authCode, newPassword);
 		setAuthenticationState(prevState => ({
 			...prevState,
 			formState: {
@@ -52,7 +33,7 @@ export const handleSubmit = async (updateUser, authenticationState, setAuthentic
 	} catch (error) {
 		setAuthenticationState(prevState => ({
 			...prevState,
-			invalidPasswordMessage: "Incorrect email address or password."
+			invalidNewPasswordMessage: "Invalid email address or activation code."
 		}));
 	}
 };

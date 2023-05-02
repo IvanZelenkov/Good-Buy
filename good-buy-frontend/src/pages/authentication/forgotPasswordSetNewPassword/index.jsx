@@ -3,11 +3,11 @@ import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import { Avatar, Box, Button, Container, Link, TextField, Typography } from "@mui/material";
 import { muiTextFieldCSS } from "../../../theme";
 import Copyright from "../../../components/authentication/Copyright";
-import { signInInstead } from "../../../utils/authentication/signIn/utils";
-import { handleSubmit } from "../../../utils/authentication/resetPassword/utils";
 import { onChange } from "../../../utils/authentication/utils";
+import { handleForgotPasswordSetNewPassword } from "../../../utils/authentication/forgotPasswordSetNewPassword/utils";
+import { handleForgotPasswordSendCode } from "../../../utils/authentication/forgotPasswordSendCode/utils";
 
-const ResetPassword = ({ updateUser, authenticationState, setAuthenticationState, customColors }) => {
+const ForgotPasswordSetNewPassword = ({ authenticationState, setAuthenticationState, customColors }) => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
@@ -61,12 +61,10 @@ const ResetPassword = ({ updateUser, authenticationState, setAuthenticationState
 							margin="normal"
 							required
 							fullWidth
-							label="Old Password"
-							name="password"
-							autoComplete="password"
-							type="password"
-							error={authenticationState.invalidPasswordMessage !== ""}
-							helperText={authenticationState.invalidPasswordMessage}
+							label="Confirmation Code"
+							name="authCode"
+							error={authenticationState.invalidAuthCodeMessage !== ""}
+							helperText={authenticationState.invalidAuthCodeMessage}
 							onChange={(event) => {
 								onChange(event, authenticationState, setAuthenticationState)
 							}}
@@ -91,9 +89,10 @@ const ResetPassword = ({ updateUser, authenticationState, setAuthenticationState
 							inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
 						/>
 						<Button
+							type="submit"
 							fullWidth
 							variant="contained"
-							onClick={() => handleSubmit(updateUser, authenticationState, setAuthenticationState)}
+							onClick={() => handleForgotPasswordSetNewPassword(authenticationState, setAuthenticationState)}
 							sx={{
 								fontFamily: "Montserrat",
 								fontWeight: "600",
@@ -112,24 +111,23 @@ const ResetPassword = ({ updateUser, authenticationState, setAuthenticationState
 						</Button>
 						<Box sx={{ display: "flex", justifyContent: "center" }}>
 							<Link
-								onClick={() => signInInstead(authenticationState, setAuthenticationState)}
 								variant="body2"
 								sx={{
 									color: customColors[6],
 									textDecorationColor: customColors[6],
-									fontFamily: "Montserrat",
 									cursor: "pointer"
 								}}
+								onClick={() => handleForgotPasswordSendCode(authenticationState, setAuthenticationState)}
 							>
-								Return to Sign In
+								Didn't receive a code? Resend
 							</Link>
 						</Box>
 					</Box>
 				</Box>
-				<Copyright sx={{ marginTop: 8, marginBottom: 4 }} textdecorationcolor={customColors[6]}/>
+				<Copyright textdecorationcolor={customColors[6]}/>
 			</Container>
 		</Box>
 	);
 }
 
-export default ResetPassword;
+export default ForgotPasswordSetNewPassword;

@@ -103,11 +103,12 @@ export const handleClose = (event, setAnchorEl) => {
 
 export const addProductToShoppingCart = async (user, product, state, setState) => {
 	if (!user || !user.attributes || !user.attributes.email) {
+		const shoppingCartData = JSON.parse(localStorage.getItem("shoppingCartData")) || [];
 		setState((prevState) => ({
 			...prevState,
-			shoppingCartData: [...JSON.parse(localStorage.getItem("shoppingCartData")), product]
+			shoppingCartData: [...shoppingCartData, product]
 		}));
-		localStorage.setItem("shoppingCartData", JSON.stringify([...JSON.parse(localStorage.getItem("shoppingCartData")), product]));
+		localStorage.setItem("shoppingCartData", JSON.stringify([...shoppingCartData, product]));
 		return;
 	}
 

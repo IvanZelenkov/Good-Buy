@@ -102,9 +102,15 @@ function App() {
                                         topBarHeight={topBarHeight}
                                     />}
                                 />
-                                <Route exact path="/deals" element={<Deals/>}/>
-                                <Route exact path="/google-maps" element={<GoogleMaps topBarHeight={topBarHeight}/>}/>
-                                <Route exact path="/shopping-list" element={<ShoppingList topBarHeight={topBarHeight}/>}/>
+                                <Route exact path="/deals" element={
+                                    <Deals/>
+                                }/>
+                                <Route exact path="/google-maps" element={
+                                    <GoogleMaps topBarHeight={topBarHeight}/>
+                                }/>
+                                <Route exact path="/shopping-list" element={
+                                    <ShoppingList topBarHeight={topBarHeight}/>
+                                }/>
                                 <Route exact path="/shopping-cart" element={
                                     <ShoppingCart
                                         user={user}

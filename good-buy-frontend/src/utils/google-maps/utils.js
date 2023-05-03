@@ -76,6 +76,7 @@ export function getStores(shoppingCartData,currentPosition,setStores) {
 						logo: getStoreImage(shoppingCartData[i].store_name)
 					})
 				}
+				
 				setStores(stores)
 				
 			} else {

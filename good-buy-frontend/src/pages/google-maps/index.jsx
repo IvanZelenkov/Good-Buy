@@ -28,6 +28,7 @@ const GoogleMaps = ({ topBarHeight, state, setState }) => {
 
 	if (isLoaded === false)
 		return <Loader colors={colors}/>;
+		
 	getStores(state.shoppingCartData,currentLocation,setStores)
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>

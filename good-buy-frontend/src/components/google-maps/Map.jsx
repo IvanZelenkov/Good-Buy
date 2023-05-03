@@ -22,6 +22,7 @@ const Map = ({ topBarHeight, currentLocation, getCurrentLocation, directions }) 
 				{directions !== null && (
 					<DirectionsRenderer directions={directions}/>
 				)}
+				
 			</GoogleMap>
 		</Box>
 	);

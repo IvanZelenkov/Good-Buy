@@ -6,56 +6,29 @@ import CalculateRouteButton from "../../components/google-maps/CalculateRouteBut
 import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStoreCategory";
 import Loader from "../../components/loader/Loader";
 import Map from "../../components/google-maps/Map";
-import { calculateRoute, getCurrentLocation, getDirection } from "../../utils/google-maps/utils";
+import { calculateRoute, getCurrentLocation, getDirection,getStores } from "../../utils/google-maps/utils";
 import { tokens } from "../../theme";
 
-const stores = {
-	recommended: [
-		{
-			name: "Walmart",
-			address: "6000 Bullard Ave, New Orleans",
-			distance: "19 min (3.1 mi)",
-			logo: "walmart-logo.png"
-		},
-		{
-			name: "Walmart",
-			address: "8101 W Judge Perez Dr, Chalmette",
-			distance: "22 min (3.6 mi)",
-			logo: "walmart-logo.png"
-		},
-		{
-			name: "Rouses",
-			address: "701 Baronne St, New Orleans",
-			distance: "30 min (5 mi)",
-			logo: "rouses-logo.png"
-		}
-	],
-	alternate: [
-		{
-			name: "Winn-Dixie",
-			address: "8101 W Judge Perez Dr, Chalmette",
-			distance: "22 min (3.6 mi)",
-			logo: "winn-dixie-logo.png"
-		}
-	]
-};
 
-const GoogleMaps = ({ topBarHeight }) => {
+const GoogleMaps = ({ topBarHeight, state, setState }) => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 	})
+
+	
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [currentLocation, setLocation] = useState({ lat: 0, lng: 0 })
+	const [stores,setStores] = useState(null)
 	const [directions, setDirections] = useState(null);
 	const [directionsService, setService] = useState(null);
-	const destination = "Walmart Supercenter, Metairie,LA";
 
 	// SHOPPING CART EXAMPLE
 	let productsArray = ["92588066", "90488608", "17773456"];
 
 	if (isLoaded === false)
 		return <Loader colors={colors}/>;
+	getStores(state.shoppingCartData,currentLocation,setStores)
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box display="flex">
@@ -72,14 +45,14 @@ const GoogleMaps = ({ topBarHeight }) => {
 					}}
 				>
 					<List sx={{ display: "flex", flexDirection: "column", overflowY: "auto", height: "75vh" }}>
-						<GoogleMapsStoreCategory stores={stores.recommended} title={"Recommended"} colors={colors}/>
-						<GoogleMapsStoreCategory stores={stores.alternate} title={"Alternate"} colors={colors}/>
+						<GoogleMapsStoreCategory stores={stores} title={"Stores"} colors={colors}/>
+						
 					</List>
 					<CalculateRouteButton
 						calculateRoute={() => {
-							calculateRoute(productsArray)
+							calculateRoute(productsArray,state.shoppingCartData)
 								.then(wayPoints => {
-									getDirection(directionsService, currentLocation, destination, wayPoints, setDirections);
+									getDirection(directionsService, currentLocation, wayPoints, setDirections);
 								})
 								.catch(error => {
 									console.error(error);

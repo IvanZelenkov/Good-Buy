@@ -102,17 +102,6 @@ function App() {
                                         topBarHeight={topBarHeight}
                                     />}
                                 />
-<<<<<<< Updated upstream
-                                <Route exact path="/deals" element={
-                                    <Deals/>
-                                }/>
-                                <Route exact path="/google-maps" element={
-                                    <GoogleMaps topBarHeight={topBarHeight}/>
-                                }/>
-                                <Route exact path="/shopping-list" element={
-                                    <ShoppingList topBarHeight={topBarHeight}/>
-                                }/>
-=======
                                 <Route exact path="/deals" element={<Deals/>}/>
                                 <Route exact path="/google-maps" element={
                                     <GoogleMaps 
@@ -121,7 +110,6 @@ function App() {
                                         setState={setState}
                                     />}/>
                                 <Route exact path="/shopping-list" element={<ShoppingList topBarHeight={topBarHeight}/>}/>
->>>>>>> Stashed changes
                                 <Route exact path="/shopping-cart" element={
                                     <ShoppingCart
                                         user={user}

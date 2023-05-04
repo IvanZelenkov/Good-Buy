@@ -1,16 +1,22 @@
 import axios from "axios";
 
-export const handleClose = (setOpen, onClose) => {
+export const handlePopupClose = (setOpen) => {
 	setOpen(false);
-	localStorage.setItem("popupClosed", JSON.stringify(true));
-	onClose();
+	localStorage.setItem("showSubscribePopup", JSON.stringify(false));
+	setTimeout(() => {
+		localStorage.removeItem("showSubscribePopup");
+	}, 1800000); // 30 minutes
+
+	window.addEventListener("beforeunload", () => {
+		localStorage.removeItem("showSubscribePopup");
+	});
 };
 
 export const handleEmailChange = (event, setEmail) => {
 	setEmail(event.target.value);
 };
 
-export const handleSubscribe = async (email) => {
+export const handleSubscribe = async (email, setOpen) => {
 	try {
 		await axios.post(
 			"https://" +
@@ -20,7 +26,7 @@ export const handleSubscribe = async (email) => {
 				"email": email
 			}
 		);
-		handleClose();
+		handlePopupClose(setOpen)
 	} catch (error) {
 		console.error(error);
 	}

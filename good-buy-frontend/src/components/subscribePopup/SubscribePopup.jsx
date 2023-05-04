@@ -5,14 +5,14 @@ import {
 } from "@mui/material";
 import { Email as EmailIcon } from '@mui/icons-material';
 import { muiTextFieldCSS } from "../../theme";
-import { handleClose, handleEmailChange, handleSubscribe } from "../../utils/subscribePopup/utils";
+import { handleEmailChange, handlePopupClose, handleSubscribe } from "../../utils/subscribePopup/utils";
 
-const SubscribePopup = ({ onClose }) => {
+const SubscribePopup = () => {
 	const [open, setOpen] = useState(true);
 	const [email, setEmail] = useState("");
 
 	return (
-		<Dialog open={open} onClose={() => handleClose(setOpen, onClose)} TransitionComponent={Zoom} TransitionProps={{ timeout: 1500 }}>
+		<Dialog open={open} onClose={() => handlePopupClose(setOpen)} TransitionComponent={Zoom} TransitionProps={{ timeout: 1500 }}>
 			<DialogTitle
 				className="subscribe-popup-title-background-gradient"
 				sx={{ fontSize: "1.5vh", fontFamily: "Montserrat", color: "white", textAlign: "center" }}
@@ -53,7 +53,7 @@ const SubscribePopup = ({ onClose }) => {
 					}}
 				/>
 				<DialogActions style={{ display: "flex", justifyContent: "space-between" }}>
-					<Button onClick={() => handleClose(setOpen, onClose)} sx={{
+					<Button onClick={() => handlePopupClose(setOpen)} sx={{
 						borderRadius: "5px",
 						background: "linear-gradient(to right, #00C6FF, #0072FF)",
 						color: "white",
@@ -71,7 +71,7 @@ const SubscribePopup = ({ onClose }) => {
 					}}>
 						Not Now
 					</Button>
-					<Button onClick={() => handleSubscribe(email)} sx={{
+					<Button onClick={() => handleSubscribe(email, setOpen)} sx={{
 						borderRadius: "5px",
 						background: "linear-gradient(to right, #FF6969, #F90A0A)",
 						color: "white",

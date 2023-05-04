@@ -11,14 +11,12 @@ import Products from "./pages/products";
 import ShoppingCart from "./pages/shoppingCart";
 import ShoppingList from "./pages/shoppingList";
 import TopBar from "./pages/global/TopBar";
-import { handlePopupClose } from "./utils/app/utils";
 import { Auth } from "aws-amplify";
 import { fetchShoppingCartData } from "./utils/shopping-cart/utils";
 
 function App() {
     const [theme, colorMode] = useMode();
     const [user, updateUser] = useState(null);
-    const [showPopup, setShowPopup] = useState(true);
     const [searchError, setSearchError] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
@@ -42,13 +40,9 @@ function App() {
             try {
                 const authUser = await Auth.currentAuthenticatedUser();
                 updateUser(authUser);
-                setShowPopup(true);
             } catch (error) {
-                if (!localStorage.getItem("popupClosed")) {
-                    setShowPopup(true);
-                } else {
-                    setShowPopup(false);
-                }
+                if (!localStorage.getItem("showSubscribePopup"))
+                    localStorage.setItem("showSubscribePopup", JSON.stringify(true));
             }
         }
         fetchUser();
@@ -88,8 +82,6 @@ function App() {
                                 <Route exact path="/" element={
                                     <Home
                                         user={user}
-                                        showPopup={showPopup}
-                                        handlePopupClose={() => handlePopupClose(setShowPopup)}
                                         state={state}
                                         setState={setState}
                                         searchError={searchError}

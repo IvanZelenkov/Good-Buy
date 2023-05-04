@@ -8,7 +8,7 @@ import ErrorPopup from "../../components/home/ErrorPopup";
 import SearchBar from "../../components/home/SearchBar";
 import SubscribePopup from "../../components/subscribePopup/SubscribePopup";
 
-const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
+const Home = ({ user, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 
@@ -22,7 +22,7 @@ const Home = ({ user, showPopup, handlePopupClose, state, setState, searchError,
 
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
-			{!user && showPopup && <SubscribePopup onClose={handlePopupClose}/>}
+			{!user && localStorage.getItem("showSubscribePopup") === "true" && <SubscribePopup/>}
 			<Box sx={{ display: "flex", margin: "1.5vh", justifyContent: "center", height: `calc(100vh - ${topBarHeight}px - 3vh)` }}>
 				<Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 					<Box

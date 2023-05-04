@@ -2,7 +2,9 @@ import { ListItem } from "@mui/material";
 import StoreCategoryTitle from "./StoreCategoryTitle";
 import Store from "./Store";
 
-const GoogleMapsStoreCategory = ({ stores, title, colors: { customColors } }) => {
+const GoogleMapsStoreCategory = ({ stores, title, customColors }) => {
+	console.log("STORES")
+	console.log(stores)
 	return (
 		<>
 			<StoreCategoryTitle title={title} customColors={customColors}/>

@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 
-const CalculateRouteButton = ({ calculateRoute,  customColors }) => {
+const CalculateRouteButton = ({ calculateRoute, customColors }) => {
 	return (
 		<Box sx={{ zIndex: "1", shadow: "base" }}>
 			<Button
@@ -12,6 +12,9 @@ const CalculateRouteButton = ({ calculateRoute,  customColors }) => {
 					color: customColors[1],
 					fontFamily: "Montserrat",
 					fontSize: "1.2vh",
+					fontWeight: "600",
+					paddingLeft: "2vh",
+					paddingRight: "2vh",
 					"&:hover": {
 						backgroundColor: customColors[5],
 						color: customColors[1]

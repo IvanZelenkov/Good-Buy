@@ -1,5 +1,3 @@
-import { DistanceMatrixService } from "@react-google-maps/api";
-
 export function getCurrentLocation(setLocation, setService) {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(
@@ -14,11 +12,9 @@ export function getCurrentLocation(setLocation, setService) {
 	}
 	// eslint-disable-next-line no-undef
 	setService(new window.google.maps.DirectionsService());
-
-	
 }
 
-export function calculateRoute(productsArray,shoppingCartData) {
+export function calculateRoute(shoppingCartData) {
 	return new Promise((resolve, reject) => {
 		const wayPoints = [];
 		let size = shoppingCartData.length
@@ -33,61 +29,59 @@ export function calculateRoute(productsArray,shoppingCartData) {
 }
 
 function getStoreImage(storename) {
-	var storeImage = ""
-	if(storename == "Rouses") {
-		storeImage = "rouses-logo.png"
+	switch(storename) {
+		case "Rouses":
+			return "rouses-logo.png";
+		case "Walmart":
+			return "walmart-logo.png";
+		case "Winn-Dixie":
+			return "winn-dixie-logo.png";
+		default:
+			return "";
 	}
-	if(storename == "Walmart") {
-		storeImage = "walmart-logo.png"
-	}
-	if(storename == "Winn-Dixie") {
-		storeImage = "winn-dixie-logo.png"
-	}
-	
-	return storeImage
 }
-export function getStores(shoppingCartData,currentPosition,setStores) {
+
+export function getStores(state, setState, currentPosition) {
+	const { shoppingCartData } = state;
 	// eslint-disable-next-line no-undef
-	var matrixService = new google.maps.DistanceMatrixService();
-	let stores = []
-	if(currentPosition.lat != 0 && currentPosition.lng != 0 && shoppingCartData.length != 0) {
-		var destinations = []
-		for (let i = 0; i < shoppingCartData.length; i++) {
+	let matrixService = new google.maps.DistanceMatrixService();
+	let stores = [];
+	if (currentPosition.lat !== 0 && currentPosition.lng !== 0 && shoppingCartData.length !== 0) {
+		const destinations = [];
+		for (let i = 0; i < shoppingCartData.length; i++)
 			destinations.push(shoppingCartData[i].store_location)
-		}
+
 		matrixService.getDistanceMatrix({
-			origins: [currentPosition],
-			destinations: destinations,
-			// eslint-disable-next-line no-undef
-			travelMode: google.maps.TravelMode.DRIVING,
-			// eslint-disable-next-line no-undef
-			unitSystem: google.maps.UnitSystem.IMPERIAL
-			// eslint-disable-next-line no-undef
-		}, 
+				origins: [currentPosition],
+				destinations: destinations,
+				// eslint-disable-next-line no-undef
+				travelMode: google.maps.TravelMode.DRIVING,
+				// eslint-disable-next-line no-undef
+				unitSystem: google.maps.UnitSystem.IMPERIAL
+				// eslint-disable-next-line no-undef
+			},
 			(result, status) => {
-			// eslint-disable-next-line no-undef
-			if (status === google.maps.DirectionsStatus.OK) {
-				// Changing the state of directions to the result of direction service
-				for (let i = 0; i < result.rows[0].elements.length; i++) {
-					stores.push({
-						name: shoppingCartData[i].store_name,
-						address: shoppingCartData[i].store_location,
-						distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")",
-						logo: getStoreImage(shoppingCartData[i].store_name)
-					})
+				// eslint-disable-next-line no-undef
+				if (status === google.maps.DirectionsStatus.OK) {
+					// Changing the state of directions to the result of direction service
+					for (let i = 0; i < result.rows[0].elements.length; i++) {
+						stores.push({
+							name: shoppingCartData[i].store_name,
+							address: shoppingCartData[i].store_location,
+							distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")",
+							logo: getStoreImage(shoppingCartData[i].store_name)
+						});
+					}
+					setState((prevState) => ({
+						...prevState,
+						googleMapsStoreData: stores,
+						infoLoaded: true
+					}));
+				} else {
+					console.error(`Error when fetching directions ${result}`);
 				}
-				
-				setStores(stores)
-				
-			} else {
-				console.error(`Error when fetching directions ${result}`);
-			}
-		}
-		);
+			});
 	}
-	
-	return stores
-	
 }
 
 // Function that is calling the directions service

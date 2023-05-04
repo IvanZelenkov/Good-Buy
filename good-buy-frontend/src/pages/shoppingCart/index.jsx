@@ -14,16 +14,11 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
 
-	const totalPrice = state.shoppingCartData.reduce((accumulator, current) => {
-		const price = parseFloat(current.price);
-		return accumulator + price;
-	}, 0);
-
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				const authUser = await Auth.currentAuthenticatedUser();
-				fetchShoppingCartData(authUser, state, setState);
+				await fetchShoppingCartData(authUser, state, setState);
 			} catch (error) {
 				if (state.shoppingCartData === [] && JSON.parse(localStorage.getItem("shoppingCartData")) === []) {
 					localStorage.setItem("shoppingCartData", JSON.stringify(state.shoppingCartData));
@@ -39,8 +34,15 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (state.infoLoaded === false && JSON.parse(localStorage.getItem("infoLoaded")) === false)
-		return <Loader colors={colors}/>;
+	const totalPrice = Array.isArray(state.shoppingCartData)
+		? state.shoppingCartData.reduce((accumulator, current) => {
+			const price = parseFloat(current.price);
+			return accumulator + price;
+		}, 0)
+		: 0;
+
+	if (state.infoLoaded === false && JSON.parse(localStorage.getItem("infoLoaded")) === false && Array.isArray(state.shoppingCartData))
+		return <Loader customColors={colors.customColors}/>;
 	return (
 		<Box
 			component={motion.div}
@@ -93,42 +95,45 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
-						{(user && user.attributes && user.attributes.email ? state.shoppingCartData : JSON.parse(localStorage.getItem("shoppingCartData")) || []).map((product, id) => (
-							<TableRow key={id} sx={{ height: "40px" }}>
-								{/* PRODUCT IMAGE CELL */}
-								<ProductImageCell productImageUrl={product.image_url} productStoreLink={product.store_link} customColors={colors.customColors}/>
+						{(user && user.attributes && user.attributes.email
+							? state.shoppingCartData
+							: JSON.parse(localStorage.getItem("shoppingCartData")) || [])
+							?.map((product, id) => (
+								<TableRow key={id} sx={{ height: "40px" }}>
+									{/* PRODUCT IMAGE CELL */}
+									<ProductImageCell productImageUrl={product.image_url} productStoreLink={product.store_link} customColors={colors.customColors}/>
 
-								{/* PRODUCT NAME CELL */}
-								<ProductAttributeCell productAttribute={product.Name} customColors={colors.customColors}/>
+									{/* PRODUCT NAME CELL */}
+									<ProductAttributeCell productAttribute={product.Name} customColors={colors.customColors}/>
 
-								{/* PRICE CELL */}
-								<ProductAttributeCell productAttribute={product.price} customColors={colors.customColors}/>
+									{/* PRICE CELL */}
+									<ProductAttributeCell productAttribute={product.price} customColors={colors.customColors}/>
 
-								{/* RATING CELL */}
-								<ProductAttributeCell productAttribute={product.rating} customColors={colors.customColors}/>
+									{/* RATING CELL */}
+									<ProductAttributeCell productAttribute={product.rating} customColors={colors.customColors}/>
 
-								{/* STORE NAME CELL */}
-								<ProductAttributeCell productAttribute={product.store_name} customColors={colors.customColors}/>
+									{/* STORE NAME CELL */}
+									<ProductAttributeCell productAttribute={product.store_name} customColors={colors.customColors}/>
 
-								{/* REMOVE PRODUCT CELL */}
-								<TableCell align="center" sx={{ textAlign: "center" }}>
-									<Tooltip title="Remove" placement="bottom">
-										<RemoveCircleIcon
-											onClick={() => deleteProductFromShoppingCart(user, product, state, setState)}
-											sx={{
-												color: "#ff0036",
-												fontSize: 30,
-												cursor: "pointer",
-												"&:hover": {
-													transform: "scale(1.2)"
-												},
-												transition: "transform 0.5s ease-out"
-											}}
-										/>
-									</Tooltip>
-								</TableCell>
-							</TableRow>
-						))}
+									{/* REMOVE PRODUCT CELL */}
+									<TableCell align="center" sx={{ textAlign: "center" }}>
+										<Tooltip title="Remove" placement="bottom">
+											<RemoveCircleIcon
+												onClick={() => deleteProductFromShoppingCart(user, product, state, setState)}
+												sx={{
+													color: "#ff0036",
+													fontSize: 30,
+													cursor: "pointer",
+													"&:hover": {
+														transform: "scale(1.2)"
+													},
+													transition: "transform 0.5s ease-out"
+												}}
+											/>
+										</Tooltip>
+									</TableCell>
+								</TableRow>
+							))}
 					</TableBody>
 				</Table>
 			</Paper>

@@ -12,8 +12,8 @@ const UserProfile = ({ user }) => {
 	const navigate = useNavigate();
 	const avatarUrl = "https://static.toiimg.com/thumb/msid-76682135,width-400,resizemode-4/76682135.jpg";
 
-	if (user === null)
-		return <Loader colors={colors}/>;
+	if (!user)
+		return <Loader customColors={colors.customColors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Container
@@ -37,7 +37,7 @@ const UserProfile = ({ user }) => {
 					transform: "scale(1)",
 					transition: "transform 0.5s ease-out",
 					"&:hover": {
-						transform: "scale(1.025)",
+						transform: "scale(1.025)"
 					}
 				}}>
 					<Avatar
@@ -76,19 +76,6 @@ const UserProfile = ({ user }) => {
 					>
 						{user.attributes.email}
 					</Typography>
-					<Typography
-						sx={{
-							fontFamily: "Montserrat",
-							fontWeight: "600",
-							letterSpacing: "1px",
-							fontSize: "1.5vh",
-							textAlign: "center",
-							marginTop: "1vh",
-							color: colors.customColors[1]
-						}}
-					>
-						701 Baronne St, New Orleans
-					</Typography>
 				</Box>
 				<Button
 					type="submit"
@@ -96,7 +83,7 @@ const UserProfile = ({ user }) => {
 					variant="contained"
 					onClick={() => {
 						Auth.signOut().then(() => {
-							navigate('/');
+							navigate("/");
 							window.location.reload();
 						});
 					}}

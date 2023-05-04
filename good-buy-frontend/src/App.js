@@ -13,6 +13,7 @@ import ShoppingList from "./pages/shoppingList";
 import TopBar from "./pages/global/TopBar";
 import { handlePopupClose } from "./utils/app/utils";
 import { Auth } from "aws-amplify";
+import { fetchShoppingCartData } from "./utils/shopping-cart/utils";
 
 function App() {
     const [theme, colorMode] = useMode();
@@ -55,21 +56,25 @@ function App() {
 
     useEffect(() => {
         if (location.pathname !== "/products") {
-            setState((prevState) => ({
+            setState({
                 infoLoaded: false,
                 lastSearchTerm: "",
                 productNotFound: false,
-                shoppingCartData: [...prevState.shoppingCartData],
+                shoppingCartData:
+                    (!user || !user.attributes || !user.attributes.email)
+                        ? JSON.parse(localStorage.getItem("shoppingCartData")) || []
+                        : fetchShoppingCartData(user, state, setState) || [],
                 productsData: [],
-                googleMapsStoreData: prevState.googleMapsStoreData,
+                googleMapsStoreData: null,
                 filters: [],
                 priceFrom: "",
                 priceTo: "",
                 reverse: false,
                 page: 1
-            }));
+            });
         }
-    }, [location]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location, user]);
 
     return (
         <ColorModeContext.Provider value={colorMode}>

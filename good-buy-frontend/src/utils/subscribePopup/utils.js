@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const handleClose = (setOpen, onClose) => {
 	setOpen(false);
+	localStorage.setItem("popupClosed", JSON.stringify(true));
 	onClose();
 };
 

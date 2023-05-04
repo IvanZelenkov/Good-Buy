@@ -46,6 +46,7 @@ export function getStores(state, setState, currentPosition) {
 	// eslint-disable-next-line no-undef
 	let matrixService = new google.maps.DistanceMatrixService();
 	let stores = [];
+	let addedStores = {};
 	if (currentPosition.lat !== 0 && currentPosition.lng !== 0 && shoppingCartData.length !== 0) {
 		const destinations = [];
 		for (let i = 0; i < shoppingCartData.length; i++)
@@ -65,17 +66,24 @@ export function getStores(state, setState, currentPosition) {
 				if (status === google.maps.DirectionsStatus.OK) {
 					// Changing the state of directions to the result of direction service
 					for (let i = 0; i < result.rows[0].elements.length; i++) {
-						stores.push({
-							name: shoppingCartData[i].store_name,
-							address: shoppingCartData[i].store_location,
-							distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")",
-							logo: getStoreImage(shoppingCartData[i].store_name)
-						});
+						const storeLocation = shoppingCartData[i].store_location;
+						// Check if the store has not been added already
+						if (!addedStores[storeLocation]) {
+							// Mark added store as true
+							addedStores[storeLocation] = true;
+							stores.push({
+								product_id: shoppingCartData[i].ID,
+								product_name: shoppingCartData[i].Name,
+								name: shoppingCartData[i].store_name,
+								address: shoppingCartData[i].store_location,
+								distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")",
+								logo: getStoreImage(shoppingCartData[i].store_name)
+							});
+						}
 					}
 					setState((prevState) => ({
 						...prevState,
-						googleMapsStoreData: stores,
-						infoLoaded: true
+						googleMapsStoreData: stores
 					}));
 				} else {
 					console.error(`Error when fetching directions ${result}`);
@@ -88,7 +96,7 @@ export function getStores(state, setState, currentPosition) {
 export function getDirection(directionsService, currentPosition, waypoints, setDirections) {
 	const destination = waypoints[waypoints.length - 1].location
 	waypoints = waypoints.slice(0, -1);
-	
+
 	directionsService.route(
 		{
 			origin: currentPosition,

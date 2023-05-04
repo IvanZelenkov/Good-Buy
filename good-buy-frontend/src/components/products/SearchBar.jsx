@@ -15,7 +15,7 @@ const SearchBar = ({ state, setState, mode, customColors }) => {
 				borderRadius: "10px"
 			}}
 		>
-			<SearchIcon sx={{ fontSize: "2.2vh", color: customColors[1] }}/>
+			<SearchIcon sx={{ fontSize: "28px", color: customColors[1] }}/>
 			<InputBase
 				sx={{
 					marginLeft: 2,

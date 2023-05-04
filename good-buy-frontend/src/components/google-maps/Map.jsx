@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { DirectionsRenderer, GoogleMap, Marker, DistanceMatrixService } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, Marker } from "@react-google-maps/api";
 
 const Map = ({ topBarHeight, currentLocation, getCurrentLocation, directions }) => {
 	return (
@@ -22,7 +22,6 @@ const Map = ({ topBarHeight, currentLocation, getCurrentLocation, directions }) 
 				{directions !== null && (
 					<DirectionsRenderer directions={directions}/>
 				)}
-				
 			</GoogleMap>
 		</Box>
 	);

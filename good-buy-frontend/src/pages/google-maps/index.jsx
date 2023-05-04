@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useLoadScript } from '@react-google-maps/api';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, List, useTheme } from "@mui/material";
 import CalculateRouteButton from "../../components/google-maps/CalculateRouteButton";
 import GoogleMapsStoreCategory from "../../components/google-maps/GoogleMapsStoreCategory";
@@ -9,27 +9,24 @@ import Map from "../../components/google-maps/Map";
 import { calculateRoute, getCurrentLocation, getDirection,getStores } from "../../utils/google-maps/utils";
 import { tokens } from "../../theme";
 
-
-const GoogleMaps = ({ topBarHeight, state, setState }) => {
-	const { isLoaded } = useLoadScript({
-		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-	})
-
-	
+const GoogleMaps = ({ state, setState, topBarHeight }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const [currentLocation, setLocation] = useState({ lat: 0, lng: 0 })
-	const [stores,setStores] = useState(null)
+	const [currentLocation, setLocation] = useState({ lat: 0, lng: 0 });
 	const [directions, setDirections] = useState(null);
 	const [directionsService, setService] = useState(null);
+	const { isLoaded } = useLoadScript({
+		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+	});
 
-	// SHOPPING CART EXAMPLE
-	let productsArray = ["92588066", "90488608", "17773456"];
+	useEffect(() => {
+		if (isLoaded === true)
+			getStores(state, setState, currentLocation);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isLoaded, currentLocation]);
 
 	if (isLoaded === false)
 		return <Loader colors={colors}/>;
-		
-	getStores(state.shoppingCartData,currentLocation,setStores)
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box display="flex">
@@ -46,12 +43,15 @@ const GoogleMaps = ({ topBarHeight, state, setState }) => {
 					}}
 				>
 					<List sx={{ display: "flex", flexDirection: "column", overflowY: "auto", height: "75vh" }}>
-						<GoogleMapsStoreCategory stores={stores} title={"Stores"} colors={colors}/>
-						
+						<GoogleMapsStoreCategory
+							stores={state.googleMapsStoreData}
+							title={"Stores"}
+							customColors={colors.customColors}
+						/>
 					</List>
 					<CalculateRouteButton
 						calculateRoute={() => {
-							calculateRoute(productsArray,state.shoppingCartData)
+							calculateRoute(state.shoppingCartData)
 								.then(wayPoints => {
 									getDirection(directionsService, currentLocation, wayPoints, setDirections);
 								})
@@ -59,7 +59,7 @@ const GoogleMaps = ({ topBarHeight, state, setState }) => {
 									console.error(error);
 								});
 						}
-					}
+						}
 						customColors={colors.customColors}
 					/>
 				</Box>

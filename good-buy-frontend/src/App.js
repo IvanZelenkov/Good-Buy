@@ -28,6 +28,7 @@ function App() {
         productNotFound: false,
         shoppingCartData: [],
         productsData: [],
+        googleMapsStoreData: null,
         filters: [],
         priceFrom: "",
         priceTo: "",
@@ -60,6 +61,7 @@ function App() {
                 productNotFound: false,
                 shoppingCartData: [...prevState.shoppingCartData],
                 productsData: [],
+                googleMapsStoreData: prevState.googleMapsStoreData,
                 filters: [],
                 priceFrom: "",
                 priceTo: "",
@@ -104,10 +106,10 @@ function App() {
                                 />
                                 <Route exact path="/deals" element={<Deals/>}/>
                                 <Route exact path="/google-maps" element={
-                                    <GoogleMaps 
-                                        topBarHeight={topBarHeight}
+                                    <GoogleMaps
                                         state={state}
                                         setState={setState}
+                                        topBarHeight={topBarHeight}
                                     />}/>
                                 <Route exact path="/shopping-list" element={<ShoppingList topBarHeight={topBarHeight}/>}/>
                                 <Route exact path="/shopping-cart" element={

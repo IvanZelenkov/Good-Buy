@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 
-const Deal = ({ colors: { customColors }}) => {
+const Loader = ({ customColors }) => {
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box margin="1.5vh">
@@ -20,4 +20,4 @@ const Deal = ({ colors: { customColors }}) => {
 	);
 }
 
-export default Deal;
+export default Loader;

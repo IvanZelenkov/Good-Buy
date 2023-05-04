@@ -18,7 +18,7 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 					<Typography
 						sx={{
 							color: customColors[6],
-							fontSize: "1.1vh",
+							fontSize: "15px",
 							fontFamily: "Montserrat",
 							fontWeight: 600
 						}}
@@ -30,7 +30,7 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 					<Typography
 						sx={{
 							color: customColors[6],
-							fontSize: "0.9vh",
+							fontSize: "13px",
 							fontFamily: "Montserrat"
 						}}
 					>
@@ -41,7 +41,7 @@ const Store = ({ store: { logo, name, address, distance }, customColors }) => {
 			<Typography
 				sx={{
 					color: customColors[6],
-					fontSize: "0.9vh",
+					fontSize: "14px",
 					fontFamily: "Montserrat"
 				}}
 			>

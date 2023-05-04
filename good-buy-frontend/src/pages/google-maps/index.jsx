@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useState } from "react";
 import { Box, List, useTheme } from "@mui/material";
@@ -26,43 +26,65 @@ const GoogleMaps = ({ state, setState, topBarHeight }) => {
 	}, [isLoaded, currentLocation]);
 
 	if (isLoaded === false)
-		return <Loader colors={colors}/>;
+		return <Loader customColors={colors.customColors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box display="flex">
-				<Box
-					sx={{
-						display: "flex",
-						width: 400,
-						height: `calc(100vh - ${topBarHeight}px)`,
-						padding: "1.5vh",
-						backgroundColor: `${colors.customColors[1]}`,
-						justifyContent: "space-between",
-						flexDirection: "column",
-						alignItems: "center"
-					}}
-				>
-					<List sx={{ display: "flex", flexDirection: "column", overflowY: "auto", height: "75vh" }}>
-						<GoogleMapsStoreCategory
-							stores={state.googleMapsStoreData}
-							title={"Stores"}
-							customColors={colors.customColors}
-						/>
-					</List>
-					<CalculateRouteButton
-						calculateRoute={() => {
-							calculateRoute(state.shoppingCartData)
-								.then(wayPoints => {
-									getDirection(directionsService, currentLocation, wayPoints, setDirections);
-								})
-								.catch(error => {
-									console.error(error);
-								});
-						}
-						}
-						customColors={colors.customColors}
-					/>
-				</Box>
+				<AnimatePresence>
+					{currentLocation.lat === 0 || currentLocation.lng === 0 ? null : (
+						<motion.div
+							key="box"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.2 }}
+							style={{
+								display: "flex",
+								width: 500,
+								height: `calc(100vh - ${topBarHeight}px)`,
+								padding: "1.5vh",
+								backgroundColor: `${colors.customColors[1]}`,
+								justifyContent: "space-between",
+								flexDirection: "column",
+								alignItems: "center"
+							}}
+						>
+							<List
+								sx={{
+									display: "flex",
+									flexDirection: "column",
+									overflowY: "auto",
+									height: "75vh",
+									textAlign: "center"
+								}}
+							>
+								<GoogleMapsStoreCategory
+									state={state}
+									stores={state.googleMapsStoreData}
+									title={"Stores"}
+									customColors={colors.customColors}
+								/>
+							</List>
+							<CalculateRouteButton
+								calculateRoute={() => {
+									calculateRoute(state.shoppingCartData)
+										.then((wayPoints) => {
+											getDirection(
+												directionsService,
+												currentLocation,
+												wayPoints,
+												setDirections
+											);
+										})
+										.catch((error) => {
+											console.error(error);
+										});
+								}}
+								customColors={colors.customColors}
+							/>
+						</motion.div>
+					)}
+				</AnimatePresence>
 				<Map
 					topBarHeight={topBarHeight}
 					currentLocation={currentLocation}

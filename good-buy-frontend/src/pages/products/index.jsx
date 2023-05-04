@@ -40,7 +40,7 @@ const Products = ({ user, state, setState, searchError, setSearchError, navigate
 	}, [state.productNotFound]);
 
 	if (state.infoLoaded === false)
-		return <Loader colors={colors}/>;
+		return <Loader customColors={colors.customColors}/>;
 	return (
 		<Box component={motion.div} exit={{ opacity: 0 }}>
 			<Box margin="1.5vh" display="flex" justifyContent="center" alignItems="center">

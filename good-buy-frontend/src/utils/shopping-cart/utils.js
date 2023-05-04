@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchShoppingCartData = async (user, state, setState) => {
 	if (!user || !user.attributes || !user.attributes.email)
-		return;
+		return [];
 
 	try {
 		const response = await axios.get(
@@ -17,11 +17,15 @@ export const fetchShoppingCartData = async (user, state, setState) => {
 				shoppingCartData: response.data.Item.cart,
 				infoLoaded: true
 			}));
+
+			return response.data.Item.cart;
 		} else {
 			await createShoppingCart(user, state, setState);
+			return [];
 		}
 	} catch (error) {
 		console.error(error);
+		return [];
 	}
 }
 
@@ -56,7 +60,7 @@ export const deleteProductFromShoppingCart = async (user, product, state, setSta
 		const updatedShoppingCartData = JSON.parse(localStorage.getItem("shoppingCartData")).filter((shoppingCartProduct) => shoppingCartProduct.ID !== product.ID);
 		setState((prevState) => ({
 			...prevState,
-			shoppingCartData: [...updatedShoppingCartData]
+			shoppingCartData: [...updatedShoppingCartData],
 		}));
 		localStorage.setItem("shoppingCartData", JSON.stringify(updatedShoppingCartData));
 		return;
@@ -83,7 +87,6 @@ export const deleteProductFromShoppingCart = async (user, product, state, setSta
 				rating: product.rating
 			}
 		);
-
 		setState((prevState) => ({
 			...prevState,
 			shoppingCartData: response.data.Item.cart

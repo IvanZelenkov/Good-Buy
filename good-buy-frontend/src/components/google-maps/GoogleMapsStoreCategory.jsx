@@ -1,41 +1,16 @@
-import { Box, ListItem, Typography} from "@mui/material";
-import StoreCategoryTitle from "./StoreCategoryTitle";
+import { List } from "@mui/material";
 import Store from "./Store";
+import EmptyShoppingCartPopup from "../shopping-cart/EmptyShoppingCartPopup";
 
-const GoogleMapsStoreCategory = ({ state, stores, title, customColors }) => {
+const GoogleMapsStoreCategory = ({ state, stores, customColors }) => {
 	return (
 		<>
-			<StoreCategoryTitle title={title} customColors={customColors} />
-			{state.shoppingCartData.length === 0 ? (
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						backgroundColor: "red",
-						width: "100%",
-						animation: "Shake 0.5s",
-						animationIterationCount: "infinite",
-						borderRadius: "10px",
-						marginTop: "1vh"
-					}}
-				>
-					<Typography
-						sx={{
-							fontSize: "14px",
-							fontFamily: "Montserrat",
-							fontWeight: "900",
-							color: "white"
-						}}
-					>
-						Your shopping cart currently has no products.
-					</Typography>
-				</Box>
-			) : (
-				stores?.map((store, index) => (
-					<ListItem key={index} sx={{ marginTop: "1vh" }}>
+			{state.shoppingCartData.length === 0
+				? (<EmptyShoppingCartPopup title={"Your shopping cart currently has no products."}/>)
+				: (stores?.map((store, index) => (
+					<List key={index} sx={{ width: 400 }}>
 						<Store store={store} customColors={customColors}/>
-					</ListItem>
+					</List>
 				))
 			)}
 		</>

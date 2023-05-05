@@ -1,4 +1,4 @@
-import {ListItem, ListItemAvatar, ListItemText, Box, Typography, Divider} from '@mui/material';
+import { ListItem, ListItemAvatar, ListItemText, Box, Typography, Divider } from '@mui/material';
 
 const Store = ({ store, customColors }) => {
 	const { product_name, product_image_url, store_name, store_address, store_logo, distance } = store;

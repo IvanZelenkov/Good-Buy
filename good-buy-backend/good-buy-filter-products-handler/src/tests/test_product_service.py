@@ -92,9 +92,9 @@ class TestProductService(unittest.TestCase):
 
     def test_multiple_filter_strategies(self):
         self.assertFilteredProducts([
-            ProductNameStrategy("Twix"),
-            StoreNameStrategy("Walmart"),
-            CustomerRatingStrategy(3),
+            ProductNameStrategy("Skittles"),
+            StoreNameStrategy("Winn-Dixie"),
+            CustomerRatingStrategy(4),
             PriceRangeStrategy("1-4"),
             ClearanceStrategy("true"),
             AvailabilityStrategy("true")

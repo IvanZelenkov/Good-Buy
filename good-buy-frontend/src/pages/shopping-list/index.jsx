@@ -5,41 +5,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import { muiTextFieldCSS, tokens } from "../../theme";
+import { handleAdd, handleCheck, handleRemove } from "../../utils/shopping-list/utils";
+import ShoppingListColumnTitle from "../../components/shopping-list/ShoppingListColumnTitle";
 
-const ShoppingList = ({ topBarHeight }) => {
+const ShoppingList = ({ state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
 	const colors = useMemo(() => tokens(mode), [mode]);
-	const [items, setItems] = useState([]);
-	const [newItem, setNewItem] = useState("");
-
-	const handleCheck = (id) => {
-		setItems(items.map(item => {
-			if (item.id === id) {
-				return {
-					...item,
-					checked: !item.checked
-				};
-			}
-			return item;
-		}));
-	};
-
-	const handleRemove = (id) => {
-		const updatedItems = items.filter((item) => item.id !== id);
-		setItems(updatedItems);
-	};
-
-	const handleAdd = (event) => {
-		event.preventDefault();
-		const newId = items.length + 1;
-		const newItemObj = {
-			id: newId,
-			name: newItem,
-			checked: false
-		};
-		setItems([...items, newItemObj]);
-		setNewItem("");
-	};
+	const [newShoppingListProductName, setNewShoppingListProductName] = useState("");
 
 	return (
 		<Box
@@ -56,7 +28,7 @@ const ShoppingList = ({ topBarHeight }) => {
 			<Paper
 				sx={{
 					width: "40vw",
-					boxShadow:  mode === "light" ? "0px 70px 60px rgba(0, 0, 0, 0.5)" : "",
+					boxShadow:  mode === "light" ? "0px 80px 50px rgba(0, 0, 0, 0.5)" : "",
 					backgroundColor: colors.customColors[6],
 					height: "50vh",
 					overflowX: "auto",
@@ -73,27 +45,35 @@ const ShoppingList = ({ topBarHeight }) => {
 						}}
 					>
 						<TableRow>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }}>Product Name</TableCell>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Complete</TableCell>
-							<TableCell sx={{ color: colors.customColors[6], fontSize: "1.4vh", fontFamily: "Montserrat" }} align="center">Remove</TableCell>
+							<ShoppingListColumnTitle title={"Product Name"} customColors={colors.customColors}/>
+							<ShoppingListColumnTitle title={"Complete"} customColors={colors.customColors}/>
+							<ShoppingListColumnTitle title={"Remove"} customColors={colors.customColors}/>
 						</TableRow>
 					</TableHead>
 					<TableBody sx={{ overflowY: "auto", zIndex: "0" }}>
-						{items.map((item) => (
-							<TableRow key={item.id} sx={{ height: "40px" }}>
-								<TableCell sx={{ fontSize: "1.4vh", fontFamily: "Montserrat", color: colors.customColors[1] }}>
-									{item.name}
+						{state.shoppingListData?.map((product) => (
+							<TableRow key={product.id} sx={{ height: "40px" }}>
+								<TableCell
+									align="center"
+									sx={{
+										fontSize: "18px",
+										fontFamily: "Montserrat",
+										fontWeight: "600",
+										color: colors.customColors[1]
+									}}
+								>
+									{product.name}
 								</TableCell>
 								<TableCell align="center">
 									<Checkbox
-										checked={item.checked}
-										onChange={() => handleCheck(item.id)}
+										checked={product.checked}
+										onChange={() => handleCheck(product.id, state, setState)}
 										style={{ color: colors.customColors[1] }}
 									/>
 								</TableCell>
 								<TableCell align="center">
-									<IconButton onClick={() => handleRemove(item.id)}>
-										<DeleteIcon sx={{ color: "#FF2323" }} />
+									<IconButton onClick={() => handleRemove(product.id, state, setState)}>
+										<DeleteIcon sx={{ color: "#FF2323" }}/>
 									</IconButton>
 								</TableCell>
 							</TableRow>
@@ -112,17 +92,22 @@ const ShoppingList = ({ topBarHeight }) => {
 					padding: "1vh"
 				}}
 			>
-				<form onSubmit={handleAdd} style={{ display: "flex" }}>
+				<form onSubmit={(event) => {
+					event.preventDefault();
+					handleAdd(state, setState, newShoppingListProductName, setNewShoppingListProductName)
+				}} style={{ display: "flex" }}>
 					<TextField
-						value={newItem}
-						onChange={(event) => setNewItem(event.target.value)}
+						value={newShoppingListProductName}
+						onChange={(event) => {
+							setNewShoppingListProductName(event.target.value)
+						}}
 						placeholder="Add a new product"
 						fullWidth
 						sx={muiTextFieldCSS(colors.customColors[6])}
 						inputProps={{
 							style: {
 								fontFamily: "Montserrat",
-								fontSize: "1.2vh"
+								fontSize: "16px"
 							}
 						}}
 						inputlabelprops={{ style: { fontFamily: "Montserrat" }}}
@@ -140,7 +125,7 @@ const ShoppingList = ({ topBarHeight }) => {
 							}
 						}}
 					>
-						<AddIcon sx={{ fontSize: "2vh" }}/>
+						<AddIcon sx={{ fontSize: "28px" }}/>
 					</Button>
 				</form>
 			</Box>

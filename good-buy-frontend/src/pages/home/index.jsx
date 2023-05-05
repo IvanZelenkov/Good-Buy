@@ -6,7 +6,7 @@ import AppLogo from "../../components/home/AppLogo";
 import AppTitle from "../../components/home/AppTitle";
 import ErrorPopup from "../../components/home/ErrorPopup";
 import SearchBar from "../../components/home/SearchBar";
-import SubscribePopup from "../../components/subscribePopup/SubscribePopup";
+import SubscribePopup from "../../components/subscribe-popup/SubscribePopup";
 
 const Home = ({ user, state, setState, searchError, setSearchError, navigate, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();

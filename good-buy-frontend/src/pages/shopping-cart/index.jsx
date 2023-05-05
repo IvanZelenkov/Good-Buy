@@ -7,8 +7,8 @@ import { tokens } from "../../theme";
 import { fetchShoppingCartData, deleteProductFromShoppingCart, tableHeaderTitles } from "../../utils/shopping-cart/utils";
 import Loader from "../../components/loader/Loader";
 import { Auth } from "aws-amplify";
-import ProductImageCell from "../../components/shoppingCart/ProductImageCell";
-import ProductAttributeCell from "../../components/shoppingCart/ProductAttributeCell";
+import ProductImageCell from "../../components/shopping-cart/ProductImageCell";
+import ProductAttributeCell from "../../components/shopping-cart/ProductAttributeCell";
 
 const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 	const { palette: { mode } } = useTheme();
@@ -58,7 +58,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 			<Paper
 				sx={{
 					width: "40vw",
-					boxShadow:  mode === "light" ? "0px 70px 60px rgba(0, 0, 0, 0.5)" : "",
+					boxShadow:  mode === "light" ? "0px 80px 50px rgba(0, 0, 0, 0.5)" : "",
 					backgroundColor: colors.customColors[6],
 					height: "50vh",
 					overflowX: "auto",
@@ -144,7 +144,7 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 					alignItems: "center",
 					backgroundColor: `${colors.customColors[3]}`,
 					width: "40vw",
-					height: "10vh",
+					height: "5vh",
 					marginTop: "1.5vh",
 					borderRadius: "5px",
 					padding: "15px"
@@ -153,8 +153,9 @@ const ShoppingCart = ({ user, state, setState, topBarHeight }) => {
 				<Typography
 					sx={{
 						fontFamily: "Montserrat",
-						fontSize: "24px",
+						fontSize: "22px",
 						textAlign: "center",
+						fontWeight: "600",
 						color: mode === "dark" ? colors.customColors[6] : colors.customColors[6]
 					}}
 				>

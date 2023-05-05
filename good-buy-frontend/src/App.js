@@ -8,8 +8,8 @@ import Deals from "./pages/deals";
 import GoogleMaps from "./pages/google-maps";
 import Home from "./pages/home";
 import Products from "./pages/products";
-import ShoppingCart from "./pages/shoppingCart";
-import ShoppingList from "./pages/shoppingList";
+import ShoppingCart from "./pages/shopping-cart";
+import ShoppingList from "./pages/shopping-list";
 import TopBar from "./pages/global/TopBar";
 import { Auth } from "aws-amplify";
 import { fetchShoppingCartData } from "./utils/shopping-cart/utils";
@@ -26,6 +26,7 @@ function App() {
         lastSearchTerm: "",
         productNotFound: false,
         shoppingCartData: [],
+        shoppingListData: [],
         productsData: [],
         googleMapsStoreData: null,
         filters: [],
@@ -58,6 +59,7 @@ function App() {
                     (!user || !user.attributes || !user.attributes.email)
                         ? JSON.parse(localStorage.getItem("shoppingCartData")) || []
                         : fetchShoppingCartData(user, state, setState) || [],
+                shoppingListData: JSON.parse(localStorage.getItem("shoppingListData")) || [],
                 productsData: [],
                 googleMapsStoreData: null,
                 filters: [],
@@ -108,7 +110,13 @@ function App() {
                                         setState={setState}
                                         topBarHeight={topBarHeight}
                                     />}/>
-                                <Route exact path="/shopping-list" element={<ShoppingList topBarHeight={topBarHeight}/>}/>
+                                <Route exact path="/shopping-list" element={
+                                    <ShoppingList
+                                        state={state}
+                                        setState={setState}
+                                        topBarHeight={topBarHeight}
+                                    />
+                                }/>
                                 <Route exact path="/shopping-cart" element={
                                     <ShoppingCart
                                         user={user}

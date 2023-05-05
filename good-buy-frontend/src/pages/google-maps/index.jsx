@@ -8,6 +8,7 @@ import Loader from "../../components/loader/Loader";
 import Map from "../../components/google-maps/Map";
 import { calculateRoute, getCurrentLocation, getDirection,getStores } from "../../utils/google-maps/utils";
 import { tokens } from "../../theme";
+import StoreCategoryTitle from "../../components/google-maps/StoreCategoryTitle";
 
 const GoogleMaps = ({ state, setState, topBarHeight }) => {
 	const theme = useTheme();
@@ -44,24 +45,25 @@ const GoogleMaps = ({ state, setState, topBarHeight }) => {
 								height: `calc(100vh - ${topBarHeight}px)`,
 								padding: "1.5vh",
 								backgroundColor: `${colors.customColors[1]}`,
-								justifyContent: "space-between",
 								flexDirection: "column",
 								alignItems: "center"
 							}}
 						>
+							<StoreCategoryTitle title={"Stores"} customColors={colors.customColors}/>
 							<List
 								sx={{
 									display: "flex",
 									flexDirection: "column",
 									overflowY: "auto",
-									height: "75vh",
-									textAlign: "center"
+									height: "90vh",
+									padding: 0,
+									marginBottom: "20px",
+									marginTop: "5px"
 								}}
 							>
 								<GoogleMapsStoreCategory
 									state={state}
 									stores={state.googleMapsStoreData}
-									title={"Stores"}
 									customColors={colors.customColors}
 								/>
 							</List>

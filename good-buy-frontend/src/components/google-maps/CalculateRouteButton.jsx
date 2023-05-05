@@ -2,13 +2,12 @@ import { Box, Button } from "@mui/material";
 
 const CalculateRouteButton = ({ isDisabled, calculateRoute, customColors }) => {
 	return (
-		<Box sx={{ zIndex: "1", shadow: "base" }}>
+		<Box sx={{ zIndex: "1" }}>
 			{!isDisabled && (
 				<Button
 					type="submit"
 					onClick={calculateRoute}
 					sx={{
-						marginBottom: "30px",
 						backgroundColor: customColors[6],
 						color: customColors[1],
 						fontFamily: "Montserrat",

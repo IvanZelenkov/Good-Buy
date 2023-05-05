@@ -18,7 +18,7 @@ namelist = ["Hersheys kiss", "Skittles", "MnMs", "Tootsie-Roll",
 					"Candy Cane", "Twix", "Snickers", "Kit Kat", "Three Musketeers",
 					"Ring Pop"]
 winndixxie_addresses = ["5400 Tchoupitoulas St, New Orleans",
-						"3008 Holiday Dr, New Orleans" 
+						"3008 Holiday Dr, New Orleans",
 						"211 Veterans Memorial Blcd Metairie"
 						"9701 Chef Menteur Hwy, New Orleans"]
 

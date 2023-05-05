@@ -74,10 +74,11 @@ export function getStores(state, setState, currentPosition) {
 							stores.push({
 								product_id: shoppingCartData[i].ID,
 								product_name: shoppingCartData[i].Name,
-								name: shoppingCartData[i].store_name,
-								address: shoppingCartData[i].store_location,
-								distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")",
-								logo: getStoreImage(shoppingCartData[i].store_name)
+								product_image_url: shoppingCartData[i].image_url,
+								store_name: shoppingCartData[i].store_name,
+								store_address: shoppingCartData[i].store_location,
+								store_logo: getStoreImage(shoppingCartData[i].store_name),
+								distance: result.rows[0].elements[i].distance.text + " (" + result.rows[0].elements[i].duration.text + ")"
 							});
 						}
 					}

@@ -12,7 +12,7 @@ const SubscribePopup = () => {
 	const [email, setEmail] = useState("");
 
 	return (
-		<Dialog open={open} onClose={() => handlePopupClose(setOpen)} TransitionComponent={Zoom} TransitionProps={{ timeout: 1500 }}>
+		<Dialog open={open} onClose={() => handlePopupClose(setOpen)} TransitionComponent={Zoom} TransitionProps={{ timeout: 700 }}>
 			<DialogTitle
 				className="subscribe-popup-title-background-gradient"
 				sx={{ fontSize: "1.5vh", fontFamily: "Montserrat", color: "white", textAlign: "center" }}

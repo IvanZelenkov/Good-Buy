@@ -20,7 +20,7 @@ function App() {
     const [searchError, setSearchError] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    const topBarHeight = 65;
+    const topBarHeight = 71;
     const [state, setState] = useState({
         infoLoaded: false,
         lastSearchTerm: "",

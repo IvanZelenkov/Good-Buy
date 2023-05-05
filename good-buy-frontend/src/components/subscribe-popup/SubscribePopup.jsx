@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import { Email as EmailIcon } from '@mui/icons-material';
 import { muiTextFieldCSS } from "../../theme";
-import { handleEmailChange, handlePopupClose, handleSubscribe } from "../../utils/subscribePopup/utils";
+import { handleEmailChange, handlePopupClose, handleSubscribe } from "../../utils/subscribe-popup/utils";
 
 const SubscribePopup = () => {
 	const [open, setOpen] = useState(true);

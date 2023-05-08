@@ -20,7 +20,6 @@ export const confirmSignUp = async (authenticationState, setAuthenticationState)
 			...prevState,
 			invalidAuthCodeMessage: "The activation code must be 6 digits."
 		}));
-
 	try {
 		await Auth.confirmSignUp(username, authCode);
 
